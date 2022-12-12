@@ -17,6 +17,9 @@
     "object-curly-newline": "off",
     "linebreak-style": 0,
     "no-console": "off",
-    "max-len": ["warn", { "code": 100 }]
+    "max-len": ["warn", { "code": 100 }],
+    "class-methods-use-this": "off",
+    "import/no-unresolved": "off",
+    "import/extensions": "off"
   }
 }
