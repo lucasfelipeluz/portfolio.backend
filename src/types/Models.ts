@@ -9,8 +9,8 @@ export interface Projetos {
   id?: number;
   titulo: string;
   descricao: string;
-  prioridade: number;
-  url_website: string;
+  prioridade?: number;
+  url_website?: string;
   url_github: string;
 }
 

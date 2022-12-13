@@ -5,98 +5,96 @@ import { Response } from 'express';
 class StatusResponse implements StatusResponseTypes {
   /* Respostas de sucesso */
   /* 200 - 226 */
-  success<T>(res: Response<any>, data: T[], info: Info) {
+  success<T>(res: Response<any>, data: T[] | T, info: Info) {
     return res.status(200).send({
-      success: true,
+      status: true,
       data,
       info,
     });
   }
 
-  created<T>(res: Response<any>, data: T[], info: Info) {
+  successWithoutData(res: Response<any>, info: Info) {
+    return res.status(200).send({
+      status: true,
+      info,
+    });
+  }
+
+  created<T>(res: Response<any>, data: T[] | T, info: Info) {
     return res.status(201).send({
-      success: true,
+      status: true,
       data,
       info,
     });
   }
 
   noContent(res: Response<any>) {
-    return res.status(204);
+    return res.status(204).send();
   }
 
   /* Respostas de erro do cliente */
   /* 400 - 451 */
-  badRequest<T>(res: Response<any>, data: T[], info: Info) {
+  badRequest(res: Response<any>, info: Info) {
     return res.status(400).send({
-      success: true,
-      data,
+      status: false,
       info,
     });
   }
 
-  unauthenticated<T>(res: Response<any>, data: T[], info: Info) {
+  unauthenticated(res: Response<any>, info: Info) {
     return res.status(401).send({
-      success: true,
-      data,
+      status: false,
       info,
     });
   }
 
-  forbidden<T>(res: Response<any>, data: T[], info: Info) {
+  forbidden(res: Response<any>, info: Info) {
     return res.status(403).send({
-      success: true,
-      data,
+      status: false,
       info,
     });
   }
 
-  notFound<T>(res: Response<any>, data: T[], info: Info) {
+  notFound(res: Response<any>, info: Info) {
     return res.status(404).send({
-      success: true,
-      data,
+      status: false,
       info,
     });
   }
 
-  methodNotAllowed<T>(res: Response<any>, data: T[], info: Info) {
+  methodNotAllowed(res: Response<any>, info: Info) {
     return res.status(405).send({
-      success: true,
-      data,
+      status: false,
       info,
     });
   }
 
-  notAcceptable<T>(res: Response<any>, data: T[], info: Info) {
+  notAcceptable(res: Response<any>, info: Info) {
     return res.status(406).send({
-      success: true,
-      data,
+      status: false,
       info,
     });
   }
 
   /* Respostas de erro do servidor */
   /* 500 - 511 */
-  internalServerError<T>(res: Response<any>, data: T[], info: Info) {
+  internalServerError(res: Response<any>, info: Info) {
     return res.status(500).send({
-      success: true,
-      data,
+      status: false,
       info,
     });
   }
 
-  notImplemented<T>(res: Response<any>, data: T[], info: Info) {
+  notImplemented(res: Response<any>, info: Info) {
     return res.status(501).send({
-      success: true,
-      data,
+      status: false,
       info,
     });
   }
 
-  serviceUnavailable<T>(res: Response<any>, data: T[], info: Info) {
+  serviceUnavailable(res: Response<any>, info: Info) {
     return res.status(503).send({
-      success: true,
-      data,
+      status: true,
       info,
     });
   }
