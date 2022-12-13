@@ -11,7 +11,7 @@ ProjetosModel.init(
     descricao: { type: DataTypes.STRING, allowNull: false },
     prioridade: { type: DataTypes.NUMBER, allowNull: false },
     url_github: { type: DataTypes.STRING, allowNull: false },
-    url_website: { type: DataTypes.STRING, allowNull: false },
+    url_website: { type: DataTypes.STRING, allowNull: true },
   },
   { sequelize, modelName: 'projetos', createdAt: 'criado_em', updatedAt: 'alterado_em' },
 );

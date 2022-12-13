@@ -1,9 +1,9 @@
-import express, { Router } from 'express';
-import ProjetosControllers from '@src/controllers/ProjetosControllers';
+import { Router } from 'express';
+
+import projetosRoutes from './projetos.routes';
 
 const routes = Router();
-const projetosControllers = new ProjetosControllers();
 
-routes.get('/', projetosControllers.getProjetos);
+routes.use(projetosRoutes);
 
 export default routes;
