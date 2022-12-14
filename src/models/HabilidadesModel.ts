@@ -14,7 +14,7 @@ HabilidadesModel.init(
     cores: { type: DataTypes.STRING, allowNull: false },
     icones: { type: DataTypes.STRING, allowNull: false },
   },
-  { sequelize, modelName: 'projetos', createdAt: 'criado_em', updatedAt: 'alterado_em' },
+  { sequelize, modelName: 'habilidades', createdAt: 'criado_em', updatedAt: 'alterado_em' },
 );
 
 export default HabilidadesModel;

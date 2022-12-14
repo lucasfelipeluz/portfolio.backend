@@ -10,8 +10,12 @@ SobreMimModel.init(
     nome: { type: DataTypes.STRING, allowNull: false },
     texto: { type: DataTypes.STRING, allowNull: false },
     titulo_emprego: { type: DataTypes.STRING, allowNull: false },
+    link_github: { type: DataTypes.STRING, allowNull: false },
+    link_instagram: { type: DataTypes.STRING, allowNull: false },
+    link_linkedin: { type: DataTypes.STRING, allowNull: false },
+    link_telegram: { type: DataTypes.STRING, allowNull: false },
   },
-  { sequelize, modelName: 'projetos', createdAt: false, updatedAt: false },
+  { sequelize, modelName: 'sobremim', tableName: 'sobremim', createdAt: false, updatedAt: false },
 );
 
 export default SobreMimModel;
