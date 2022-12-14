@@ -3,6 +3,10 @@ export interface SobreMim {
   nome: string;
   texto: string;
   titulo_emprego: string;
+  link_telegram: string;
+  link_instagram: string;
+  link_linkedin: string;
+  link_github: string;
 }
 
 export interface Projetos {
@@ -22,10 +26,4 @@ export interface Habilidades {
   prioridade: number;
   cores: string;
   icones: string;
-}
-
-export interface Links {
-  id?: number;
-  nome: string;
-  url: string;
 }
