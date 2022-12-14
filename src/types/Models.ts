@@ -27,3 +27,9 @@ export interface Habilidades {
   cores: string;
   icones: string;
 }
+
+export interface ProjetosHabilidades {
+  id?: number;
+  id_habilidades: number;
+  id_projetos: number;
+}
