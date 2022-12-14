@@ -5,13 +5,16 @@ import { Habilidades } from '@src/types/Models';
 import { validationsHabilidades } from '@src/utils/validations';
 import strings from '@src/utils/strings';
 import HabilidadesModel from '@src/models/HabilidadesModel';
+import ProjetosModel from '@src/models/ProjetosModel';
 
 export default class HabilidadesControllers {
   public async getAllHabilidades(req: Request, res: Response): Promise<Response> {
     try {
-      const habiliadades = await HabilidadesModel.findAll(filtersGlobalWithPrioridade(req));
+      const habilidades = await HabilidadesModel.findAll(
+        filtersGlobalWithPrioridade(req, { model: ProjetosModel }),
+      );
 
-      return StatusResponse.success<HabilidadesModel>(res, habiliadades, {});
+      return StatusResponse.success<HabilidadesModel>(res, habilidades, {});
     } catch (error) {
       console.log(error);
       return StatusResponse.badRequest(res, { msgError: error });
@@ -27,7 +30,7 @@ export default class HabilidadesControllers {
         return StatusResponse.badRequest(res, { msgError });
       }
 
-      const projeto = await HabilidadesModel.create({
+      const habilidade = await HabilidadesModel.create({
         titulo,
         descricao,
         prioridade: prioridade || 50,
@@ -36,7 +39,7 @@ export default class HabilidadesControllers {
         icones,
       });
 
-      return StatusResponse.created<HabilidadesModel>(res, projeto, {});
+      return StatusResponse.created<HabilidadesModel>(res, habilidade, {});
     } catch (error) {
       console.log(error);
       return StatusResponse.badRequest(res, { msgError: error });

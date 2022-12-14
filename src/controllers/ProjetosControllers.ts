@@ -5,11 +5,14 @@ import { filtersGlobalWithPrioridade } from '@src/utils/filters';
 import { Projetos } from '@src/types/Models';
 import { validationsProjeto } from '@src/utils/validations';
 import strings from '@src/utils/strings';
+import HabilidadesModel from '@src/models/HabilidadesModel';
 
 export default class ProjetosControllers {
   public async getAllProjetos(req: Request, res: Response): Promise<Response> {
     try {
-      const projetos = await ProjetosModel.findAll(filtersGlobalWithPrioridade(req));
+      const projetos = await ProjetosModel.findAll(
+        filtersGlobalWithPrioridade(req, { model: HabilidadesModel }),
+      );
 
       return StatusResponse.success<ProjetosModel>(res, projetos, {});
     } catch (error) {

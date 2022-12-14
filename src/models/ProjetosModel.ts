@@ -1,6 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '@src/config/db';
 import { Projetos } from '@src/types/Models';
+import HabilidadesModel from './HabilidadesModel';
+import ProjetosHabilidadesModel from './ProjetosHabilidadesModel';
 
 class ProjetosModel extends Model<Projetos> {}
 
@@ -15,5 +17,14 @@ ProjetosModel.init(
   },
   { sequelize, modelName: 'projetos', createdAt: 'criado_em', updatedAt: 'alterado_em' },
 );
+
+ProjetosModel.belongsToMany(HabilidadesModel, {
+  through: ProjetosHabilidadesModel,
+  foreignKey: 'id_projetos',
+});
+HabilidadesModel.belongsToMany(ProjetosModel, {
+  through: ProjetosHabilidadesModel,
+  foreignKey: 'id_habilidades',
+});
 
 export default ProjetosModel;
