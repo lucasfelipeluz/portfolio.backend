@@ -2,6 +2,7 @@ import './utils/module-alias.ts';
 import express, { urlencoded } from 'express';
 import { Server } from '@overnightjs/core';
 import * as dotenv from 'dotenv';
+import cors from 'cors';
 
 import strings from '@src/utils/strings';
 import routes from './routes/routes';
@@ -23,6 +24,7 @@ class SetupServer extends Server {
     this.app.use(urlencoded({ limit: '200mb', extended: false }));
     this.app.use(express.json({ limit: '200mb' }));
     this.app.use(express.text({ limit: '200mb' }));
+    this.app.use(cors());
 
     // Iniciando servidor
     this.app.listen(this.port || '8080', () => {
