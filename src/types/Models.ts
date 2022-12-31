@@ -7,6 +7,7 @@ export interface SobreMim {
   link_instagram: string;
   link_linkedin: string;
   link_github: string;
+  disponivel: boolean;
 }
 
 export interface Projetos {
