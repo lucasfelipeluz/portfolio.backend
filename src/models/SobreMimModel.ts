@@ -14,6 +14,7 @@ SobreMimModel.init(
     link_instagram: { type: DataTypes.STRING, allowNull: false },
     link_linkedin: { type: DataTypes.STRING, allowNull: false },
     link_telegram: { type: DataTypes.STRING, allowNull: false },
+    disponivel: { type: DataTypes.BOOLEAN, allowNull: false },
   },
   { sequelize, modelName: 'sobremim', tableName: 'sobremim', createdAt: false, updatedAt: false },
 );
