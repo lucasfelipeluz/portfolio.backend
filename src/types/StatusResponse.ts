@@ -30,6 +30,6 @@ export interface StatusResponseTypes {
 }
 
 export interface Info {
-  msg?: string;
+  msg?: string | any | unknown;
   msgError?: any;
 }

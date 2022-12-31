@@ -1,3 +1,7 @@
+import HabilidadesModel from '@src/models/HabilidadesModel';
+import ProjetosModel from '@src/models/ProjetosModel';
+import SobreMimModel from '@src/models/SobreMimModel';
+
 export interface SobreMim {
   id?: number;
   nome: string;
@@ -33,4 +37,10 @@ export interface ProjetosHabilidades {
   id?: number;
   id_habilidades: number;
   id_projetos: number;
+}
+
+export interface HomeResponse {
+  projetos: ProjetosModel[];
+  habilidades: HabilidadesModel[];
+  sobreMim: SobreMimModel;
 }
