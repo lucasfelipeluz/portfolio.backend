@@ -1,22 +1,6 @@
 <h1 align="center">
-  🧾<br>Donate - BackEnd
+  🧾<br>Portfolio - BackEnd
 </h1>
-
-## 📖 Docs
-
-A API é composta por 4 rotas privadas e 3 públicas.
-
-Private Routes:
-
-- **GET|POST|PUT|DELETE - api/users:** Criado para servir de teste para o login.
-
-Public Routes:
-
-- **POST - api/login:**
-- **POST - api/register:**
-- **POST - api/change_password:**
-
----
 
 ## 🔧 Tecnologias utilizadas
 
