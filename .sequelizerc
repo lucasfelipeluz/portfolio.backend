@@ -1,0 +1,17 @@
+const path = require('path');
+
+/**
+ * This file is used to configure the paths for the sequelize-cli
+ * The paths are relative to the root of the build project.
+ * Case you want to add migrations, seeders or models, they will be created in the build folder.
+ * After that, copy to the project in typescript and change the file extension to `.ts`.
+ *
+ * Attention: Before running the migrations, make sure to build the project
+ */
+module.exports = {
+  // config: path.resolve('./build/repositories/config/config.js'),
+  config: path.resolve('src/repositories/_sequelize/config.js'),
+  'models-path': path.resolve('build/models'),
+  'seeders-path': path.resolve('build/repositories/seeders'),
+  'migrations-path': path.resolve('build/repositories/migrations'),
+};
