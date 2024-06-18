@@ -2,7 +2,10 @@
   "name": "portfolio.backend",
   "version": "0.0.1",
   "main": "src/app.js",
-  "scripts": {},
+  "scripts": {
+    "start": "node build/index.js",
+    "build": "tsc && tsc-alias"
+  },
   "author": "Lucas Felipe Luz",
   "license": "ISC",
   "description": "My backend's portfolio",
