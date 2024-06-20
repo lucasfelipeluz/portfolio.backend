@@ -1,5 +1,12 @@
-const user = 'user';
-
 export default {
-  user,
+  // Models names
+  project: 'project',
+  user: 'user',
+
+  // Models Properties
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+
+  // Messages
+  applicationRunning: 'Application running on port',
 };
