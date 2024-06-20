@@ -1,5 +1,5 @@
 import { ExecutionType } from '@domain/types/environmentVariable';
-import { Sequelize } from 'sequelize';
+import { Sequelize, Transaction } from 'sequelize';
 import config from './config';
 
 const env: ExecutionType = (process.env.NODE_ENV as ExecutionType) || 'development';
@@ -16,4 +16,9 @@ const dbConnection = new Sequelize(
   },
 );
 
+const initTransaction = async (): Promise<Transaction> => {
+  return await dbConnection.transaction();
+};
+
 export default dbConnection;
+export { initTransaction };

@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 dotenv.config();
 
 const dbUser = process.env.DB_USERNAME;
@@ -37,4 +37,4 @@ const config = {
   },
 };
 
-export default config;
+module.exports = config;
