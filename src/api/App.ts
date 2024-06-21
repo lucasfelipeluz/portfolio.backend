@@ -4,6 +4,7 @@ import router from '@api/routes/routes';
 import * as cors from 'cors';
 import * as Express from 'express';
 import * as morgan from 'morgan';
+import httpResponses from './utils/httpResponses';
 
 class App {
   private readonly app: Express.Application;
@@ -27,9 +28,7 @@ class App {
     this.app.use('/api', router);
 
     this.app.get('*', (req, res) => {
-      res.status(404).send({
-        message: 'not found',
-      });
+      return httpResponses.notFound(res);
     });
   }
 

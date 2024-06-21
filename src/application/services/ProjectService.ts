@@ -56,9 +56,9 @@ class ProjectService implements IProjectService {
       },
     };
 
-    await this.projectRepository.delete(options);
+    const result = await this.projectRepository.delete(options);
 
-    return true;
+    return result;
   }
 }
 

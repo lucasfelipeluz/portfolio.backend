@@ -55,7 +55,7 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
   }
 
   async delete(options: UpdateOptions): Promise<boolean> {
-    await ProjectModel.update(
+    const result = await ProjectModel.update(
       {
         isActive: false,
         deletedAt: new Date(),
@@ -63,7 +63,11 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
       options,
     );
 
-    return true;
+    if (result[0] > 0) {
+      return true;
+    }
+
+    return false;
   }
 }
 

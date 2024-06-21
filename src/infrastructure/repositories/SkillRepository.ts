@@ -54,13 +54,17 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
     return true;
   }
   async delete(options: UpdateOptions<any>): Promise<boolean> {
-    await SkillModel.update(
+    const result = await SkillModel.update(
       {
         isActive: false,
         deletedAt: new Date(),
       },
       options,
     );
+
+    if (result[0] < 1) {
+      return false;
+    }
 
     return true;
   }

@@ -1,23 +1,23 @@
-import ProjectService from '@/application/services/ProjectService';
-import Project from '@/domain/entities/Project';
-import strings from '@/domain/utils/strings';
+import SkillService from '@/application/services/SkillService';
+import Skill from '@/domain/entities/Skill';
 import { Request, Response } from 'express';
 import { WhereOptions } from 'sequelize';
 import { autoInjectable } from 'tsyringe';
-import IProjectController from '../interfaces/IProjectController';
+import ISkillController from '../interfaces/ISkillController';
+import strings from '@/domain/utils/strings';
 import httpResponses from '../utils/httpResponses';
 
 @autoInjectable()
-class ProjectController implements IProjectController {
-  private readonly projectService: ProjectService;
+class ProjectController implements ISkillController {
+  private readonly skillService: SkillService;
 
-  constructor(projectService: ProjectService) {
-    this.projectService = projectService;
+  constructor(skillService: SkillService) {
+    this.skillService = skillService;
   }
 
   async getAll(request: Request, response: Response): Promise<unknown> {
     try {
-      const entities = await this.projectService.getAll();
+      const entities = await this.skillService.getAll();
 
       return httpResponses.ok(response, entities);
     } catch (error: any) {
@@ -29,7 +29,7 @@ class ProjectController implements IProjectController {
     try {
       const { id } = request.params;
 
-      const entity = await this.projectService.getById(Number(id));
+      const entity = await this.skillService.getById(Number(id));
 
       return httpResponses.ok(response, entity);
     } catch (error: any) {
@@ -39,27 +39,25 @@ class ProjectController implements IProjectController {
 
   async create(request: Request, response: Response): Promise<unknown> {
     try {
-      const { title, description, urlWebsite, urlGithub, viewPriority, startedAt, finishedAt } =
-        request.body;
+      const { title, description, startedAt, icon, color, viewPriority } = request.body;
 
-      const newEntity: Project = new Project(
+      const newEntity: Skill = new Skill(
         0,
         title,
         description,
-        urlWebsite,
-        urlGithub,
-        viewPriority,
         startedAt,
-        finishedAt,
+        icon,
+        color,
+        viewPriority,
         true,
         new Date(),
         null,
         null,
       );
 
-      const createdEntity = await this.projectService.create(newEntity);
+      const createdEntity = await this.skillService.create(newEntity);
 
-      return httpResponses.created(response, createdEntity, strings.projectIsCreated);
+      return httpResponses.created(response, createdEntity, strings.skillIsCreated);
     } catch (error: any) {
       return httpResponses.internalServerError(response, strings.internalServerError, error);
     }
@@ -67,33 +65,31 @@ class ProjectController implements IProjectController {
 
   async update(request: Request, response: Response): Promise<unknown> {
     try {
-      const { title, description, urlWebsite, urlGithub, viewPriority, startedAt, finishedAt } =
-        request.body;
+      const { title, description, startedAt, icon, color, viewPriority } = request.body;
 
       const { id } = request.params;
 
-      const newEntity: Project = new Project(
+      const newEntity: Skill = new Skill(
         Number(id),
         title,
         description,
-        urlWebsite,
-        urlGithub,
-        viewPriority,
         startedAt,
-        finishedAt,
+        icon,
+        color,
+        viewPriority,
         true,
         new Date(),
         null,
         null,
       );
 
-      const filter: WhereOptions<Project> = {
+      const filter: WhereOptions<Skill> = {
         id: Number(id),
       };
 
-      const entity = await this.projectService.update(newEntity, filter);
+      const entityUpdated = await this.skillService.update(newEntity, filter);
 
-      return httpResponses.ok(response, entity, strings.projectIsUpdated);
+      return httpResponses.ok(response, entityUpdated, strings.skillIsUpdated);
     } catch (error: any) {
       return httpResponses.internalServerError(response, strings.internalServerError, error);
     }
@@ -103,13 +99,13 @@ class ProjectController implements IProjectController {
     try {
       const { id } = request.params;
 
-      const isDeleted = await this.projectService.delete(Number(id));
+      const isDeleted = await this.skillService.delete(Number(id));
 
       if (!isDeleted) {
-        return httpResponses.badRequest(response, strings.projectNotFound);
+        return httpResponses.badRequest(response, strings.skillNotFound);
       }
 
-      return httpResponses.ok(response, null, strings.projectIsDeleted);
+      return httpResponses.ok(response, null, strings.skillIsDeleted);
     } catch (error: any) {
       return httpResponses.internalServerError(response, strings.internalServerError, error);
     }
