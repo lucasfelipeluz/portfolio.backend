@@ -18,7 +18,7 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
       return [] as Project[];
     }
 
-    return result.map((user) => user.toEntity());
+    return result.map((entity) => entity.toEntity());
   }
 
   async getOne(options: FindOptions): Promise<Project | null> {
@@ -38,14 +38,14 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
     return result?.toEntity() ?? null;
   }
 
-  async create(user: Project): Promise<Project> {
-    const result = await ProjectModel.create(user);
+  async create(entity: Project): Promise<Project> {
+    const result = await ProjectModel.create(entity);
 
     return result.toEntity();
   }
 
-  async update(user: Project, options: UpdateOptions): Promise<boolean> {
-    const result = await ProjectModel.update(user, options);
+  async update(entity: Project, options: UpdateOptions): Promise<boolean> {
+    const result = await ProjectModel.update(entity, options);
 
     if (result[0] < 1) {
       return false;
