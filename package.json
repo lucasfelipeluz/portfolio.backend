@@ -4,7 +4,11 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node build/index.js",
-    "build": "tsc && tsc-alias"
+    "build": "tsc && tsc-alias",
+    "dev": "nodemon 'src/' --exec 'ts-node -r tsconfig-paths/register src/index.ts' -e ts",
+    "create-migration": "npx sequelize-cli migration:create --migrations-path 'src/infrastructure/migrations' --name",
+    "push-migration": "npm run build && npx sequelize-cli db:migrate",
+    "undo-migration": "npm run build && npx sequelize-cli db:migrate:undo"
   },
   "author": "Lucas Felipe Luz",
   "license": "ISC",
@@ -38,7 +42,13 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "sequelize": "^6.37.3"
+    "express": "^4.19.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.10.1",
+    "reflect-metadata": "^0.2.2",
+    "sequelize": "^6.37.3",
+    "tsyringe": "^4.8.0"
   }
 }

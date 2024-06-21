@@ -1,45 +1,43 @@
-import Project from '@domain/entities/Project';
+import Skill from '@/domain/entities/Skill';
 import { Model } from 'sequelize';
 import attributes from './addons/attributes';
 import options from './addons/options';
 
-class ProjectModel extends Model<Project> {
+class SkillModel extends Model<Skill> {
   declare id: number;
   declare title: string;
   declare description: string;
-  declare urlWebsite: string;
-  declare urlGithub: string;
-  declare viewPriority: number;
   declare startedAt: Date;
-  declare finishedAt: Date | null;
+  declare icon: string;
+  declare color: string;
+  declare viewPriority: number;
 
   declare isActive: boolean;
   declare createdAt: Date;
   declare updatedAt: Date | null;
   declare deletedAt: Date | null;
 
-  static domainToModel(project: Project): ProjectModel {
-    return new ProjectModel(project);
+  static domainToModel(skill: Skill): SkillModel {
+    return new SkillModel(skill);
   }
 
-  toEntity(): Project {
-    return new Project(
+  toEntity(): Skill {
+    return new Skill(
       this.id,
       this.title,
       this.description,
-      this.urlWebsite,
-      this.urlGithub,
-      this.viewPriority,
       this.startedAt,
+      this.icon,
+      this.color,
+      this.viewPriority,
       this.isActive,
       this.createdAt,
       this.updatedAt ?? null,
-      this.finishedAt ?? null,
       this.deletedAt ?? null,
     );
   }
 }
 
-ProjectModel.init(attributes.project, options.project);
+SkillModel.init(attributes.skill, options.skill);
 
-export default ProjectModel;
+export default SkillModel;
