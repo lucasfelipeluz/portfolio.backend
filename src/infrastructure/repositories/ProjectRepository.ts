@@ -2,10 +2,12 @@ import Project from '@domain/entities/Project';
 import ProjectModel from '@infrastructure/models/ProjectModel';
 import { FindOptions, UpdateOptions } from 'sequelize';
 import IBaseRepository from '../interfaces/IBaseRepository';
-import includes from '../models/addons/includes';
 import IProjectRepository from '../interfaces/IProjectRepository';
+import includes from '../models/addons/includes';
+import { injectable } from 'tsyringe';
 
-export default class UserRepository implements IBaseRepository<Project>, IProjectRepository {
+@injectable()
+class ProjectRepository implements IBaseRepository<Project>, IProjectRepository {
   async getAll(options?: FindOptions): Promise<Project[]> {
     const result = await ProjectModel.findAll({
       ...options,
@@ -42,20 +44,27 @@ export default class UserRepository implements IBaseRepository<Project>, IProjec
     return result.toEntity();
   }
 
-  async update(user: Project, options: UpdateOptions): Promise<number> {
+  async update(user: Project, options: UpdateOptions): Promise<boolean> {
     const result = await ProjectModel.update(user, options);
 
-    return result[0];
+    if (result[0] < 1) {
+      return false;
+    }
+
+    return true;
   }
 
-  async delete(options: UpdateOptions): Promise<number> {
-    const result = await ProjectModel.update(
+  async delete(options: UpdateOptions): Promise<boolean> {
+    await ProjectModel.update(
       {
         isActive: false,
+        deletedAt: new Date(),
       },
       options,
     );
 
-    return result[0];
+    return true;
   }
 }
+
+export default ProjectRepository;

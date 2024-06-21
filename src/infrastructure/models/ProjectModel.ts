@@ -31,10 +31,10 @@ class ProjectModel extends Model<Project> {
       this.urlGithub,
       this.viewPriority,
       this.startedAt,
+      this.finishedAt ?? null,
       this.isActive,
       this.createdAt,
       this.updatedAt ?? null,
-      this.finishedAt ?? null,
       this.deletedAt ?? null,
     );
   }

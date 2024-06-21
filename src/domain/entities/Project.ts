@@ -20,10 +20,10 @@ class Project {
     urlGithub: string,
     viewPriority: number,
     startedAt: Date,
+    finishedAt: Date | null,
     isActive: boolean,
     createdAt: Date,
     updatedAt: Date | null,
-    finishedAt: Date | null,
     deletedAt: Date | null,
   ) {
     this.id = id;
