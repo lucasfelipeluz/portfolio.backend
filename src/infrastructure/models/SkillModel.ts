@@ -2,6 +2,7 @@ import Skill from '@/domain/entities/Skill';
 import { Model } from 'sequelize';
 import attributes from './addons/attributes';
 import options from './addons/options';
+import Project from '@/domain/entities/Project';
 
 class SkillModel extends Model<Skill> {
   declare id: number;
@@ -17,25 +18,7 @@ class SkillModel extends Model<Skill> {
   declare updatedAt: Date | null;
   declare deletedAt: Date | null;
 
-  static domainToModel(skill: Skill): SkillModel {
-    return new SkillModel(skill);
-  }
-
-  toEntity(): Skill {
-    return new Skill(
-      this.id,
-      this.title,
-      this.description,
-      this.startedAt,
-      this.icon,
-      this.color,
-      this.viewPriority,
-      this.isActive,
-      this.createdAt,
-      this.updatedAt ?? null,
-      this.deletedAt ?? null,
-    );
-  }
+  declare projects: Project[];
 }
 
 SkillModel.init(attributes.skill, options.skill);

@@ -3,7 +3,7 @@ import ProjectModel from '@infrastructure/models/ProjectModel';
 import { FindOptions, UpdateOptions } from 'sequelize';
 import IBaseRepository from '../interfaces/IBaseRepository';
 import IProjectRepository from '../interfaces/IProjectRepository';
-import includes from '../models/addons/includes';
+import includes from '../models/addons/relationships';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -18,13 +18,13 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
       return [] as Project[];
     }
 
-    return result.map((entity) => entity.toEntity());
+    return result as Project[];
   }
 
   async getOne(options: FindOptions): Promise<Project | null> {
     const result = await ProjectModel.findOne({ ...options, include: includes.project });
 
-    return result?.toEntity() ?? null;
+    return result as Project;
   }
 
   async getById(id: number): Promise<Project | null> {
@@ -35,13 +35,13 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
       include: includes.project,
     });
 
-    return result?.toEntity() ?? null;
+    return result as Project;
   }
 
   async create(entity: Project): Promise<Project> {
     const result = await ProjectModel.create(entity);
 
-    return result.toEntity();
+    return result as Project;
   }
 
   async update(entity: Project, options: UpdateOptions): Promise<boolean> {

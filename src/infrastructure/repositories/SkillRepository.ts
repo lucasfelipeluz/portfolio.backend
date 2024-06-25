@@ -4,7 +4,7 @@ import { injectable } from 'tsyringe';
 import IBaseRepository from '../interfaces/IBaseRepository';
 import ISkillRepository from '../interfaces/ISkillRepository';
 import SkillModel from '../models/SkillModel';
-import includes from '../models/addons/includes';
+import includes from '../models/addons/relationships';
 
 @injectable()
 class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
@@ -18,13 +18,13 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
       return [] as Skill[];
     }
 
-    return result.map((entity) => entity.toEntity());
+    return result as Skill[];
   }
 
   async getOne(options: FindOptions<any>): Promise<Skill | null> {
-    const result = await SkillModel.findOne({ ...options, include: includes.project });
+    const result = await SkillModel.findOne({ ...options, include: includes.skill });
 
-    return result?.toEntity() ?? null;
+    return result as Skill;
   }
 
   async getById(id: number): Promise<Skill | null> {
@@ -32,16 +32,16 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
       where: {
         id: id,
       },
-      include: includes.project,
+      include: includes.skill,
     });
 
-    return result?.toEntity() ?? null;
+    return result as Skill;
   }
 
   async create(entity: Skill): Promise<Skill> {
     const result = await SkillModel.create(entity);
 
-    return result.toEntity();
+    return result as Skill;
   }
 
   async update(entity: Skill, options: UpdateOptions<any>): Promise<boolean> {
