@@ -1,3 +1,5 @@
+import Skill from './Skill';
+
 class Project {
   public id: number;
   public title: string;
@@ -7,10 +9,13 @@ class Project {
   public viewPriority: number;
   public startedAt: Date;
   public finishedAt: Date | null;
+
   public isActive: boolean;
   public createdAt: Date;
   public updatedAt: Date | null;
   public deletedAt: Date | null;
+
+  public readonly skills: Skill[] = [];
 
   constructor(
     id: number,
@@ -25,6 +30,7 @@ class Project {
     createdAt: Date,
     updatedAt: Date | null,
     deletedAt: Date | null,
+    skills?: Skill[] | null,
   ) {
     this.id = id;
     this.title = title;
@@ -38,6 +44,7 @@ class Project {
     this.updatedAt = updatedAt ?? null;
     this.finishedAt = finishedAt ?? null;
     this.deletedAt = deletedAt ?? null;
+    this.skills = skills ?? [];
   }
 }
 
