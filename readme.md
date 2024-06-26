@@ -1,34 +1,46 @@
 <h1 align="center">
-  🧾<br>Portfolio - BackEnd
+  🧾<br>Meu Portfólio - BackEnd
 </h1>
 
-## 🔧 Tecnologias utilizadas
+<h4 align="center">
+  Portfolio developed in order to allocate my projects.
+</h4>
 
-- TypeScript;
-- Sequelize;
-- Bcrypt;
-- Json Web Token;
-- Jest;
+## 📖 Docs
+Private Routes: 
+- **GET|POST|PUT|DELETE - api/project:** List, Add, Update and Remove the Project data;
+- **GET|POST|PUT|DELETE - api/skill:** List, Add, Update and Remove the Skills data;
+- **GET|PUT - api/aboutme:** List and Update the About Me data.;
+
+Public Routes: 
+- **GET - api/home:** List Projects, Skills and About Me data;
 
 ---
 
-## 🏃‍♂️ Executar
+## 🔧 Technologies used
+For the development of this project, I currently use the following technologies:
 
-- Abra a pasta do projeto, e execute o `npm install`;
-- Após isso, copie o `.env-example` para a mesma pasta, e altere o nome para `.env`. Preencha-o seguindo as suas configurações;
-- Exemplo:
-  `DB_PORT=3306`
-  `DB_HOST=localhost`
-  `DB_DATABASE=donate`
-  `DB_USERNAME=root`
-  `DB_PASSWORD=senha123`
-  `NODE_ENV=development`
-  `PORT_SERVER=7070`
-  `TOKEN_SALT=1`
-  `JWT_SECRET=teste`
-  `LIMIT_FILTER_DEFAULT=100`
-- Após isso, execute `npm run update-database`, que fará a criação das tabelas e populará com dados aleátorios.
-- Depois só executar `npm start`. Se tudo ocorrer bem, sua API já estará funcionando.
-  <br/>
+- Express;
+- Sequelize;
 
-![image](https://github.com/lucasfelipeluz/donate-api/assets/65639478/3ed5eb0f-ebd2-47f3-a600-752aec7afcef)
+---
+
+## 🧅 Project's Layers
+- **API** - Responsible for receiving and sending HTTP requests, and also for allocating application information and configurations;
+- **Application** - Responsible for defining what the application will do, and where and how will do it;
+- **Infrastructure** - Responsible for initializing and managing connections to the database;
+- **Domain** - Responsible for defining the application's entities and business rules;
+
+## 🧟 Author<br>
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/lucasfelipeluz">
+        <img src="https://avatars.githubusercontent.com/lucasfelipeluz" width="100px;" alt="Foto de perfil de Lucas Luz no GitHub"/><br>
+        <sub>
+          <b>Lucas Luz</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
