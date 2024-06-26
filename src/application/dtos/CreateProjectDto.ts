@@ -10,6 +10,7 @@ class CreateProjectDto {
   private viewPriority: number;
   private startedAt: Date;
   private finishedAt: Date | null;
+  private idSkills: number[];
 
   constructor(
     title: string,
@@ -19,6 +20,7 @@ class CreateProjectDto {
     viewPriority: number,
     startedAt: Date,
     finishedAt: Date | null,
+    idSkills: number[],
   ) {
     this.title = title;
     this.description = description;
@@ -27,6 +29,7 @@ class CreateProjectDto {
     this.viewPriority = viewPriority;
     this.startedAt = startedAt;
     this.finishedAt = finishedAt;
+    this.idSkills = idSkills;
 
     this.validate();
   }
@@ -39,6 +42,7 @@ class CreateProjectDto {
       'urlGithub',
       'viewPriority',
       'startedAt',
+      'idSkills',
     ]);
 
     if (this.title.length < 3 || this.title.length > 120) {
@@ -82,6 +86,10 @@ class CreateProjectDto {
       null,
       null,
     );
+  }
+
+  public getIdSkills(): number[] {
+    return this.idSkills;
   }
 }
 
