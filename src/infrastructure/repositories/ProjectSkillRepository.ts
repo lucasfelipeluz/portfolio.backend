@@ -1,5 +1,5 @@
 import ProjectSkill from '@/domain/entities/ProjectSkill';
-import { FindOptions, UpdateOptions } from 'sequelize';
+import { BulkCreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 import IBaseRepository from '../interfaces/IBaseRepository';
 import IProjectSkillRepository from '../interfaces/IProjectSkillRepository';
@@ -42,6 +42,12 @@ class ProjectSkillRepository implements IBaseRepository<ProjectSkill>, IProjectS
     const result = await ProjectSkillModel.create(entity);
 
     return result as ProjectSkill;
+  }
+
+  async bulkCreate(entity: ProjectSkill[], options?: BulkCreateOptions): Promise<ProjectSkill[]> {
+    const result = await ProjectSkillModel.bulkCreate(entity, options);
+
+    return result as ProjectSkill[];
   }
 
   async update(entity: ProjectSkill, options: UpdateOptions<any>): Promise<boolean> {

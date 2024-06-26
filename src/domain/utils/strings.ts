@@ -34,4 +34,5 @@ export default {
 
   // Msg Errors
   internalServerError: 'A server error has occurred.',
+  AnErrorOccurredWhileSavingTheData: 'An error occurred while saving the data.',
 };

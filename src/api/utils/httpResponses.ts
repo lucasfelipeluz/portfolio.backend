@@ -109,7 +109,8 @@ function methodNotAllowed(res: Response, message: string) {
 }
 
 /**
- * `500` - The server encountered an unexpected situation that prevented it from fulfilling the request.
+ * `500` - The server encountered an unexpected situation that prevented it from fulfilling the
+ * request.
  */
 function internalServerError(res: Response, message: string, error?: any) {
   console.log(error);

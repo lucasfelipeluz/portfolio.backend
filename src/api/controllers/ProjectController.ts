@@ -41,8 +41,16 @@ class ProjectController implements IProjectController {
 
   async create(request: Request, response: Response): Promise<unknown> {
     try {
-      const { title, description, urlWebsite, urlGithub, viewPriority, startedAt, finishedAt } =
-        request.body;
+      const {
+        title,
+        description,
+        urlWebsite,
+        urlGithub,
+        viewPriority,
+        startedAt,
+        finishedAt,
+        idSkills,
+      } = request.body;
 
       const newEntity = new CreateProjectDto(
         title,
@@ -52,6 +60,7 @@ class ProjectController implements IProjectController {
         viewPriority,
         startedAt,
         finishedAt,
+        idSkills,
       );
 
       const createdEntity = await this.projectService.create(newEntity);
