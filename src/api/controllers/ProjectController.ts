@@ -1,6 +1,8 @@
+import CreateProjectDto from '@/application/dtos/CreateProjectDto';
+import UpdateProjectDto from '@/application/dtos/UpdateProjectDto';
 import ProjectService from '@/application/services/ProjectService';
-import Project from '@/domain/entities/Project';
 import strings from '@/domain/utils/strings';
+import ProjectModel from '@/infrastructure/models/ProjectModel';
 import { Request, Response } from 'express';
 import { WhereOptions } from 'sequelize';
 import { autoInjectable } from 'tsyringe';
@@ -21,7 +23,7 @@ class ProjectController implements IProjectController {
 
       return httpResponses.ok(response, entities);
     } catch (error: any) {
-      return httpResponses.internalServerError(response, strings.internalServerError, error);
+      return httpResponses.handleServerError(response, strings.internalServerError, error);
     }
   }
 
@@ -33,7 +35,7 @@ class ProjectController implements IProjectController {
 
       return httpResponses.ok(response, entity);
     } catch (error: any) {
-      return httpResponses.internalServerError(response, strings.internalServerError, error);
+      return httpResponses.handleServerError(response, strings.internalServerError, error);
     }
   }
 
@@ -42,8 +44,7 @@ class ProjectController implements IProjectController {
       const { title, description, urlWebsite, urlGithub, viewPriority, startedAt, finishedAt } =
         request.body;
 
-      const newEntity: Project = new Project(
-        0,
+      const newEntity = new CreateProjectDto(
         title,
         description,
         urlWebsite,
@@ -51,17 +52,13 @@ class ProjectController implements IProjectController {
         viewPriority,
         startedAt,
         finishedAt,
-        true,
-        new Date(),
-        null,
-        null,
       );
 
       const createdEntity = await this.projectService.create(newEntity);
 
       return httpResponses.created(response, createdEntity, strings.projectIsCreated);
     } catch (error: any) {
-      return httpResponses.internalServerError(response, strings.internalServerError, error);
+      return httpResponses.handleServerError(response, strings.internalServerError, error);
     }
   }
 
@@ -72,7 +69,7 @@ class ProjectController implements IProjectController {
 
       const { id } = request.params;
 
-      const newEntity: Project = new Project(
+      const newEntity = new UpdateProjectDto(
         Number(id),
         title,
         description,
@@ -81,13 +78,9 @@ class ProjectController implements IProjectController {
         viewPriority,
         startedAt,
         finishedAt,
-        true,
-        new Date(),
-        null,
-        null,
       );
 
-      const filter: WhereOptions<Project> = {
+      const filter: WhereOptions<ProjectModel> = {
         id: Number(id),
       };
 
@@ -95,7 +88,7 @@ class ProjectController implements IProjectController {
 
       return httpResponses.ok(response, entity, strings.projectIsUpdated);
     } catch (error: any) {
-      return httpResponses.internalServerError(response, strings.internalServerError, error);
+      return httpResponses.handleServerError(response, strings.internalServerError, error);
     }
   }
 
@@ -111,7 +104,7 @@ class ProjectController implements IProjectController {
 
       return httpResponses.ok(response, null, strings.projectIsDeleted);
     } catch (error: any) {
-      return httpResponses.internalServerError(response, strings.internalServerError, error);
+      return httpResponses.handleServerError(response, strings.internalServerError, error);
     }
   }
 }

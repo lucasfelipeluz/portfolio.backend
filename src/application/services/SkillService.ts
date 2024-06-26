@@ -1,9 +1,11 @@
-import Skill from '@/domain/entities/Skill';
+import SkillDto from '@application/dtos/SkillDto';
 import SkillModel from '@/infrastructure/models/SkillModel';
 import SkillRepository from '@/infrastructure/repositories/SkillRepository';
 import { FindOptions, UpdateOptions, WhereOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 import ISkillService from '../interfaces/ISkillService';
+import CreateSkillDto from '../dtos/CreateSkillDto';
+import UpdateSkillDto from '../dtos/UpdateSkillDto';
 
 @injectable()
 class SkillService implements ISkillService {
@@ -13,40 +15,50 @@ class SkillService implements ISkillService {
     this.skillRepository = skillRepository;
   }
 
-  async getAll(filter?: WhereOptions): Promise<Skill[]> {
+  async getAll(filter?: WhereOptions): Promise<SkillDto[]> {
     const options: FindOptions = {
       where: filter,
     };
 
-    return await this.skillRepository.getAll(options);
+    const entities = await this.skillRepository.getAll(options);
+
+    return entities.map((entity) => new SkillDto(entity, true));
   }
 
-  async getOne(filter?: WhereOptions<SkillModel> | undefined): Promise<Skill | null> {
+  async getOne(filter?: WhereOptions<SkillModel> | undefined): Promise<SkillDto | null> {
     const options: FindOptions = {
       where: filter,
     };
 
-    return await this.skillRepository.getOne(options);
+    const entity = await this.skillRepository.getOne(options);
+
+    return entity ? new SkillDto(entity, true) : ({} as SkillDto);
   }
 
-  async getById(id: number): Promise<Skill | null> {
-    const result = await this.skillRepository.getById(id);
+  async getById(id: number): Promise<SkillDto | null> {
+    const entity = await this.skillRepository.getById(id);
 
-    return result || ({} as Skill);
+    return entity ? new SkillDto(entity, true) : ({} as SkillDto);
   }
 
-  async create(entity: Skill): Promise<Skill> {
-    return await this.skillRepository.create(entity);
+  async create(newEntity: CreateSkillDto): Promise<SkillDto> {
+    const newEntityDomain = newEntity.toDomain();
+
+    const createdEntity = await this.skillRepository.create(newEntityDomain);
+
+    return new SkillDto(createdEntity);
   }
 
-  async update(entity: Skill, filter: WhereOptions<SkillModel>): Promise<Skill> {
+  async update(entity: UpdateSkillDto, filter: WhereOptions<SkillModel>): Promise<SkillDto> {
+    const newEntity = entity.toDomain();
+
     const options: UpdateOptions<SkillModel> = {
       where: filter,
     };
 
-    await this.skillRepository.update(entity, options);
+    await this.skillRepository.update(newEntity, options);
 
-    return entity;
+    return new SkillDto(newEntity);
   }
 
   async delete(id: number): Promise<boolean> {

@@ -112,7 +112,18 @@ function methodNotAllowed(res: Response, message: string) {
  */
 function internalServerError(res: Response, message: string, error?: any) {
   console.log(error);
-  return res.status(500).send({ message, error });
+  return res.status(error.code || 500).send({ message, error });
+}
+
+/**
+ * Método para lidar com erros de servidor.
+ */
+function handleServerError(res: Response, message: string, error: any) {
+  if (!error.code || error.code === 500) {
+    return internalServerError(res, strings.internalServerError, error);
+  }
+
+  return res.status(error.code).send({ message: error.message || message, error });
 }
 
 export default {
@@ -129,4 +140,5 @@ export default {
   notFound,
   methodNotAllowed,
   internalServerError,
+  handleServerError,
 };

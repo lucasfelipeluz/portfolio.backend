@@ -6,9 +6,11 @@ import { autoInjectable } from 'tsyringe';
 import ISkillController from '../interfaces/ISkillController';
 import strings from '@/domain/utils/strings';
 import httpResponses from '../utils/httpResponses';
+import CreateSkillDto from '@/application/dtos/CreateSkillDto';
+import UpdateSkillDto from '@/application/dtos/UpdateSkillDto';
 
 @autoInjectable()
-class ProjectController implements ISkillController {
+class SkillController implements ISkillController {
   private readonly skillService: SkillService;
 
   constructor(skillService: SkillService) {
@@ -21,7 +23,7 @@ class ProjectController implements ISkillController {
 
       return httpResponses.ok(response, entities);
     } catch (error: any) {
-      return httpResponses.internalServerError(response, strings.internalServerError, error);
+      return httpResponses.handleServerError(response, strings.internalServerError, error);
     }
   }
 
@@ -33,7 +35,7 @@ class ProjectController implements ISkillController {
 
       return httpResponses.ok(response, entity);
     } catch (error: any) {
-      return httpResponses.internalServerError(response, strings.internalServerError, error);
+      return httpResponses.handleServerError(response, strings.internalServerError, error);
     }
   }
 
@@ -41,25 +43,20 @@ class ProjectController implements ISkillController {
     try {
       const { title, description, startedAt, icon, color, viewPriority } = request.body;
 
-      const newEntity: Skill = new Skill(
-        0,
+      const newEntity = new CreateSkillDto(
         title,
         description,
         startedAt,
         icon,
         color,
         viewPriority,
-        true,
-        new Date(),
-        null,
-        null,
       );
 
       const createdEntity = await this.skillService.create(newEntity);
 
       return httpResponses.created(response, createdEntity, strings.skillIsCreated);
     } catch (error: any) {
-      return httpResponses.internalServerError(response, strings.internalServerError, error);
+      return httpResponses.handleServerError(response, strings.internalServerError, error);
     }
   }
 
@@ -69,7 +66,7 @@ class ProjectController implements ISkillController {
 
       const { id } = request.params;
 
-      const newEntity: Skill = new Skill(
+      const newEntity = new UpdateSkillDto(
         Number(id),
         title,
         description,
@@ -77,10 +74,6 @@ class ProjectController implements ISkillController {
         icon,
         color,
         viewPriority,
-        true,
-        new Date(),
-        null,
-        null,
       );
 
       const filter: WhereOptions<Skill> = {
@@ -91,7 +84,7 @@ class ProjectController implements ISkillController {
 
       return httpResponses.ok(response, entityUpdated, strings.skillIsUpdated);
     } catch (error: any) {
-      return httpResponses.internalServerError(response, strings.internalServerError, error);
+      return httpResponses.handleServerError(response, strings.internalServerError, error);
     }
   }
 
@@ -107,9 +100,9 @@ class ProjectController implements ISkillController {
 
       return httpResponses.ok(response, null, strings.skillIsDeleted);
     } catch (error: any) {
-      return httpResponses.internalServerError(response, strings.internalServerError, error);
+      return httpResponses.handleServerError(response, strings.internalServerError, error);
     }
   }
 }
 
-export default ProjectController;
+export default SkillController;

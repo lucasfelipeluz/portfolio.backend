@@ -1,6 +1,6 @@
 import * as Express from 'express';
 import { container as dependencyContainer } from 'tsyringe';
-import SkillController from '../controllers/ISkillController';
+import SkillController from '../controllers/SkillController';
 
 const router = Express.Router();
 
