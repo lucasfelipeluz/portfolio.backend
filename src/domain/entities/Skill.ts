@@ -1,3 +1,5 @@
+import Project from './Project';
+
 class Skill {
   public id: number;
   public title: string;
@@ -11,6 +13,8 @@ class Skill {
   public updatedAt: Date | null;
   public deletedAt: Date | null;
 
+  public readonly projects: Project[] = [];
+
   constructor(
     id: number,
     title: string,
@@ -23,6 +27,7 @@ class Skill {
     createdAt: Date,
     updatedAt: Date | null,
     deletedAt: Date | null,
+    projects?: Project[] | null,
   ) {
     this.id = id;
     this.title = title;
@@ -35,6 +40,7 @@ class Skill {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt ?? null;
     this.deletedAt = deletedAt ?? null;
+    this.projects = projects ?? [];
   }
 }
 

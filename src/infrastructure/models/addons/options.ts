@@ -1,30 +1,36 @@
-import { InitOptions } from 'sequelize';
-import ProjectModel from '../ProjectModel';
 import strings from '@/domain/utils/strings';
 import dbConnection from '@/infrastructure/config/dbConnection';
+import { InitOptions } from 'sequelize';
+import ProjectModel from '../ProjectModel';
 import SkillModel from '../SkillModel';
+import ProjectSkillModel from '../ProjectSkillModel';
 
 const project: InitOptions<ProjectModel> = {
   tableName: strings.project,
   sequelize: dbConnection,
-  paranoid: true,
   timestamps: true,
   createdAt: strings.createdAt,
   updatedAt: strings.updatedAt,
-  deletedAt: strings.deletedAt,
 };
 
 const skill: InitOptions<SkillModel> = {
   tableName: strings.skill,
   sequelize: dbConnection,
-  paranoid: true,
   timestamps: true,
   createdAt: strings.createdAt,
   updatedAt: strings.updatedAt,
-  deletedAt: strings.deletedAt,
+};
+
+const projectSkill: InitOptions<ProjectSkillModel> = {
+  tableName: strings.projectSkill,
+  sequelize: dbConnection,
+  timestamps: true,
+  createdAt: strings.createdAt,
+  updatedAt: strings.updatedAt,
 };
 
 export default {
   project,
   skill,
+  projectSkill,
 };

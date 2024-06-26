@@ -1,6 +1,7 @@
 import { DataTypes, ModelAttributes } from 'sequelize';
 import ProjectModel from '../ProjectModel';
 import SkillModel from '../SkillModel';
+import ProjectSkillModel from '../ProjectSkillModel';
 
 const project: ModelAttributes<ProjectModel> = {
   id: {
@@ -104,7 +105,41 @@ const skill: ModelAttributes<SkillModel> = {
   },
 };
 
+const projectSkill: ModelAttributes<ProjectSkillModel> = {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  idSkill: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  idProject: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  deletedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+};
+
 export default {
   project,
   skill,
+  projectSkill,
 };

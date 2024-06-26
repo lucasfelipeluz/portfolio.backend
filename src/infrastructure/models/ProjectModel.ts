@@ -1,3 +1,4 @@
+import Skill from '@/domain/entities/Skill';
 import Project from '@domain/entities/Project';
 import { Model } from 'sequelize';
 import attributes from './addons/attributes';
@@ -18,26 +19,7 @@ class ProjectModel extends Model<Project> {
   declare updatedAt: Date | null;
   declare deletedAt: Date | null;
 
-  static domainToModel(project: Project): ProjectModel {
-    return new ProjectModel(project);
-  }
-
-  toEntity(): Project {
-    return new Project(
-      this.id,
-      this.title,
-      this.description,
-      this.urlWebsite,
-      this.urlGithub,
-      this.viewPriority,
-      this.startedAt,
-      this.isActive,
-      this.createdAt,
-      this.updatedAt ?? null,
-      this.finishedAt ?? null,
-      this.deletedAt ?? null,
-    );
-  }
+  declare skills: Skill[] | null;
 }
 
 ProjectModel.init(attributes.project, options.project);

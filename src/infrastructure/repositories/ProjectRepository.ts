@@ -2,10 +2,12 @@ import Project from '@domain/entities/Project';
 import ProjectModel from '@infrastructure/models/ProjectModel';
 import { FindOptions, UpdateOptions } from 'sequelize';
 import IBaseRepository from '../interfaces/IBaseRepository';
-import includes from '../models/addons/includes';
 import IProjectRepository from '../interfaces/IProjectRepository';
+import includes from '../models/addons/relationships';
+import { injectable } from 'tsyringe';
 
-export default class UserRepository implements IBaseRepository<Project>, IProjectRepository {
+@injectable()
+class ProjectRepository implements IBaseRepository<Project>, IProjectRepository {
   async getAll(options?: FindOptions): Promise<Project[]> {
     const result = await ProjectModel.findAll({
       ...options,
@@ -16,13 +18,13 @@ export default class UserRepository implements IBaseRepository<Project>, IProjec
       return [] as Project[];
     }
 
-    return result.map((user) => user.toEntity());
+    return result as Project[];
   }
 
   async getOne(options: FindOptions): Promise<Project | null> {
     const result = await ProjectModel.findOne({ ...options, include: includes.project });
 
-    return result?.toEntity() ?? null;
+    return result as Project;
   }
 
   async getById(id: number): Promise<Project | null> {
@@ -33,29 +35,40 @@ export default class UserRepository implements IBaseRepository<Project>, IProjec
       include: includes.project,
     });
 
-    return result?.toEntity() ?? null;
+    return result as Project;
   }
 
-  async create(user: Project): Promise<Project> {
-    const result = await ProjectModel.create(user);
+  async create(entity: Project): Promise<Project> {
+    const result = await ProjectModel.create(entity);
 
-    return result.toEntity();
+    return result as Project;
   }
 
-  async update(user: Project, options: UpdateOptions): Promise<number> {
-    const result = await ProjectModel.update(user, options);
+  async update(entity: Project, options: UpdateOptions): Promise<boolean> {
+    const result = await ProjectModel.update(entity, options);
 
-    return result[0];
+    if (result[0] < 1) {
+      return false;
+    }
+
+    return true;
   }
 
-  async delete(options: UpdateOptions): Promise<number> {
+  async delete(options: UpdateOptions): Promise<boolean> {
     const result = await ProjectModel.update(
       {
         isActive: false,
+        deletedAt: new Date(),
       },
       options,
     );
 
-    return result[0];
+    if (result[0] > 0) {
+      return true;
+    }
+
+    return false;
   }
 }
+
+export default ProjectRepository;
