@@ -5,9 +5,11 @@ export default {
   aboutMe: 'about_me',
   user: 'user',
   projectSkill: 'project_skill',
+  projectImage: 'project_image',
   skills: 'skills',
   projects: 'projects',
   users: 'users',
+  projectImages: 'project_images',
 
   // Models Properties
   idSkill: 'idSkill',
