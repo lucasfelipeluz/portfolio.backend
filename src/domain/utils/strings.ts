@@ -10,6 +10,7 @@ export default {
   projects: 'projects',
   users: 'users',
   projectImages: 'project_images',
+  images: 'images',
 
   // Models Properties
   idSkill: 'idSkill',

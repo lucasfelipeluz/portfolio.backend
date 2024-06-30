@@ -3,6 +3,7 @@ import Project from '@domain/entities/Project';
 import { Model } from 'sequelize';
 import attributes from './addons/attributes';
 import options from './addons/options';
+import ProjectImage from '@/domain/entities/ProjectImage';
 
 class ProjectModel extends Model<Project> {
   declare id: number;
@@ -19,7 +20,9 @@ class ProjectModel extends Model<Project> {
   declare updatedAt: Date | null;
   declare deletedAt: Date | null;
 
-  declare skills: Skill[] | null;
+  declare skills: Skill[];
+
+  declare images: ProjectImage[];
 }
 
 ProjectModel.init(attributes.project, options.project);
