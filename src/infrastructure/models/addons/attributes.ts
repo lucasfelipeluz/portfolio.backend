@@ -2,6 +2,7 @@ import { DataTypes, ModelAttributes } from 'sequelize';
 import ProjectModel from '../ProjectModel';
 import SkillModel from '../SkillModel';
 import ProjectSkillModel from '../ProjectSkillModel';
+import ProjectImageModel from '../ProjectImageModel';
 
 const project: ModelAttributes<ProjectModel> = {
   id: {
@@ -138,8 +139,46 @@ const projectSkill: ModelAttributes<ProjectSkillModel> = {
   },
 };
 
+const projectImage: ModelAttributes<ProjectImageModel> = {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  path: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+  },
+  viewPriority: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  deletedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  idProject: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+};
+
 export default {
   project,
   skill,
   projectSkill,
+  projectImage,
 };

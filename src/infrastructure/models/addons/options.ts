@@ -4,6 +4,7 @@ import { InitOptions } from 'sequelize';
 import ProjectModel from '../ProjectModel';
 import SkillModel from '../SkillModel';
 import ProjectSkillModel from '../ProjectSkillModel';
+import ProjectImageModel from '../ProjectImageModel';
 
 const project: InitOptions<ProjectModel> = {
   tableName: strings.project,
@@ -29,8 +30,17 @@ const projectSkill: InitOptions<ProjectSkillModel> = {
   updatedAt: strings.updatedAt,
 };
 
+const projectImage: InitOptions<ProjectImageModel> = {
+  tableName: strings.projectImage,
+  sequelize: dbConnection,
+  timestamps: true,
+  createdAt: strings.createdAt,
+  updatedAt: strings.updatedAt,
+};
+
 export default {
   project,
   skill,
   projectSkill,
+  projectImage,
 };

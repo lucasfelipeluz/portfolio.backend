@@ -1,3 +1,4 @@
+import ProjectImage from './ProjectImage';
 import Skill from './Skill';
 
 class Project {
@@ -16,6 +17,7 @@ class Project {
   public deletedAt: Date | null;
 
   public readonly skills: Skill[] = [];
+  public readonly images: ProjectImage[] = [];
 
   constructor(
     id: number,
@@ -31,6 +33,7 @@ class Project {
     updatedAt: Date | null,
     deletedAt: Date | null,
     skills?: Skill[] | null,
+    images?: ProjectImage[] | null,
   ) {
     this.id = id;
     this.title = title;
@@ -45,6 +48,7 @@ class Project {
     this.finishedAt = finishedAt ?? null;
     this.deletedAt = deletedAt ?? null;
     this.skills = skills ?? [];
+    this.images = images ?? [];
   }
 }
 

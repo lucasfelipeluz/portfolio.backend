@@ -1,5 +1,6 @@
 import Project from '@/domain/entities/Project';
 import SkillDto from './SkillDto';
+import ProjectImageDto from './ProjectImageDto';
 
 class ProjectDto {
   private id: number | null;
@@ -15,8 +16,9 @@ class ProjectDto {
   private deletedAt: Date | null;
 
   private skills: SkillDto[] | null;
+  private images: ProjectImageDto[] | null;
 
-  constructor(project: Project, includeSkill: boolean = false) {
+  constructor(project: Project, include?: boolean) {
     this.id = project.id;
     this.title = project.title;
     this.description = project.description;
@@ -28,10 +30,12 @@ class ProjectDto {
     this.createdAt = project.createdAt;
     this.updatedAt = project.updatedAt;
     this.deletedAt = project.deletedAt;
-    if (includeSkill) {
+    if (include) {
       this.skills = project.skills.map((skill) => new SkillDto(skill));
+      this.images = project.images.map((image) => new ProjectImageDto(image));
     } else {
       this.skills = null;
+      this.images = null;
     }
   }
 }

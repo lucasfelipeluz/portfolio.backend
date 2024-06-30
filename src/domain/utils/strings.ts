@@ -5,9 +5,12 @@ export default {
   aboutMe: 'about_me',
   user: 'user',
   projectSkill: 'project_skill',
+  projectImage: 'project_image',
   skills: 'skills',
   projects: 'projects',
   users: 'users',
+  projectImages: 'project_images',
+  images: 'images',
 
   // Models Properties
   idSkill: 'idSkill',
@@ -31,6 +34,9 @@ export default {
   projectSkillIsUpdated: 'Project Skill is updated',
   projectSkillIsDeleted: 'Project Skill is deleted',
   projectSkillNotFound: 'Project Skill not found',
+  projectImageIsCreated: 'Project Image is created',
+  projectImageIsUpdated: 'Project Image is updated',
+  projectImageIsDeleted: 'Project Image is deleted',
 
   // Msg Errors
   internalServerError: 'A server error has occurred.',
