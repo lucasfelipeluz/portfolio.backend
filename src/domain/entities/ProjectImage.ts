@@ -12,7 +12,7 @@ class ProjectImage {
 
   public idProject: number;
 
-  public readonly project: Project | null;
+  public readonly project: Project;
 
   constructor(
     id: number,
@@ -23,7 +23,7 @@ class ProjectImage {
     updatedAt: Date | null,
     deletedAt: Date | null,
     idProject: number,
-    project: Project | null,
+    project: Project,
   ) {
     this.id = id;
     this.path = path;

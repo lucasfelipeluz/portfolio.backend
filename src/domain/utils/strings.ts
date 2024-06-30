@@ -33,6 +33,9 @@ export default {
   projectSkillIsUpdated: 'Project Skill is updated',
   projectSkillIsDeleted: 'Project Skill is deleted',
   projectSkillNotFound: 'Project Skill not found',
+  projectImageIsCreated: 'Project Image is created',
+  projectImageIsUpdated: 'Project Image is updated',
+  projectImageIsDeleted: 'Project Image is deleted',
 
   // Msg Errors
   internalServerError: 'A server error has occurred.',
