@@ -2,6 +2,7 @@ import { RedisClientType, createClient } from 'redis';
 import ICacheProvider from './ICacheProvider';
 import { injectable } from 'tsyringe';
 import { WhereOptions } from 'sequelize';
+import strings from '@/domain/utils/strings';
 
 @injectable()
 class CacheProvider<T> implements ICacheProvider<T> {
@@ -12,48 +13,85 @@ class CacheProvider<T> implements ICacheProvider<T> {
     this.client.connect().catch(console.error);
   }
 
-  async get(key: string, filter: WhereOptions): Promise<T[] | T | null> {
-    const result = await this.client.get(`${key}-${JSON.stringify(filter)}`);
+  private checkClient(): void {
+    if (!this.client.isReady) {
+      throw new Error(strings.redisError);
+    }
+  }
 
-    if (!result) {
+  async get(key: string, filter: WhereOptions): Promise<T[] | T | null> {
+    try {
+      this.checkClient();
+
+      const result = await this.client.get(`${key}-${JSON.stringify(filter)}`);
+
+      if (!result) {
+        return null;
+      }
+
+      return JSON.parse(result);
+    } catch (error) {
+      console.error(error);
       return null;
     }
-
-    return JSON.parse(result);
   }
 
   async create(key: string, filter: WhereOptions, value: T[] | T): Promise<void> {
-    await this.client.set(`${key}-${JSON.stringify(filter)}`, JSON.stringify(value));
+    try {
+      this.checkClient();
+
+      await this.client.set(`${key}-${JSON.stringify(filter)}`, JSON.stringify(value));
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async clearWhenStartingWith(key: string): Promise<void> {
-    const keysToDelete = await this.client.keys(`${key}*`);
+    try {
+      this.checkClient();
 
-    for (const key of keysToDelete) {
-      this.client.del(key);
+      const keysToDelete = await this.client.keys(`${key}*`);
+
+      for (const key of keysToDelete) {
+        this.client.del(key);
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 
   async clearWhenStartingWithThese(keys: string[]): Promise<void> {
-    const keysToDelete = new Set<string>();
+    try {
+      this.checkClient();
 
-    const promiseSearchKeys = keys.map(async (key) => {
-      const keys = await this.client.keys(`${key}*`);
+      const keysToDelete = new Set<string>();
 
-      keys.forEach((key) => keysToDelete.add(key));
-    });
+      const promiseSearchKeys = keys.map(async (key) => {
+        const keys = await this.client.keys(`${key}*`);
 
-    await Promise.all(promiseSearchKeys);
+        keys.forEach((key) => keysToDelete.add(key));
+      });
 
-    const promiseDeleteKeys = Array.from(keysToDelete).map(async (key) => {
-      return await this.client.del(key);
-    });
+      await Promise.all(promiseSearchKeys);
 
-    await Promise.all(promiseDeleteKeys);
+      const promiseDeleteKeys = Array.from(keysToDelete).map(async (key) => {
+        return await this.client.del(key);
+      });
+
+      await Promise.all(promiseDeleteKeys);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async clearAll(): Promise<void> {
-    await this.client.flushAll();
+    try {
+      this.checkClient();
+
+      await this.client.flushAll();
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 
