@@ -13,7 +13,10 @@
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
-    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "warn",
+    "@typescript-eslint/no-inferrable-types": "warn",
     "no-console": "off",
     "max-len": [
       "warn",
@@ -26,7 +29,6 @@
   "ignorePatterns": [
     "build",
     "node_modules",
-    "**/migrations/*",
     "**/_sequelize/**.js",
     "**/migrations/**.ts",
     "**/seeders/**.ts"
