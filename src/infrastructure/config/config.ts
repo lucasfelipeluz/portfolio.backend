@@ -1,13 +1,14 @@
 import * as dotenv from 'dotenv';
+import { ConfigTypes } from '@/infrastructure/types';
 dotenv.config();
 
-const dbUser = process.env.DB_USERNAME as string;
-const dbPassword = process.env.DB_PASSWORD;
-const dbName = process.env.DB_DATABASE as string;
-const dbHost = process.env.DB_HOST;
-const dbPort = parseInt(process.env.DB_PORT || '8080', 10);
+const dbUser: string = process.env.DB_USERNAME as string;
+const dbPassword: string = process.env.DB_PASSWORD as string;
+const dbName: string = process.env.DB_DATABASE as string;
+const dbHost: string = process.env.DB_HOST as string;
+const dbPort: number = parseInt(process.env.DB_PORT || '8080', 10) as number;
 
-const config = {
+const config: ConfigTypes = {
   development: {
     username: dbUser,
     password: dbPassword,
