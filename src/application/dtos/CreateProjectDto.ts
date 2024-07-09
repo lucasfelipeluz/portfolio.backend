@@ -1,6 +1,6 @@
-import Project from '@/domain/entities/Project';
-import ValidationError from '../errors/ValidationError';
-import { validateProperties } from '../validations';
+import { validateProperties } from '@/application/validations';
+import { Project } from '@/domain/entities';
+import { ValidationError } from '@/domain/errors';
 
 class CreateProjectDto {
   private title: string;

@@ -1,6 +1,6 @@
-import Skill from '@/domain/entities/Skill';
-import ValidationError from '../errors/ValidationError';
-import { validateProperties } from '../validations';
+import { validateProperties } from '@/application/validations';
+import { Skill } from '@/domain/entities';
+import { ValidationError } from '@/domain/errors';
 
 class CreateSkillDto {
   private title: string;

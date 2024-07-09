@@ -1,10 +1,10 @@
 import 'reflect-metadata';
-import strings from '@domain/utils/strings';
-import router from '@api/routes/routes';
+import router from '@/api/routes/routes';
+import { httpResponses } from '@/api/utils';
+import { strings } from '@/domain/utils';
 import * as cors from 'cors';
 import * as Express from 'express';
 import * as morgan from 'morgan';
-import httpResponses from './utils/httpResponses';
 
 class App {
   private readonly app: Express.Application;

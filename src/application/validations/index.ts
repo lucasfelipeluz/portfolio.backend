@@ -1,4 +1,4 @@
-import ValidationError from '../errors/ValidationError';
+import ValidationError from '@/domain/errors/ValidationError';
 
 /**
  * Validate properties, case any property is undefined or null, will throw a ValidationError

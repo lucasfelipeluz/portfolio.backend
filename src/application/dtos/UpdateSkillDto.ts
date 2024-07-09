@@ -1,5 +1,5 @@
-import Skill from '@/domain/entities/Skill';
-import ValidationError from '../errors/ValidationError';
+import { Skill } from '@/domain/entities';
+import { ValidationError } from '@/domain/errors';
 
 class UpdateSkillDto {
   private id: number;

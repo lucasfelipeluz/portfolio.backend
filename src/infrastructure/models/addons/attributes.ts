@@ -1,8 +1,5 @@
 import { DataTypes, ModelAttributes } from 'sequelize';
-import ProjectModel from '../ProjectModel';
-import SkillModel from '../SkillModel';
-import ProjectSkillModel from '../ProjectSkillModel';
-import ProjectImageModel from '../ProjectImageModel';
+import { ProjectModel, SkillModel, ProjectSkillModel, ProjectImageModel } from '../';
 
 const project: ModelAttributes<ProjectModel> = {
   id: {

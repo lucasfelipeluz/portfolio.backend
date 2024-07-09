@@ -1,6 +1,6 @@
-import strings from '@domain/utils/strings';
+import { strings } from '@/domain/utils';
 import { AddForeignKeyConstraintOptions, QueryInterface, Sequelize } from 'sequelize';
-import attributes from '../models/addons/attributes';
+import { attributes } from '@/infrastructure/models/addons';
 
 module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: Sequelize) {

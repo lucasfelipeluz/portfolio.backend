@@ -1,18 +1,14 @@
-import ProjectSkill from '@/domain/entities/ProjectSkill';
-import strings from '@/domain/utils/strings';
+import { CreateProjectDto, ProjectDto, UpdateProjectDto } from '@/application/dtos';
+import { IProjectService } from '@/application/interfaces';
+import { ProjectSkill } from '@/domain/entities';
+import { ApplicationError } from '@/domain/errors';
+import { strings } from '@/domain/utils';
 import { initTransaction } from '@/infrastructure/config/dbConnection';
-import IProjectRepository from '@/infrastructure/interfaces/IProjectRepository';
-import IProjectSkillRepository from '@/infrastructure/interfaces/IProjectSkillRepository';
-import ProjectModel from '@/infrastructure/models/ProjectModel';
-import ProjectRepository from '@/infrastructure/repositories/ProjectRepository';
-import ProjectSkillRepository from '@/infrastructure/repositories/ProjectSkillRepository';
+import { IProjectRepository, IProjectSkillRepository } from '@/infrastructure/interfaces';
+import { ProjectModel } from '@/infrastructure/models';
+import { ProjectRepository, ProjectSkillRepository } from '@/infrastructure/repositories';
 import { FindOptions, UpdateOptions, WhereOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
-import CreateProjectDto from '../dtos/CreateProjectDto';
-import ProjectDto from '../dtos/ProjectDto';
-import UpdateProjectDto from '../dtos/UpdateProjectDto';
-import ApplicationError from '../errors/ApplicationError';
-import IProjectService from '../interfaces/IProjectService';
 
 @injectable()
 class ProjectService implements IProjectService {

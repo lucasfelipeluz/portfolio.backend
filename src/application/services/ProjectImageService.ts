@@ -1,10 +1,9 @@
-import ProjectImage from '@/domain/entities/ProjectImage';
-import IProjectImageRepository from '@/infrastructure/interfaces/IProjectImageRepository';
-import ProjectImageRepository from '@/infrastructure/repositories/ProjectImageRepository';
+import { CreateProjectImageDto, ProjectImageDto } from '@/application/dtos';
+import { IProjectImageService } from '@/application/interfaces';
+import { ProjectImage } from '@/domain/entities';
+import { IProjectImageRepository } from '@/infrastructure/interfaces';
+import { ProjectImageRepository } from '@/infrastructure/repositories';
 import { injectable } from 'tsyringe';
-import CreateProjectImageDto from '../dtos/CreateProjectImageDto';
-import ProjectImageDto from '../dtos/ProjectImageDto';
-import IProjectImageService from '../interfaces/IProjectImageService';
 
 @injectable()
 class ProjectImageService implements IProjectImageService {

@@ -1,9 +1,6 @@
 import strings from '@/domain/utils/strings';
 import { Includeable } from 'sequelize';
-import ProjectImageModel from '../ProjectImageModel';
-import ProjectModel from '../ProjectModel';
-import ProjectSkillModel from '../ProjectSkillModel';
-import SkillModel from '../SkillModel';
+import { ProjectImageModel, ProjectModel, ProjectSkillModel, SkillModel } from '../';
 
 ProjectModel.belongsToMany(SkillModel, {
   through: ProjectSkillModel,

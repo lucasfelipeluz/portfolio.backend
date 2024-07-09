@@ -1,5 +1,5 @@
-import Skill from '@/domain/entities/Skill';
-import ProjectDto from './ProjectDto';
+import { Skill } from '@/domain/entities';
+import { ProjectDto } from './';
 
 class SkillDto {
   private id: number | null;

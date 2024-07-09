@@ -1,5 +1,5 @@
-import ProjectImage from '@/domain/entities/ProjectImage';
-import IBaseRepository from './IBaseRepository';
+import { ProjectImage } from '@/domain/entities';
+import IBaseRepository from '@/infrastructure/interfaces/IBaseRepository';
 
 interface IProjectImageRepository extends IBaseRepository<ProjectImage> {}
 

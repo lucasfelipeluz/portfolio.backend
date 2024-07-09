@@ -1,10 +1,12 @@
+import StatusCodes from '../enums/StatusCodes';
+
 class ApplicationError extends Error {
-  private code: number;
+  public readonly code: number;
 
   constructor(message: string) {
     super(message);
     this.name = this.constructor.name;
-    this.code = 500;
+    this.code = StatusCodes.InternalServerError;
     this.message = message;
   }
 }
