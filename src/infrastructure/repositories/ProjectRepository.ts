@@ -1,5 +1,5 @@
 import { Project } from '@/domain/entities';
-import { strings } from '@/domain/utils';
+import { strings } from '@/core/utils';
 import { IBaseRepository, ICacheProvider, IProjectRepository } from '@/infrastructure/interfaces';
 import { ProjectModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';

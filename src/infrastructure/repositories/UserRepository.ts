@@ -1,5 +1,5 @@
 import { User } from '@/domain/entities';
-import { strings } from '@/domain/utils';
+import { strings } from '@/core/utils';
 import { IBaseRepository, ICacheProvider, IUserRepository } from '@/infrastructure/interfaces';
 import { UserModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';

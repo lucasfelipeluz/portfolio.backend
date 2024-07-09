@@ -1,4 +1,4 @@
-import strings from '@/domain/utils/strings';
+import { strings } from '@/core/utils';
 import { Includeable } from 'sequelize';
 import {
   ProjectImageModel,

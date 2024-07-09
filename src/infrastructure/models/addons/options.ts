@@ -1,4 +1,4 @@
-import strings from '@/domain/utils/strings';
+import { strings } from '@/core/utils';
 import { dbConnection } from '@/infrastructure/config/dbConnection';
 import { InitOptions } from 'sequelize';
 import {

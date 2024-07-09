@@ -1,6 +1,6 @@
 import { validateProperties } from '@/application/validations';
 import { User } from '@/domain/entities';
-import { ValidationError } from '@/domain/errors';
+import { ValidationError } from '@/core/errors';
 
 class RegisterDto {
   private name: string;

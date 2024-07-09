@@ -1,6 +1,6 @@
 import { validateProperties } from '@/application/validations';
 import { Skill } from '@/domain/entities';
-import { ValidationError } from '@/domain/errors';
+import { ValidationError } from '@/core/errors';
 
 class CreateSkillDto {
   private title: string;

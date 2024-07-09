@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { ConfigTypes } from '@/infrastructure/types';
+import { ConfigTypes } from '@/core/types';
 dotenv.config();
 
 const dbUser: string = process.env.DB_USERNAME as string;

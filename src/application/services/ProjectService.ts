@@ -1,8 +1,8 @@
 import { CreateProjectDto, ProjectDto, UpdateProjectDto } from '@/application/dtos';
 import { IProjectService } from '@/application/interfaces';
 import { Project, ProjectSkill } from '@/domain/entities';
-import { ApplicationError } from '@/domain/errors';
-import { strings } from '@/domain/utils';
+import { ApplicationError } from '@/core/errors';
+import { strings } from '@/core/utils';
 import { initTransaction } from '@/infrastructure/config/dbConnection';
 import { IProjectRepository, IProjectSkillRepository } from '@/infrastructure/interfaces';
 import { ProjectModel } from '@/infrastructure/models';

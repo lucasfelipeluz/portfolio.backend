@@ -1,5 +1,5 @@
 import { Skill } from '@/domain/entities';
-import { strings } from '@/domain/utils';
+import { strings } from '@/core/utils';
 import { IBaseRepository, ICacheProvider, ISkillRepository } from '@/infrastructure/interfaces';
 import { SkillModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';

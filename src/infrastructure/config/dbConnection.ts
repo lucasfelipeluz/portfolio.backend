@@ -1,4 +1,4 @@
-import { ExecutionType } from '@/infrastructure/types';
+import { ExecutionType } from '@/core/types';
 import config from '@/infrastructure/config/config';
 import { Sequelize, Transaction } from 'sequelize';
 

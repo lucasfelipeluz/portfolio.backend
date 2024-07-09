@@ -1,5 +1,5 @@
 import { ProjectSkill } from '@/domain/entities';
-import { strings } from '@/domain/utils';
+import { strings } from '@/core/utils';
 import {
   IBaseRepository,
   ICacheProvider,
