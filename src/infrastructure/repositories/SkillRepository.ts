@@ -1,9 +1,9 @@
 import { Skill } from '@/domain/entities';
 import { strings } from '@/domain/utils';
-import { CacheProvider, ICacheProvider } from '@/infrastructure/cache';
-import { IBaseRepository, ISkillRepository } from '@/infrastructure/interfaces';
+import { IBaseRepository, ICacheProvider, ISkillRepository } from '@/infrastructure/interfaces';
 import { SkillModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';
+import { CacheProvider } from '@/infrastructure/providers';
 import { FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 

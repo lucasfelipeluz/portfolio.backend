@@ -1,12 +1,12 @@
 import { CreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 
 interface IBaseRepository<T> {
-  getAll(options: FindOptions): Promise<T[]>;
-  getOne(options: FindOptions): Promise<T | null>;
+  getAll(options: FindOptions<T>): Promise<T[]>;
+  getOne(options: FindOptions<T>): Promise<T | null>;
   getById(id: number): Promise<T | null>;
-  create(entity: T, options?: CreateOptions): Promise<T>;
-  update(entity: T, options: UpdateOptions): Promise<boolean>;
-  delete(options: UpdateOptions): Promise<boolean>;
+  create(entity: T, options?: CreateOptions<T>): Promise<T>;
+  update(entity: T, options: UpdateOptions<T>): Promise<boolean>;
+  delete(options: UpdateOptions<T>): Promise<boolean>;
 }
 
 export default IBaseRepository;

@@ -1,9 +1,13 @@
 import { ProjectImage } from '@/domain/entities';
 import { strings } from '@/domain/utils';
-import { CacheProvider, ICacheProvider } from '@/infrastructure/cache';
-import { IBaseRepository, IProjectImageRepository } from '@/infrastructure/interfaces';
+import {
+  IBaseRepository,
+  ICacheProvider,
+  IProjectImageRepository,
+} from '@/infrastructure/interfaces';
 import { ProjectImageModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';
+import { CacheProvider } from '@/infrastructure/providers';
 import { FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 

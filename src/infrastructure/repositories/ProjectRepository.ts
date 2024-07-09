@@ -1,9 +1,9 @@
 import { Project } from '@/domain/entities';
 import { strings } from '@/domain/utils';
-import { CacheProvider, ICacheProvider } from '@/infrastructure/cache';
-import { IBaseRepository, IProjectRepository } from '@/infrastructure/interfaces';
+import { IBaseRepository, ICacheProvider, IProjectRepository } from '@/infrastructure/interfaces';
 import { ProjectModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';
+import { CacheProvider } from '@/infrastructure/providers';
 import { FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 @injectable()
