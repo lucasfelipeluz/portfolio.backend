@@ -1,8 +1,8 @@
 import { ProjectImage } from '@/domain/entities';
 import { Model } from 'sequelize';
+import ProjectModel from './ProjectModel';
 import attributes from './addons/attributes';
 import options from './addons/options';
-import Project from '@/domain/entities/Project';
 
 class ProjectImageModel extends Model<ProjectImage> {
   declare id: number;
@@ -16,7 +16,7 @@ class ProjectImageModel extends Model<ProjectImage> {
 
   declare idProject: number;
 
-  declare project: Project;
+  declare project: ProjectModel;
 }
 
 ProjectImageModel.init(attributes.projectImage, options.projectImage);

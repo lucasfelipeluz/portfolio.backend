@@ -1,6 +1,6 @@
-import { Project, Skill } from '@/domain/entities';
+import { Project } from '@/domain/entities';
 import { Model } from 'sequelize';
-import { ProjectImageModel } from '.';
+import { ProjectImageModel, SkillModel } from '.';
 import attributes from './addons/attributes';
 import options from './addons/options';
 
@@ -19,7 +19,7 @@ class ProjectModel extends Model<Project> {
   declare updatedAt: Date | null;
   declare deletedAt: Date | null;
 
-  declare skills: Skill[];
+  declare skills: SkillModel[];
 
   declare images: ProjectImageModel[];
 }
