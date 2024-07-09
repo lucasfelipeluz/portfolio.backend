@@ -28,7 +28,7 @@ class CreateSkillDto {
     this.validate();
   }
 
-  private validate() {
+  private validate(): void {
     validateProperties<CreateSkillDto>(this, [
       'title',
       'description',
@@ -57,7 +57,7 @@ class CreateSkillDto {
     }
   }
 
-  public toDomain() {
+  public toDomain(): Skill {
     return new Skill(
       0,
       this.title,

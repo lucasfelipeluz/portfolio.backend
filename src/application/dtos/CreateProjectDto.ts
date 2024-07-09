@@ -34,7 +34,7 @@ class CreateProjectDto {
     this.validate();
   }
 
-  private validate() {
+  private validate(): void {
     validateProperties<CreateProjectDto>(this, [
       'title',
       'description',

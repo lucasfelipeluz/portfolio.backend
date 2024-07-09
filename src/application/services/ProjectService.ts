@@ -1,6 +1,6 @@
 import { CreateProjectDto, ProjectDto, UpdateProjectDto } from '@/application/dtos';
 import { IProjectService } from '@/application/interfaces';
-import { ProjectSkill } from '@/domain/entities';
+import { Project, ProjectSkill } from '@/domain/entities';
 import { ApplicationError } from '@/domain/errors';
 import { strings } from '@/domain/utils';
 import { initTransaction } from '@/infrastructure/config/dbConnection';
@@ -88,13 +88,10 @@ class ProjectService implements IProjectService {
     }
   }
 
-  async update(
-    newEntity: UpdateProjectDto,
-    filter: WhereOptions<ProjectModel>,
-  ): Promise<ProjectDto> {
+  async update(newEntity: UpdateProjectDto, filter: WhereOptions<Project>): Promise<ProjectDto> {
     const entity = newEntity.toDomain();
 
-    const options: UpdateOptions<ProjectModel> = {
+    const options: UpdateOptions<Project> = {
       where: filter,
     };
 
@@ -104,7 +101,7 @@ class ProjectService implements IProjectService {
   }
 
   async delete(id: number): Promise<boolean> {
-    const options: UpdateOptions<ProjectModel> = {
+    const options: UpdateOptions<Project> = {
       where: {
         id: id,
       },
