@@ -1,5 +1,12 @@
 import { DataTypes, ModelAttributes } from 'sequelize';
-import { ProjectModel, SkillModel, ProjectSkillModel, ProjectImageModel } from '../';
+import {
+  ProjectImageModel,
+  ProjectModel,
+  ProjectSkillModel,
+  RoleModel,
+  SkillModel,
+  UserModel,
+} from '../';
 
 const project: ModelAttributes<ProjectModel> = {
   id: {
@@ -173,9 +180,86 @@ const projectImage: ModelAttributes<ProjectImageModel> = {
   },
 };
 
+const role: ModelAttributes<RoleModel> = {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  name: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  deletedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+};
+
+const user: ModelAttributes<UserModel> = {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  name: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+  },
+  nickname: {
+    type: DataTypes.STRING(60),
+    allowNull: false,
+    unique: true,
+  },
+  email: {
+    type: DataTypes.STRING(120),
+    allowNull: true,
+  },
+  password: {
+    type: DataTypes.STRING(300),
+    allowNull: false,
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  deletedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  idRole: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+};
+
 export default {
   project,
   skill,
   projectSkill,
   projectImage,
+  role,
+  user,
 };

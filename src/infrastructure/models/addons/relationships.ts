@@ -1,6 +1,13 @@
 import strings from '@/domain/utils/strings';
 import { Includeable } from 'sequelize';
-import { ProjectImageModel, ProjectModel, ProjectSkillModel, SkillModel } from '../';
+import {
+  ProjectImageModel,
+  ProjectModel,
+  ProjectSkillModel,
+  RoleModel,
+  SkillModel,
+  UserModel,
+} from '../';
 
 ProjectModel.belongsToMany(SkillModel, {
   through: ProjectSkillModel,
@@ -17,6 +24,16 @@ SkillModel.belongsToMany(ProjectModel, {
   through: ProjectSkillModel,
   foreignKey: strings.idSkill,
   as: strings.projects,
+});
+
+UserModel.belongsTo(RoleModel, {
+  foreignKey: strings.idRole,
+  as: strings.role,
+});
+
+RoleModel.hasMany(UserModel, {
+  foreignKey: strings.idRole,
+  as: strings.users,
 });
 
 const project: Includeable[] = [
@@ -39,8 +56,14 @@ const skill: Includeable[] = [
 
 const projectSkill: Includeable[] = [];
 
+const user: Includeable[] = [];
+
+const role: Includeable[] = [];
+
 export default {
   project,
   skill,
   projectSkill,
+  role,
+  user,
 };
