@@ -1,8 +1,6 @@
-import SkillModel from '@/infrastructure/models/SkillModel';
-import SkillDto from '@application/dtos/SkillDto';
+import { CreateSkillDto, SkillDto, UpdateSkillDto } from '@/application/dtos';
+import { SkillModel } from '@/infrastructure/models';
 import { WhereOptions } from 'sequelize';
-import CreateSkillDto from '../dtos/CreateSkillDto';
-import UpdateSkillDto from '../dtos/UpdateSkillDto';
 
 interface ISkillService {
   getAll(filter?: WhereOptions<SkillModel>): Promise<SkillDto[]>;

@@ -1,8 +1,6 @@
-import ProjectModel from '@/infrastructure/models/ProjectModel';
+import { CreateProjectDto, ProjectDto, UpdateProjectDto } from '@/application/dtos';
+import { ProjectModel } from '@/infrastructure/models';
 import { WhereOptions } from 'sequelize';
-import CreateProjectDto from '../dtos/CreateProjectDto';
-import ProjectDto from '../dtos/ProjectDto';
-import UpdateProjectDto from '../dtos/UpdateProjectDto';
 
 interface IProjectService {
   getAll(filter?: WhereOptions<ProjectModel>): Promise<ProjectDto[]>;

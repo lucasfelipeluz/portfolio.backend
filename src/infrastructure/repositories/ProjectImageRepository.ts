@@ -1,13 +1,11 @@
-import strings from '@/domain/utils/strings';
-import ProjectImage from '@domain/entities/ProjectImage';
-import ProjectImageModel from '@infrastructure/models/ProjectImageModel';
+import { ProjectImage } from '@/domain/entities';
+import { strings } from '@/domain/utils';
+import { CacheProvider, ICacheProvider } from '@/infrastructure/cache';
+import { IBaseRepository, IProjectImageRepository } from '@/infrastructure/interfaces';
+import { ProjectImageModel } from '@/infrastructure/models';
+import relationships from '@/infrastructure/models/addons/relationships';
 import { FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
-import CacheProvider from '../cache/CacheProvider';
-import ICacheProvider from '../cache/ICacheProvider';
-import IBaseRepository from '../interfaces/IBaseRepository';
-import IProjectImageRepository from '../interfaces/IProjectImageRepository';
-import includes from '../models/addons/relationships';
 
 @injectable()
 class ProjectImageRepository implements IBaseRepository<ProjectImage>, IProjectImageRepository {
@@ -26,7 +24,7 @@ class ProjectImageRepository implements IBaseRepository<ProjectImage>, IProjectI
 
     const result = await ProjectImageModel.findAll({
       ...options,
-      include: includes.project,
+      include: relationships.project,
     });
 
     if (result.length < 1) {
@@ -45,7 +43,7 @@ class ProjectImageRepository implements IBaseRepository<ProjectImage>, IProjectI
       return cache as ProjectImage;
     }
 
-    const result = await ProjectImageModel.findOne({ ...options, include: includes.project });
+    const result = await ProjectImageModel.findOne({ ...options, include: relationships.project });
 
     if (result) {
       await this.cacheProvider.create(strings.projectImages, options?.where ?? {}, result);
@@ -65,7 +63,7 @@ class ProjectImageRepository implements IBaseRepository<ProjectImage>, IProjectI
       where: {
         id: id,
       },
-      include: includes.project,
+      include: relationships.project,
     });
 
     if (result) {

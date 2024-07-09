@@ -1,6 +1,5 @@
-import Project from '@/domain/entities/Project';
-import SkillDto from './SkillDto';
-import ProjectImageDto from './ProjectImageDto';
+import { Project } from '@/domain/entities';
+import { ProjectImageDto, SkillDto } from './';
 
 class ProjectDto {
   private id: number | null;

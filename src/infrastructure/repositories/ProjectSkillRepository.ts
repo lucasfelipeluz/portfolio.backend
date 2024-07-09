@@ -1,13 +1,11 @@
-import ProjectSkill from '@/domain/entities/ProjectSkill';
+import { ProjectSkill } from '@/domain/entities';
+import { strings } from '@/domain/utils';
+import { CacheProvider, ICacheProvider } from '@/infrastructure/cache';
+import { IBaseRepository, IProjectSkillRepository } from '@/infrastructure/interfaces';
+import { ProjectSkillModel } from '@/infrastructure/models';
+import relationships from '@/infrastructure/models/addons/relationships';
 import { BulkCreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
-import IBaseRepository from '../interfaces/IBaseRepository';
-import IProjectSkillRepository from '../interfaces/IProjectSkillRepository';
-import ProjectSkillModel from '../models/ProjectSkillModel';
-import includes from '../models/addons/relationships';
-import ICacheProvider from '../cache/ICacheProvider';
-import CacheProvider from '../cache/CacheProvider';
-import strings from '@/domain/utils/strings';
 
 @injectable()
 class ProjectSkillRepository implements IBaseRepository<ProjectSkill>, IProjectSkillRepository {
@@ -26,7 +24,7 @@ class ProjectSkillRepository implements IBaseRepository<ProjectSkill>, IProjectS
 
     const result = await ProjectSkillModel.findAll({
       ...options,
-      include: includes.projectSkill,
+      include: relationships.projectSkill,
     });
 
     if (result.length < 1) {
@@ -45,7 +43,10 @@ class ProjectSkillRepository implements IBaseRepository<ProjectSkill>, IProjectS
       return cache as ProjectSkill;
     }
 
-    const result = await ProjectSkillModel.findOne({ ...options, include: includes.projectSkill });
+    const result = await ProjectSkillModel.findOne({
+      ...options,
+      include: relationships.projectSkill,
+    });
 
     if (result) {
       await this.cacheProvider.create(strings.projectSkill, options?.where ?? {}, result);
@@ -65,7 +66,7 @@ class ProjectSkillRepository implements IBaseRepository<ProjectSkill>, IProjectS
       where: {
         id: id,
       },
-      include: includes.projectSkill,
+      include: relationships.projectSkill,
     });
 
     if (!result) {

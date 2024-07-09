@@ -1,11 +1,9 @@
-import SkillDto from '@application/dtos/SkillDto';
-import SkillModel from '@/infrastructure/models/SkillModel';
-import SkillRepository from '@/infrastructure/repositories/SkillRepository';
+import { CreateSkillDto, SkillDto, UpdateSkillDto } from '@/application/dtos';
+import { ISkillService } from '@/application/interfaces';
+import { SkillModel } from '@/infrastructure/models';
+import { SkillRepository } from '@/infrastructure/repositories';
 import { FindOptions, UpdateOptions, WhereOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
-import ISkillService from '../interfaces/ISkillService';
-import CreateSkillDto from '../dtos/CreateSkillDto';
-import UpdateSkillDto from '../dtos/UpdateSkillDto';
 
 @injectable()
 class SkillService implements ISkillService {

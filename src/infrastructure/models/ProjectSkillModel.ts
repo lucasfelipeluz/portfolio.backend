@@ -1,7 +1,6 @@
-import ProjectSkill from '@/domain/entities/ProjectSkill';
+import { ProjectSkill } from '@/domain/entities';
 import { Model } from 'sequelize';
-import ProjectModel from './ProjectModel';
-import SkillModel from './SkillModel';
+import { ProjectModel, SkillModel } from './';
 import attributes from './addons/attributes';
 import options from './addons/options';
 

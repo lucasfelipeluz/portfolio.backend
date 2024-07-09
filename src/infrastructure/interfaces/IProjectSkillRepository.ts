@@ -1,4 +1,4 @@
-import ProjectSkill from '@/domain/entities/ProjectSkill';
+import { ProjectSkill } from '@/domain/entities';
 import IBaseRepository from './IBaseRepository';
 import { BulkCreateOptions } from 'sequelize';
 

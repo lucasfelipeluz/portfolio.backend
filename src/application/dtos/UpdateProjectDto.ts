@@ -1,5 +1,5 @@
-import Project from '@/domain/entities/Project';
-import ValidationError from '../errors/ValidationError';
+import { Project } from '@/domain/entities';
+import { ValidationError } from '@/domain/errors';
 
 class UpdateProjectDto {
   private id: number;

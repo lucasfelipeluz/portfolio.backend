@@ -1,5 +1,4 @@
-import CreateProjectImageDto from '../dtos/CreateProjectImageDto';
-import ProjectImageDto from '../dtos/ProjectImageDto';
+import { CreateProjectImageDto, ProjectImageDto } from '@/application/dtos';
 
 interface IProjectImageService {
   create(entity: CreateProjectImageDto): Promise<ProjectImageDto>;

@@ -1,6 +1,6 @@
-import ProjectImage from '@/domain/entities/ProjectImage';
-import ValidationError from '../errors/ValidationError';
-import { validateProperties } from '../validations';
+import { validateProperties } from '@/application/validations';
+import { ProjectImage } from '@/domain/entities';
+import { ValidationError } from '@/domain/errors';
 
 class CreateProjectImageDto {
   private path: string;

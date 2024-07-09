@@ -1,4 +1,4 @@
-import ProjectImage from '@/domain/entities/ProjectImage';
+import { ProjectImage } from '@/domain/entities';
 import { Model } from 'sequelize';
 import attributes from './addons/attributes';
 import options from './addons/options';

@@ -1,13 +1,12 @@
-import CreateProjectDto from '@/application/dtos/CreateProjectDto';
-import UpdateProjectDto from '@/application/dtos/UpdateProjectDto';
-import ProjectService from '@/application/services/ProjectService';
-import strings from '@/domain/utils/strings';
-import ProjectModel from '@/infrastructure/models/ProjectModel';
+import { IProjectController } from '@/api/interfaces';
+import { httpResponses } from '@/api/utils';
+import { CreateProjectDto, UpdateProjectDto } from '@/application/dtos';
+import { ProjectService } from '@/application/services';
+import { strings } from '@/domain/utils';
+import { ProjectModel } from '@/infrastructure/models';
 import { Request, Response } from 'express';
 import { WhereOptions } from 'sequelize';
 import { autoInjectable } from 'tsyringe';
-import IProjectController from '../interfaces/IProjectController';
-import httpResponses from '../utils/httpResponses';
 
 @autoInjectable()
 class ProjectController implements IProjectController {
@@ -18,13 +17,9 @@ class ProjectController implements IProjectController {
   }
 
   async getAll(request: Request, response: Response): Promise<unknown> {
-    try {
-      const entities = await this.projectService.getAll();
+    const entities = await this.projectService.getAll();
 
-      return httpResponses.ok(response, entities);
-    } catch (error: any) {
-      return httpResponses.handleServerError(response, strings.internalServerError, error);
-    }
+    return httpResponses.ok(response, entities);
   }
 
   async getById(request: Request, response: Response): Promise<unknown> {

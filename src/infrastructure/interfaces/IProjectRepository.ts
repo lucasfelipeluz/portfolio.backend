@@ -1,4 +1,4 @@
-import Project from '@/domain/entities/Project';
+import { Project } from '@/domain/entities';
 import IBaseRepository from './IBaseRepository';
 
 interface IProjectRepository extends IBaseRepository<Project> {}

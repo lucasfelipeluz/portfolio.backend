@@ -1,10 +1,10 @@
-import CreateProjectImageDto from '@/application/dtos/CreateProjectImageDto';
-import IProjectImageService from '@/application/interfaces/IProjectImageService';
-import ProjectImageService from '@/application/services/ProjectImageService';
-import strings from '@/domain/utils/strings';
+import { IProjectImageController } from '@/api/interfaces';
+import { httpResponses } from '@/api/utils';
+import { CreateProjectImageDto } from '@/application/dtos';
+import { IProjectImageService } from '@/application/interfaces';
+import { ProjectImageService } from '@/application/services';
+import { strings } from '@/domain/utils';
 import { Request, Response } from 'express';
-import IProjectImageController from '../interfaces/IProjectImageController';
-import httpResponses from '../utils/httpResponses';
 import { autoInjectable } from 'tsyringe';
 
 @autoInjectable()

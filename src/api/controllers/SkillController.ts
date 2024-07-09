@@ -1,13 +1,12 @@
-import SkillService from '@/application/services/SkillService';
-import Skill from '@/domain/entities/Skill';
+import { ISkillController } from '@/api/interfaces';
+import { httpResponses } from '@/api/utils';
+import { CreateSkillDto, UpdateSkillDto } from '@/application/dtos';
+import { SkillService } from '@/application/services';
+import { strings } from '@/domain/utils';
+import { SkillModel } from '@/infrastructure/models';
 import { Request, Response } from 'express';
 import { WhereOptions } from 'sequelize';
 import { autoInjectable } from 'tsyringe';
-import ISkillController from '../interfaces/ISkillController';
-import strings from '@/domain/utils/strings';
-import httpResponses from '../utils/httpResponses';
-import CreateSkillDto from '@/application/dtos/CreateSkillDto';
-import UpdateSkillDto from '@/application/dtos/UpdateSkillDto';
 
 @autoInjectable()
 class SkillController implements ISkillController {
@@ -76,7 +75,7 @@ class SkillController implements ISkillController {
         viewPriority,
       );
 
-      const filter: WhereOptions<Skill> = {
+      const filter: WhereOptions<SkillModel> = {
         id: Number(id),
       };
 

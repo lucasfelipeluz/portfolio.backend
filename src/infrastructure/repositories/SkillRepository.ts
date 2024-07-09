@@ -1,13 +1,11 @@
-import Skill from '@/domain/entities/Skill';
+import { Skill } from '@/domain/entities';
+import { strings } from '@/domain/utils';
+import { CacheProvider, ICacheProvider } from '@/infrastructure/cache';
+import { IBaseRepository, ISkillRepository } from '@/infrastructure/interfaces';
+import { SkillModel } from '@/infrastructure/models';
+import relationships from '@/infrastructure/models/addons/relationships';
 import { FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
-import IBaseRepository from '../interfaces/IBaseRepository';
-import ISkillRepository from '../interfaces/ISkillRepository';
-import SkillModel from '../models/SkillModel';
-import includes from '../models/addons/relationships';
-import ICacheProvider from '../cache/ICacheProvider';
-import CacheProvider from '../cache/CacheProvider';
-import strings from '@/domain/utils/strings';
 
 @injectable()
 class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
@@ -26,7 +24,7 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
 
     const result = await SkillModel.findAll({
       ...options,
-      include: includes.skill,
+      include: relationships.skill,
     });
 
     if (result.length < 1) {
@@ -45,7 +43,7 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
       return cache as Skill;
     }
 
-    const result = await SkillModel.findOne({ ...options, include: includes.skill });
+    const result = await SkillModel.findOne({ ...options, include: relationships.skill });
 
     if (result) {
       await this.cacheProvider.create(strings.skills, options?.where ?? {}, result);
@@ -65,7 +63,7 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
       where: {
         id: id,
       },
-      include: includes.skill,
+      include: relationships.skill,
     });
 
     if (result) {

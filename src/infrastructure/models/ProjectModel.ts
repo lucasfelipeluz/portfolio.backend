@@ -1,9 +1,8 @@
-import Skill from '@/domain/entities/Skill';
-import Project from '@domain/entities/Project';
+import { Project, Skill } from '@/domain/entities';
 import { Model } from 'sequelize';
+import { ProjectImageModel } from '.';
 import attributes from './addons/attributes';
 import options from './addons/options';
-import ProjectImage from '@/domain/entities/ProjectImage';
 
 class ProjectModel extends Model<Project> {
   declare id: number;
@@ -22,7 +21,7 @@ class ProjectModel extends Model<Project> {
 
   declare skills: Skill[];
 
-  declare images: ProjectImage[];
+  declare images: ProjectImageModel[];
 }
 
 ProjectModel.init(attributes.project, options.project);

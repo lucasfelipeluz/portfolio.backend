@@ -1,6 +1,6 @@
 import * as Express from 'express';
 import { container as dependencyContainer } from 'tsyringe';
-import ProjectController from '../controllers/ProjectController';
+import { ProjectController } from '@/api/controllers';
 
 const router = Express.Router();
 

@@ -1,14 +1,11 @@
-import strings from '@/domain/utils/strings';
-import Project from '@domain/entities/Project';
-import ProjectModel from '@infrastructure/models/ProjectModel';
+import { Project } from '@/domain/entities';
+import { strings } from '@/domain/utils';
+import { CacheProvider, ICacheProvider } from '@/infrastructure/cache';
+import { IBaseRepository, IProjectRepository } from '@/infrastructure/interfaces';
+import { ProjectModel } from '@/infrastructure/models';
+import relationships from '@/infrastructure/models/addons/relationships';
 import { FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
-import CacheProvider from '../cache/CacheProvider';
-import ICacheProvider from '../cache/ICacheProvider';
-import IBaseRepository from '../interfaces/IBaseRepository';
-import IProjectRepository from '../interfaces/IProjectRepository';
-import includes from '../models/addons/relationships';
-
 @injectable()
 class ProjectRepository implements IBaseRepository<Project>, IProjectRepository {
   private readonly cacheProvider: ICacheProvider<Project>;
@@ -26,7 +23,7 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
 
     const result = await ProjectModel.findAll({
       ...options,
-      include: includes.project,
+      include: relationships.project,
     });
 
     if (result.length < 1) {
@@ -45,7 +42,7 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
       return cache as Project;
     }
 
-    const result = await ProjectModel.findOne({ ...options, include: includes.project });
+    const result = await ProjectModel.findOne({ ...options, include: relationships.project });
 
     if (result) {
       await this.cacheProvider.create(strings.projects, options?.where ?? {}, result);
@@ -65,7 +62,7 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
       where: {
         id: id,
       },
-      include: includes.project,
+      include: relationships.project,
     });
 
     if (result) {

@@ -1,7 +1,7 @@
 import * as Express from 'express';
 import projectRoutes from './project.routes';
-import skillRoutes from './skill.routes';
 import projectImageRoutes from './projectImage.routes';
+import skillRoutes from './skill.routes';
 
 const router = Express.Router();
 

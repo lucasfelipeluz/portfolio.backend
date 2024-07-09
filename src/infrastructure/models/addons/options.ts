@@ -1,5 +1,5 @@
 import strings from '@/domain/utils/strings';
-import dbConnection from '@/infrastructure/config/dbConnection';
+import { dbConnection } from '@/infrastructure/config/dbConnection';
 import { InitOptions } from 'sequelize';
 import ProjectModel from '../ProjectModel';
 import SkillModel from '../SkillModel';
