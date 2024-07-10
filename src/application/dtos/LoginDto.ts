@@ -16,7 +16,7 @@ class LoginDto {
   }
 
   private validate(): void {
-    validateProperties<LoginDto>(this, ['nickname', 'email', 'password']);
+    validateProperties<LoginDto>(this, ['password']);
 
     if (this.nickname.length < 3 || this.nickname.length > 60) {
       throw new ValidationError('Nickname must be between 3 and 60 characters');

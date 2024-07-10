@@ -1,24 +1,27 @@
 import { validateProperties } from '@/application/validations';
 import { User } from '@/domain/entities';
 import { ValidationError } from '@/core/errors';
+import { UserRole } from '@/domain/addons';
 
 class RegisterDto {
   private name: string;
   private nickname: string;
   private email: string | null;
   private password: string;
+  private idRole: number;
 
   constructor(name: string, nickname: string, email: string | null, password: string) {
     this.name = name;
     this.nickname = nickname;
     this.email = email;
     this.password = password;
+    this.idRole = UserRole.Guest;
 
     this.validate();
   }
 
   private validate(): void {
-    validateProperties<RegisterDto>(this, ['name', 'nickname', 'email', 'password']);
+    validateProperties<RegisterDto>(this, ['name', 'nickname', 'password']);
 
     if (this.name.length < 3 || this.name.length > 100) {
       throw new ValidationError('Name must be between 3 and 100 characters');
@@ -41,11 +44,11 @@ class RegisterDto {
       this.nickname,
       this.email,
       this.password,
-      false,
+      true,
       new Date(),
       null,
       null,
-      0,
+      this.idRole,
       null,
     );
   }
@@ -56,6 +59,14 @@ class RegisterDto {
 
   updatePassword(password: string): void {
     this.password = password;
+  }
+
+  getNickname(): string {
+    return this.nickname;
+  }
+
+  getEmail(): string | null {
+    return this.email;
   }
 }
 
