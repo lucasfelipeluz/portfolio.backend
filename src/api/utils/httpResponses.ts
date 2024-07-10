@@ -1,4 +1,5 @@
-import strings from '@/domain/utils/strings';
+import { ApplicationError } from '@/core/errors';
+import { strings } from '@/core/utils';
 import { Response } from 'express';
 
 /**
@@ -10,7 +11,7 @@ import { Response } from 'express';
  * body.
  * - TRACE: The message body contains the request message received by the server.
  */
-function ok<T>(res: Response, data: T, message?: string) {
+function ok<T>(res: Response, data: T, message?: string): Response {
   if (data && !message) return res.status(200).send(data);
 
   return res.status(200).send({ message, data });
@@ -20,7 +21,7 @@ function ok<T>(res: Response, data: T, message?: string) {
  * `201` - The request was successful and as a result, a new resource was created.
  * Typically, this is the response sent after a POST or PUT request.
  */
-function created<T>(res: Response, data: T, message?: string) {
+function created<T>(res: Response, data: T, message?: string): Response {
   return res.status(201).send({ message, data });
 }
 
@@ -30,7 +31,7 @@ function created<T>(res: Response, data: T, message?: string) {
  * indicating the outcome of the request. It is intended for cases where another
  * process or server handles the request or batch processing.
  */
-function accepted<T>(res: Response, data: T) {
+function accepted<T>(res: Response, data: T): Response {
   return res.status(202).send({ data });
 }
 
@@ -41,7 +42,7 @@ function accepted<T>(res: Response, data: T) {
  * for mirrors or backups of another resource. Except for this specific case,
  * the 200 OK response is preferred over this status.
  */
-function nonAuthoritativeInformation<T>(res: Response, data: T) {
+function nonAuthoritativeInformation<T>(res: Response, data: T): Response {
   return res.status(203).send({ data });
 }
 
@@ -49,7 +50,7 @@ function nonAuthoritativeInformation<T>(res: Response, data: T) {
  * `204` - There is no content to send for this request, but the headers may be useful.
  * The user agent may update its cached headers for this resource with the new ones.
  */
-function noContent(res: Response) {
+function noContent(res: Response): Response {
   return res.status(204).send();
 }
 
@@ -57,7 +58,7 @@ function noContent(res: Response) {
  * `206` - This response code is used when the Range header is sent from the
  * client to request only part of a resource.
  */
-function partialContent<T>(res: Response, data: T) {
+function partialContent<T>(res: Response, data: T): Response {
   return res.status(206).send({ data });
 }
 
@@ -65,14 +66,14 @@ function partialContent<T>(res: Response, data: T) {
  * `301` - The URL of the requested resource has been permanently changed.
  * The new URL is provided in the response.
  */
-function movedPermanently(res: Response, newUrl: string, message?: string) {
+function movedPermanently(res: Response, newUrl: string, message?: string): Response {
   return res.status(301).send({ newUrl, message });
 }
 
 /**
  * `400` - This response means that the server did not understand the request.
  */
-function badRequest(res: Response, message: string) {
+function badRequest(res: Response, message: string): Response {
   return res.status(400).send({ message });
 }
 
@@ -81,21 +82,21 @@ function badRequest(res: Response, message: string) {
  * means "unauthenticated". In other words, the client must authenticate itself to get the
  * requested response.
  */
-function unauthorized(res: Response, message: string) {
+function unauthorized(res: Response, message: string): Response {
   return res.status(401).send({ message });
 }
 
 /**
  * `403` - The client does not have access rights to the content, in other words, it is forbidden.
  */
-function forbidden(res: Response, message: string) {
+function forbidden(res: Response, message: string): Response {
   return res.status(403).send({ message });
 }
 
 /**
  * `404` - The server cannot find the requested resource.
  */
-function notFound(res: Response) {
+function notFound(res: Response): Response {
   return res.status(404).send({ message: strings.urlNotFound });
 }
 
@@ -104,7 +105,7 @@ function notFound(res: Response) {
  * and cannot be used.
  * Example: A client tries to use a POST method on a resource that only accepts GET requests.
  */
-function methodNotAllowed(res: Response, message: string) {
+function methodNotAllowed(res: Response, message: string): Response {
   return res.status(405).send({ message });
 }
 
@@ -112,15 +113,15 @@ function methodNotAllowed(res: Response, message: string) {
  * `500` - The server encountered an unexpected situation that prevented it from fulfilling the
  * request.
  */
-function internalServerError(res: Response, message: string, error?: any) {
+function internalServerError(res: Response, message: string, error?: ApplicationError): Response {
   console.log(error);
-  return res.status(error.code || 500).send({ message, error });
+  return res.status(error?.code || 500).send({ message, error });
 }
 
 /**
  * Method to handle server errors.
  */
-function handleServerError(res: Response, message: string, error: any) {
+function handleServerError(res: Response, message: string, error: ApplicationError): Response {
   if (!error.code || error.code === 500) {
     return internalServerError(res, strings.internalServerError, error);
   }
