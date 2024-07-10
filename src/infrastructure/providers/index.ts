@@ -1,3 +1,4 @@
+import ApplicationConfigProvider from './ApplicationConfigProvider';
 import CacheProvider from './CacheProvider';
 
-export { CacheProvider };
+export { CacheProvider, ApplicationConfigProvider };

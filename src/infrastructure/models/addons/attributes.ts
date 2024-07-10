@@ -50,10 +50,12 @@ const project: ModelAttributes<ProjectModel> = {
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: new Date(),
   },
   updatedAt: {
     type: DataTypes.DATE,
     allowNull: true,
+    defaultValue: new Date(),
   },
   deletedAt: {
     type: DataTypes.DATE,
@@ -99,10 +101,12 @@ const skill: ModelAttributes<SkillModel> = {
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: new Date(),
   },
   updatedAt: {
     type: DataTypes.DATE,
     allowNull: true,
+    defaultValue: new Date(),
   },
   deletedAt: {
     type: DataTypes.DATE,
@@ -132,10 +136,12 @@ const projectSkill: ModelAttributes<ProjectSkillModel> = {
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: new Date(),
   },
   updatedAt: {
     type: DataTypes.DATE,
     allowNull: true,
+    defaultValue: new Date(),
   },
   deletedAt: {
     type: DataTypes.DATE,
@@ -165,10 +171,12 @@ const projectImage: ModelAttributes<ProjectImageModel> = {
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: new Date(),
   },
   updatedAt: {
     type: DataTypes.DATE,
     allowNull: true,
+    defaultValue: new Date(),
   },
   deletedAt: {
     type: DataTypes.DATE,
@@ -198,10 +206,12 @@ const role: ModelAttributes<RoleModel> = {
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: new Date(),
   },
   updatedAt: {
     type: DataTypes.DATE,
     allowNull: true,
+    defaultValue: new Date(),
   },
   deletedAt: {
     type: DataTypes.DATE,
@@ -240,10 +250,12 @@ const user: ModelAttributes<UserModel> = {
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: new Date(),
   },
   updatedAt: {
     type: DataTypes.DATE,
     allowNull: true,
+    defaultValue: new Date(),
   },
   deletedAt: {
     type: DataTypes.DATE,
