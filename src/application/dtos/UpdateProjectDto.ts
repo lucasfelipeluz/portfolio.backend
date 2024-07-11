@@ -1,5 +1,5 @@
 import { Project } from '@/domain/entities';
-import { ValidationError } from '@/domain/errors';
+import { ValidationError } from '@/core/errors';
 
 class UpdateProjectDto {
   private id: number;
@@ -33,7 +33,7 @@ class UpdateProjectDto {
     this.validate();
   }
 
-  private validate() {
+  private validate(): void {
     if (this.title && (this.title.length < 3 || this.title.length > 120)) {
       throw new ValidationError('Name must be between 3 and 120 characters');
     }

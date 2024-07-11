@@ -1,8 +1,8 @@
+import { strings } from '@/core/utils';
+import { ICacheProvider } from '@/infrastructure/interfaces';
 import { RedisClientType, createClient } from 'redis';
-import ICacheProvider from './ICacheProvider';
-import { injectable } from 'tsyringe';
 import { WhereOptions } from 'sequelize';
-import strings from '@/domain/utils/strings';
+import { injectable } from 'tsyringe';
 
 @injectable()
 class CacheProvider<T> implements ICacheProvider<T> {

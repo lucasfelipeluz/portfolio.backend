@@ -11,6 +11,8 @@ export default {
   users: 'users',
   projectImages: 'project_images',
   images: 'images',
+  role: 'role',
+  roles: 'roles',
 
   // Models Properties
   idSkill: 'idSkill',
@@ -18,6 +20,7 @@ export default {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
+  idRole: 'idRole',
 
   // Messages
   applicationRunning: 'Application running on port',
@@ -42,4 +45,5 @@ export default {
   internalServerError: 'A server error has occurred.',
   AnErrorOccurredWhileSavingTheData: 'An error occurred while saving the data.',
   redisError: 'An error occurred while trying to connect to Redis.',
+  forbiddenError: 'You do not have permission to access this resource.',
 };

@@ -9,7 +9,12 @@
     "dev": "nodemon 'src/' --exec 'ts-node -r tsconfig-paths/register src/index.ts' -e ts",
     "create-migration": "npx sequelize-cli migration:create --migrations-path 'src/infrastructure/migrations' --name",
     "push-migration": "npm run build && npx sequelize-cli db:migrate",
-    "undo-migration": "npm run build && npx sequelize-cli db:migrate:undo"
+    "create-seed": "sequelize-cli seed:generate --seeders-path 'src/infrastructure/seeders' --name",
+    "push-all-seeders": "npm run build && npx sequelize-cli db:seed:all",
+    "undo-all-seeders": "npm run build && npx sequelize-cli db:seed:undo",
+    "undo-migration": "npm run build && npx sequelize-cli db:migrate:undo",
+    "update-database": "npm run build && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "undo-database": "npm run build && npx sequelize-cli db:seed:undo && npx sequelize-cli db:migrate:undo"
   },
   "author": "Lucas Felipe Luz",
   "license": "ISC",
@@ -43,9 +48,11 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
     "moment": "^2.30.1",
     "morgan": "^1.10.0",
     "mysql2": "^3.10.1",

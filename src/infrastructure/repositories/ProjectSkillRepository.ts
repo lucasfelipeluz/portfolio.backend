@@ -1,9 +1,13 @@
 import { ProjectSkill } from '@/domain/entities';
-import { strings } from '@/domain/utils';
-import { CacheProvider, ICacheProvider } from '@/infrastructure/cache';
-import { IBaseRepository, IProjectSkillRepository } from '@/infrastructure/interfaces';
+import { strings } from '@/core/utils';
+import {
+  IBaseRepository,
+  ICacheProvider,
+  IProjectSkillRepository,
+} from '@/infrastructure/interfaces';
 import { ProjectSkillModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';
+import { CacheProvider } from '@/infrastructure/providers';
 import { BulkCreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 

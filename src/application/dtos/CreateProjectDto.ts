@@ -1,6 +1,6 @@
 import { validateProperties } from '@/application/validations';
 import { Project } from '@/domain/entities';
-import { ValidationError } from '@/domain/errors';
+import { ValidationError } from '@/core/errors';
 
 class CreateProjectDto {
   private title: string;
@@ -34,7 +34,7 @@ class CreateProjectDto {
     this.validate();
   }
 
-  private validate() {
+  private validate(): void {
     validateProperties<CreateProjectDto>(this, [
       'title',
       'description',

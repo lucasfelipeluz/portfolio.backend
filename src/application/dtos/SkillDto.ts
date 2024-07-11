@@ -13,7 +13,7 @@ class SkillDto {
 
   private projects: ProjectDto[] | null;
 
-  constructor(skill: Skill, includeProjects: boolean = false) {
+  constructor(skill: Skill, includeProjects = false) {
     this.id = skill.id;
     this.title = skill.title;
     this.description = skill.description;

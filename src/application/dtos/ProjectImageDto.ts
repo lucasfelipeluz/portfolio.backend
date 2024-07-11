@@ -14,7 +14,7 @@ class ProjectImageDto {
 
   private project: ProjectDto | null;
 
-  constructor(projectImage: ProjectImage, includeProject: boolean = false) {
+  constructor(projectImage: ProjectImage, includeProject = false) {
     this.id = projectImage.id;
     this.path = projectImage.path;
     this.viewPriority = projectImage.viewPriority;

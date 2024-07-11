@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import router from '@/api/routes/routes';
 import { httpResponses } from '@/api/utils';
-import { strings } from '@/domain/utils';
+import { strings } from '@/core/utils';
 import * as cors from 'cors';
 import * as Express from 'express';
 import * as morgan from 'morgan';

@@ -3,7 +3,8 @@ import { httpResponses } from '@/api/utils';
 import { CreateProjectImageDto } from '@/application/dtos';
 import { IProjectImageService } from '@/application/interfaces';
 import { ProjectImageService } from '@/application/services';
-import { strings } from '@/domain/utils';
+import { ApplicationError } from '@/core/errors';
+import { strings } from '@/core/utils';
 import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
 
@@ -24,8 +25,12 @@ class ProjectImageController implements IProjectImageController {
       const createdEntity = await this.projectImageService.create(newEntity);
 
       return httpResponses.created(response, createdEntity, strings.projectImageIsCreated);
-    } catch (error: any) {
-      return httpResponses.handleServerError(response, strings.internalServerError, error);
+    } catch (error) {
+      return httpResponses.handleServerError(
+        response,
+        strings.internalServerError,
+        error as ApplicationError,
+      );
     }
   }
 
@@ -37,8 +42,12 @@ class ProjectImageController implements IProjectImageController {
       await this.projectImageService.updateViewPriority(Number(id), viewPriority);
 
       return httpResponses.ok(response, { id, viewPriority }, strings.projectImageIsUpdated);
-    } catch (error: any) {
-      return httpResponses.handleServerError(response, strings.internalServerError, error);
+    } catch (error) {
+      return httpResponses.handleServerError(
+        response,
+        strings.internalServerError,
+        error as ApplicationError,
+      );
     }
   }
 
@@ -49,8 +58,12 @@ class ProjectImageController implements IProjectImageController {
       await this.projectImageService.delete(Number(id));
 
       return httpResponses.ok(response, { id }, strings.projectImageIsDeleted);
-    } catch (error: any) {
-      return httpResponses.handleServerError(response, strings.internalServerError, error);
+    } catch (error) {
+      return httpResponses.handleServerError(
+        response,
+        strings.internalServerError,
+        error as ApplicationError,
+      );
     }
   }
 }

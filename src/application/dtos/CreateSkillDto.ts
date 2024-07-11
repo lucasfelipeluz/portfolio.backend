@@ -1,6 +1,6 @@
 import { validateProperties } from '@/application/validations';
 import { Skill } from '@/domain/entities';
-import { ValidationError } from '@/domain/errors';
+import { ValidationError } from '@/core/errors';
 
 class CreateSkillDto {
   private title: string;
@@ -28,7 +28,7 @@ class CreateSkillDto {
     this.validate();
   }
 
-  private validate() {
+  private validate(): void {
     validateProperties<CreateSkillDto>(this, [
       'title',
       'description',
@@ -57,7 +57,7 @@ class CreateSkillDto {
     }
   }
 
-  public toDomain() {
+  public toDomain(): Skill {
     return new Skill(
       0,
       this.title,

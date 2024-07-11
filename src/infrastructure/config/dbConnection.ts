@@ -1,10 +1,10 @@
-import { ExecutionType } from '@/domain/types';
+import { ExecutionType } from '@/core/types';
 import config from '@/infrastructure/config/config';
 import { Sequelize, Transaction } from 'sequelize';
 
 const env: ExecutionType = (process.env.NODE_ENV as ExecutionType) || 'development';
 
-const dbConnection = new Sequelize(
+const dbConnection: Sequelize = new Sequelize(
   config[env].database,
   config[env].username,
   config[env].password!,
@@ -16,8 +16,8 @@ const dbConnection = new Sequelize(
   },
 );
 
-const initTransaction = async (): Promise<Transaction> => {
-  return await dbConnection.transaction();
-};
+function initTransaction(): Promise<Transaction> {
+  return dbConnection.transaction();
+}
 
 export { initTransaction, dbConnection };

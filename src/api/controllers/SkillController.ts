@@ -2,7 +2,8 @@ import { ISkillController } from '@/api/interfaces';
 import { httpResponses } from '@/api/utils';
 import { CreateSkillDto, UpdateSkillDto } from '@/application/dtos';
 import { SkillService } from '@/application/services';
-import { strings } from '@/domain/utils';
+import { ApplicationError } from '@/core/errors';
+import { strings } from '@/core/utils';
 import { SkillModel } from '@/infrastructure/models';
 import { Request, Response } from 'express';
 import { WhereOptions } from 'sequelize';
@@ -21,8 +22,12 @@ class SkillController implements ISkillController {
       const entities = await this.skillService.getAll();
 
       return httpResponses.ok(response, entities);
-    } catch (error: any) {
-      return httpResponses.handleServerError(response, strings.internalServerError, error);
+    } catch (error) {
+      return httpResponses.handleServerError(
+        response,
+        strings.internalServerError,
+        error as ApplicationError,
+      );
     }
   }
 
@@ -33,8 +38,12 @@ class SkillController implements ISkillController {
       const entity = await this.skillService.getById(Number(id));
 
       return httpResponses.ok(response, entity);
-    } catch (error: any) {
-      return httpResponses.handleServerError(response, strings.internalServerError, error);
+    } catch (error) {
+      return httpResponses.handleServerError(
+        response,
+        strings.internalServerError,
+        error as ApplicationError,
+      );
     }
   }
 
@@ -54,8 +63,12 @@ class SkillController implements ISkillController {
       const createdEntity = await this.skillService.create(newEntity);
 
       return httpResponses.created(response, createdEntity, strings.skillIsCreated);
-    } catch (error: any) {
-      return httpResponses.handleServerError(response, strings.internalServerError, error);
+    } catch (error) {
+      return httpResponses.handleServerError(
+        response,
+        strings.internalServerError,
+        error as ApplicationError,
+      );
     }
   }
 
@@ -82,8 +95,12 @@ class SkillController implements ISkillController {
       const entityUpdated = await this.skillService.update(newEntity, filter);
 
       return httpResponses.ok(response, entityUpdated, strings.skillIsUpdated);
-    } catch (error: any) {
-      return httpResponses.handleServerError(response, strings.internalServerError, error);
+    } catch (error) {
+      return httpResponses.handleServerError(
+        response,
+        strings.internalServerError,
+        error as ApplicationError,
+      );
     }
   }
 
@@ -98,8 +115,12 @@ class SkillController implements ISkillController {
       }
 
       return httpResponses.ok(response, null, strings.skillIsDeleted);
-    } catch (error: any) {
-      return httpResponses.handleServerError(response, strings.internalServerError, error);
+    } catch (error) {
+      return httpResponses.handleServerError(
+        response,
+        strings.internalServerError,
+        error as ApplicationError,
+      );
     }
   }
 }
