@@ -1,0 +1,545 @@
+{
+	"info": {
+		"_postman_id": "298a4a4f-1c57-484a-8b3b-ff0a57f77b36",
+		"name": "Portfolio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21086350"
+	},
+	"item": [
+		{
+			"name": "Projetos",
+			"item": [
+				{
+					"name": "GetAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"uuid": "6a57470c-75e7-4fa9-84fc-bd28fd45cc2d"
+							},
+							{
+								"key": "Access-Control-Allow-Origin",
+								"value": "*",
+								"uuid": "e7a1ddb7-8dc6-4004-ac65-6f7bbfee3571"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"opaopoa\",\r\n    \"descricao\": \"testando\",\r\n    \"url_github\": \"testando\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_portfolio}}:{{porta_portfolio}}/api/project",
+							"host": [
+								"{{url_portfolio}}"
+							],
+							"port": "{{porta_portfolio}}",
+							"path": [
+								"api",
+								"project"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "15",
+									"disabled": true
+								},
+								{
+									"key": "prioridade",
+									"value": "50",
+									"disabled": true
+								},
+								{
+									"key": "titulo",
+									"value": "Opa",
+									"disabled": true
+								},
+								{
+									"key": "ativo",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"uuid": "5c13681e-4cda-483c-8a03-5198ab030123"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"aa\",\r\n  \"description\": \"string\",\r\n  \"urlWebsite\": \"string\",\r\n  \"urlGithub\": \"string\",\r\n  \"viewPriority\": 0,\r\n  \"startedAt\": \"2024-05-08\",\r\n  \"finishedAt\": \"2024-05-08\",\r\n  \"idSkills\": [\r\n    2, 3\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_portfolio}}:{{porta_portfolio}}/api/project",
+							"host": [
+								"{{url_portfolio}}"
+							],
+							"port": "{{porta_portfolio}}",
+							"path": [
+								"api",
+								"project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"uuid": "226d822b-78ad-4bdf-b828-8957214f02b0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK\",\r\n    \"//description\": \"KKK\",\r\n    \"//urlWebsite\": \"KKK\",\r\n    \"//urlGithub\": \"KKK\",\r\n    \"//viewPriority\": 101,\r\n    \"//startedAt\": \"2021-01-01T00:00:00\",\r\n    \"//finishedAt\": \"2024-05-01T00:00:00\",\r\n    \"//skillsId\": [\r\n        5,\r\n        6\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_portfolio}}:{{porta_portfolio}}/api/project/16",
+							"host": [
+								"{{url_portfolio}}"
+							],
+							"port": "{{porta_portfolio}}",
+							"path": [
+								"api",
+								"project",
+								"16"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"uuid": "c0aa2d0b-038c-4279-860a-394d659e60f7"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_portfolio}}:{{porta_portfolio}}/api/project/16",
+							"host": [
+								"{{url_portfolio}}"
+							],
+							"port": "{{porta_portfolio}}",
+							"path": [
+								"api",
+								"project",
+								"16"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Habilidades",
+			"item": [
+				{
+					"name": "GetAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"uuid": "5b05553c-ddba-4fed-b792-5618ae4a4516"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"opaopoa\",\r\n    \"descricao\": \"testando\",\r\n    \"url_github\": \"testando\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_portfolio}}:{{porta_portfolio}}/api/skill/2",
+							"host": [
+								"{{url_portfolio}}"
+							],
+							"port": "{{porta_portfolio}}",
+							"path": [
+								"api",
+								"skill",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"uuid": "e5fcab33-3302-4308-82f9-f39a832ada90"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"aa\",\r\n    \"description\": \"Irineu de dados NoSQL, orientado a documentos.\",\r\n    \"icon\": \"Irineu\",\r\n    \"color\": \"#Irineu\",\r\n    \"startedAt\": \"2024-04-01\",\r\n    \"viewPriority\": 80\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_portfolio}}:{{porta_portfolio}}/api/skill",
+							"host": [
+								"{{url_portfolio}}"
+							],
+							"port": "{{porta_portfolio}}",
+							"path": [
+								"api",
+								"skill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"uuid": "67d74b5e-9a87-4cc1-8ee8-f8b6749e8150"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"KKKKKKKKKKKKK\",\r\n    \"description\": \"KKKKKKKKKKKKK de dados NoSQL, orientado a documentos.\",\r\n    \"icon\": \"KKKKKKKKKKKKK\",\r\n    \"color\": \"#KKKKKKKK\",\r\n    \"startedAt\": \"2024-09-01\",\r\n    \"viewPriority\": 11\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_portfolio}}:{{porta_portfolio}}/api/skill/2",
+							"host": [
+								"{{url_portfolio}}"
+							],
+							"port": "{{porta_portfolio}}",
+							"path": [
+								"api",
+								"skill",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"uuid": "f612af70-32bf-488e-8487-d7262c0ba8f8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"opaopoa\",\r\n    \"descricao\": \"testando\",\r\n    \"url_github\": \"testando\",\r\n    \"prioridade\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_portfolio}}:{{porta_portfolio}}/api/skill/3",
+							"host": [
+								"{{url_portfolio}}"
+							],
+							"port": "{{porta_portfolio}}",
+							"path": [
+								"api",
+								"skill",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project Image",
+			"item": [
+				{
+					"name": "Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"uuid": "3f44fc44-2a9a-4c8c-913b-e22e42427740"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"path\": \"Irineu\",\r\n    \"viewPriority\": 80,\r\n    \"projectId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_portfolio}}:{{porta_portfolio}}/api/project_image",
+							"host": [
+								"{{url_portfolio}}"
+							],
+							"port": "{{porta_portfolio}}",
+							"path": [
+								"api",
+								"project_image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"uuid": "3ac10241-2643-4d6a-92b7-fe3ef2001330"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"viewPriority\": -10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_portfolio}}:{{porta_portfolio}}/api/project_image/1",
+							"host": [
+								"{{url_portfolio}}"
+							],
+							"port": "{{porta_portfolio}}",
+							"path": [
+								"api",
+								"project_image",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"uuid": "2f692128-cf5a-4cfd-be53-e94421904b62"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"opaopoa\",\r\n    \"descricao\": \"testando\",\r\n    \"url_github\": \"testando\",\r\n    \"prioridade\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_portfolio}}:{{porta_portfolio}}/api/project_image/1",
+							"host": [
+								"{{url_portfolio}}"
+							],
+							"port": "{{porta_portfolio}}",
+							"path": [
+								"api",
+								"project_image",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cadastrar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"string\",\r\n  \"nickname\": \"stringaaa\",\r\n  \"email\": \"Lucasaa\",\r\n  \"password\": \"stringaaa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_portfolio}}:{{porta_portfolio}}/api/register",
+					"host": [
+						"{{url_portfolio}}"
+					],
+					"port": "{{porta_portfolio}}",
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nickname\": \"string\",\r\n  \"password\": \"stringaaa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_portfolio}}:{{porta_portfolio}}/api/login",
+					"host": [
+						"{{url_portfolio}}"
+					],
+					"port": "{{porta_portfolio}}",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

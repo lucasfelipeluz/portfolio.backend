@@ -3,7 +3,7 @@ import { IAuthService } from '@/application/interfaces';
 import { strings } from '@/core/utils';
 import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
-import { httpResponses } from '../utils';
+import { httpResponses } from '@/api/utils';
 import { ApplicationError } from '@/core/errors';
 import { AuthService } from '@/application/services';
 import { LoginDto, RegisterDto } from '@/application/dtos';
