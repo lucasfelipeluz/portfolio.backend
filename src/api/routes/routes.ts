@@ -5,11 +5,13 @@ import authRoutes from './auth.routes';
 import projectRoutes from './project.routes';
 import projectImageRoutes from './projectImage.routes';
 import skillRoutes from './skill.routes';
+import homeRoutes from './home.routes';
 
 const router = Express.Router();
 
 const authMiddleware = dependencyContainer.resolve(AuthMiddleware);
 
+router.use('/', homeRoutes);
 router.use('/', authRoutes);
 
 router.use('/project', authMiddleware.handle.bind(authMiddleware), projectRoutes);
