@@ -1,5 +1,5 @@
-import { User } from '@/domain/entities';
 import { strings } from '@/core/utils';
+import { User } from '@/domain/entities';
 import { IBaseRepository, ICacheProvider, IUserRepository } from '@/infrastructure/interfaces';
 import { UserModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';
@@ -16,7 +16,7 @@ class UserRepository implements IBaseRepository<User>, IUserRepository {
   }
 
   async getAll(options: FindOptions<User>): Promise<User[]> {
-    const cache = await this.cacheProvider.get(strings.users, options?.where ?? {});
+    const cache = await this.cacheProvider.get(strings.users, options ?? {});
 
     if (cache) {
       return cache as User[];
@@ -31,13 +31,13 @@ class UserRepository implements IBaseRepository<User>, IUserRepository {
       return [] as User[];
     }
 
-    await this.cacheProvider.create(strings.users, options?.where ?? {}, result);
+    await this.cacheProvider.create(strings.users, options ?? {}, result);
 
     return result as User[];
   }
 
   async getOne(options: FindOptions<User>): Promise<User | null> {
-    const cache = await this.cacheProvider.get(strings.users, options?.where ?? {});
+    const cache = await this.cacheProvider.get(strings.users, options ?? {});
 
     if (cache) {
       return cache as User;
@@ -46,14 +46,14 @@ class UserRepository implements IBaseRepository<User>, IUserRepository {
     const result = await UserModel.findOne({ ...options, include: relationships.user });
 
     if (result) {
-      await this.cacheProvider.create(strings.users, options?.where ?? {}, result);
+      await this.cacheProvider.create(strings.users, options ?? {}, result);
     }
 
     return result as User;
   }
 
   async getById(id: number): Promise<User | null> {
-    const cache = await this.cacheProvider.get(strings.users, { id });
+    const cache = await this.cacheProvider.get(strings.users, { where: { id } });
 
     if (cache) {
       return cache as User;
@@ -67,7 +67,7 @@ class UserRepository implements IBaseRepository<User>, IUserRepository {
     });
 
     if (result) {
-      await this.cacheProvider.create(strings.users, { id }, result);
+      await this.cacheProvider.create(strings.users, { where: { id } }, result);
     }
 
     return result as User;

@@ -16,7 +16,7 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
   }
 
   async getAll(options?: FindOptions): Promise<Project[]> {
-    const cache = await this.cacheProvider.get(strings.projects, options?.where ?? {});
+    const cache = await this.cacheProvider.get(strings.projects, options ?? {});
 
     if (cache) {
       return cache as Project[];
@@ -28,13 +28,13 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
       return [] as Project[];
     }
 
-    await this.cacheProvider.create(strings.projects, options?.where ?? {}, result);
+    await this.cacheProvider.create(strings.projects, options ?? {}, result);
 
     return result as Project[];
   }
 
   async getOne(options: FindOptions): Promise<Project | null> {
-    const cache = await this.cacheProvider.get(strings.projects, options?.where ?? {});
+    const cache = await this.cacheProvider.get(strings.projects, options ?? {});
 
     if (cache) {
       return cache as Project;
@@ -43,14 +43,14 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
     const result = await ProjectModel.findOne({ ...options, include: relationships.project });
 
     if (result) {
-      await this.cacheProvider.create(strings.projects, options?.where ?? {}, result);
+      await this.cacheProvider.create(strings.projects, options ?? {}, result);
     }
 
     return result as Project;
   }
 
   async getById(id: number): Promise<Project | null> {
-    const cache = await this.cacheProvider.get(strings.projects, { id });
+    const cache = await this.cacheProvider.get(strings.projects, { where: { id } });
 
     if (cache) {
       return cache as Project;
@@ -64,7 +64,7 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
     });
 
     if (result) {
-      await this.cacheProvider.create(strings.projects, { id }, result);
+      await this.cacheProvider.create(strings.projects, { where: { id } }, result);
     }
 
     return result as Project;

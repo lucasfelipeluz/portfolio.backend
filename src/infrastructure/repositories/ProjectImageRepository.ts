@@ -20,7 +20,7 @@ class ProjectImageRepository implements IBaseRepository<ProjectImage>, IProjectI
   }
 
   async getAll(options?: FindOptions): Promise<ProjectImage[]> {
-    const cache = await this.cacheProvider.get(strings.projectImages, options?.where ?? {});
+    const cache = await this.cacheProvider.get(strings.projectImages, options ?? {});
 
     if (cache) {
       return cache as ProjectImage[];
@@ -35,13 +35,13 @@ class ProjectImageRepository implements IBaseRepository<ProjectImage>, IProjectI
       return [] as ProjectImage[];
     }
 
-    await this.cacheProvider.create(strings.projects, options?.where ?? {}, result);
+    await this.cacheProvider.create(strings.projects, options ?? {}, result);
 
     return result as ProjectImage[];
   }
 
   async getOne(options: FindOptions): Promise<ProjectImage | null> {
-    const cache = await this.cacheProvider.get(strings.projectImages, options?.where ?? {});
+    const cache = await this.cacheProvider.get(strings.projectImages, options ?? {});
 
     if (cache) {
       return cache as ProjectImage;
@@ -50,14 +50,14 @@ class ProjectImageRepository implements IBaseRepository<ProjectImage>, IProjectI
     const result = await ProjectImageModel.findOne({ ...options, include: relationships.project });
 
     if (result) {
-      await this.cacheProvider.create(strings.projectImages, options?.where ?? {}, result);
+      await this.cacheProvider.create(strings.projectImages, options ?? {}, result);
     }
 
     return result as ProjectImage;
   }
 
   async getById(id: number): Promise<ProjectImage | null> {
-    const cache = await this.cacheProvider.get(strings.projectImages, { id });
+    const cache = await this.cacheProvider.get(strings.projectImages, { where: { id } });
 
     if (cache) {
       return cache as ProjectImage;
@@ -71,7 +71,7 @@ class ProjectImageRepository implements IBaseRepository<ProjectImage>, IProjectI
     });
 
     if (result) {
-      await this.cacheProvider.create(strings.projects, { id }, result);
+      await this.cacheProvider.create(strings.projects, { where: { id } }, result);
     }
 
     return result as ProjectImage;

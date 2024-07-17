@@ -15,8 +15,8 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
     this.cacheProvider = cacheProvider;
   }
 
-  async getAll(options: FindOptions<any>): Promise<Skill[]> {
-    const cache = await this.cacheProvider.get(strings.skills, options?.where ?? {});
+  async getAll(options: FindOptions): Promise<Skill[]> {
+    const cache = await this.cacheProvider.get(strings.skills, options ?? {});
 
     if (cache) {
       return cache as Skill[];
@@ -31,13 +31,13 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
       return [] as Skill[];
     }
 
-    await this.cacheProvider.create(strings.skills, options?.where ?? {}, result);
+    await this.cacheProvider.create(strings.skills, options ?? {}, result);
 
     return result as Skill[];
   }
 
-  async getOne(options: FindOptions<any>): Promise<Skill | null> {
-    const cache = await this.cacheProvider.get(strings.skills, options?.where ?? {});
+  async getOne(options: FindOptions): Promise<Skill | null> {
+    const cache = await this.cacheProvider.get(strings.skills, options ?? {});
 
     if (cache) {
       return cache as Skill;
@@ -46,14 +46,14 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
     const result = await SkillModel.findOne({ ...options, include: relationships.skill });
 
     if (result) {
-      await this.cacheProvider.create(strings.skills, options?.where ?? {}, result);
+      await this.cacheProvider.create(strings.skills, options ?? {}, result);
     }
 
     return result as Skill;
   }
 
   async getById(id: number): Promise<Skill | null> {
-    const cache = await this.cacheProvider.get(strings.skills, { id });
+    const cache = await this.cacheProvider.get(strings.skills, { where: { id } });
 
     if (cache) {
       return cache as Skill;
@@ -67,7 +67,7 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
     });
 
     if (result) {
-      await this.cacheProvider.create(strings.skills, { id }, result);
+      await this.cacheProvider.create(strings.skills, { where: { id } }, result);
     }
 
     return result as Skill;
@@ -86,7 +86,7 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
     return result as Skill;
   }
 
-  async update(entity: Skill, options: UpdateOptions<any>): Promise<boolean> {
+  async update(entity: Skill, options: UpdateOptions): Promise<boolean> {
     const result = await SkillModel.update(entity, options);
 
     if (result[0] < 1) {
@@ -102,7 +102,7 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
 
     return true;
   }
-  async delete(options: UpdateOptions<any>): Promise<boolean> {
+  async delete(options: UpdateOptions): Promise<boolean> {
     const result = await SkillModel.update(
       {
         isActive: false,
