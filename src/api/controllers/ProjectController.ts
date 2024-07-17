@@ -1,12 +1,11 @@
 import { IProjectController } from '@/api/interfaces';
-import { httpResponses } from '@/api/utils';
-import { CreateProjectDto, UpdateProjectDto } from '@/application/dtos';
+import { filter, httpResponses } from '@/api/utils';
+import { CreateProjectDto, ProjectDto, UpdateProjectDto } from '@/application/dtos';
 import { ProjectService } from '@/application/services';
 import { ApplicationError } from '@/core/errors';
+import { UpdateServiceOptions } from '@/core/types';
 import { strings } from '@/core/utils';
-import { ProjectModel } from '@/infrastructure/models';
 import { Request, Response } from 'express';
-import { WhereOptions } from 'sequelize';
 import { autoInjectable } from 'tsyringe';
 
 @autoInjectable()
@@ -18,7 +17,9 @@ class ProjectController implements IProjectController {
   }
 
   async getAll(request: Request, response: Response): Promise<unknown> {
-    const entities = await this.projectService.getAll();
+    const filters = filter.projectFilter(request.query);
+
+    const entities = await this.projectService.getAll(filters);
 
     return httpResponses.ok(response, entities);
   }
@@ -93,8 +94,10 @@ class ProjectController implements IProjectController {
         finishedAt,
       );
 
-      const filter: WhereOptions<ProjectModel> = {
-        id: Number(id),
+      const filter: UpdateServiceOptions<ProjectDto> = {
+        where: {
+          id: Number(id),
+        },
       };
 
       const entity = await this.projectService.update(newEntity, filter);

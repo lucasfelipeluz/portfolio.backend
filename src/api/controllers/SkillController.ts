@@ -1,12 +1,11 @@
 import { ISkillController } from '@/api/interfaces';
-import { httpResponses } from '@/api/utils';
-import { CreateSkillDto, UpdateSkillDto } from '@/application/dtos';
+import { filter, httpResponses } from '@/api/utils';
+import { CreateSkillDto, SkillDto, UpdateSkillDto } from '@/application/dtos';
 import { SkillService } from '@/application/services';
 import { ApplicationError } from '@/core/errors';
+import { UpdateServiceOptions } from '@/core/types';
 import { strings } from '@/core/utils';
-import { SkillModel } from '@/infrastructure/models';
 import { Request, Response } from 'express';
-import { WhereOptions } from 'sequelize';
 import { autoInjectable } from 'tsyringe';
 
 @autoInjectable()
@@ -19,7 +18,9 @@ class SkillController implements ISkillController {
 
   async getAll(request: Request, response: Response): Promise<unknown> {
     try {
-      const entities = await this.skillService.getAll();
+      const filters = filter.skillFilter(request.query);
+
+      const entities = await this.skillService.getAll(filters);
 
       return httpResponses.ok(response, entities);
     } catch (error) {
@@ -88,8 +89,10 @@ class SkillController implements ISkillController {
         viewPriority,
       );
 
-      const filter: WhereOptions<SkillModel> = {
-        id: Number(id),
+      const filter: UpdateServiceOptions<SkillDto> = {
+        where: {
+          id: Number(id),
+        },
       };
 
       const entityUpdated = await this.skillService.update(newEntity, filter);
