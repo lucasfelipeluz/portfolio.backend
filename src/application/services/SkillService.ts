@@ -1,8 +1,9 @@
 import { CreateSkillDto, SkillDto, UpdateSkillDto } from '@/application/dtos';
 import { ISkillService } from '@/application/interfaces';
-import { SkillModel } from '@/infrastructure/models';
+import { ServiceFilter, UpdateServiceOptions } from '@/core/types';
+import { transform } from '@/core/utils';
+import { Skill } from '@/domain/entities';
 import { SkillRepository } from '@/infrastructure/repositories';
-import { FindOptions, UpdateOptions, WhereOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -13,20 +14,20 @@ class SkillService implements ISkillService {
     this.skillRepository = skillRepository;
   }
 
-  async getAll(filter?: WhereOptions): Promise<SkillDto[]> {
-    const options: FindOptions = {
-      where: filter,
-    };
+  async getAll(filter?: ServiceFilter<SkillDto>): Promise<SkillDto[]> {
+    const options = transform.serviceFilterToModelFilter<SkillDto, Skill>(
+      filter ?? ({} as ServiceFilter<SkillDto>),
+    );
 
     const entities = await this.skillRepository.getAll(options);
 
     return entities.map((entity) => new SkillDto(entity, true));
   }
 
-  async getOne(filter?: WhereOptions<SkillModel> | undefined): Promise<SkillDto | null> {
-    const options: FindOptions = {
-      where: filter,
-    };
+  async getOne(filter?: ServiceFilter<SkillDto> | undefined): Promise<SkillDto | null> {
+    const options = transform.serviceFilterToModelFilter<SkillDto, Skill>(
+      filter ?? ({} as ServiceFilter<SkillDto>),
+    );
 
     const entity = await this.skillRepository.getOne(options);
 
@@ -47,12 +48,10 @@ class SkillService implements ISkillService {
     return new SkillDto(createdEntity);
   }
 
-  async update(entity: UpdateSkillDto, filter: WhereOptions<SkillModel>): Promise<SkillDto> {
+  async update(entity: UpdateSkillDto, filter: UpdateServiceOptions<SkillDto>): Promise<SkillDto> {
     const newEntity = entity.toDomain();
 
-    const options: UpdateOptions<SkillModel> = {
-      where: filter,
-    };
+    const options = transform.updateServiceFilterToModelUpdateFilter<SkillDto, Skill>(filter);
 
     await this.skillRepository.update(newEntity, options);
 
@@ -60,11 +59,13 @@ class SkillService implements ISkillService {
   }
 
   async delete(id: number): Promise<boolean> {
-    const options: UpdateOptions<SkillModel> = {
+    const filter: ServiceFilter<SkillDto> = {
       where: {
         id: id,
       },
     };
+
+    const options = transform.updateServiceFilterToModelUpdateFilter<SkillDto, Skill>(filter);
 
     const isDeleted = await this.skillRepository.delete(options);
 

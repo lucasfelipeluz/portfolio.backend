@@ -6,6 +6,7 @@ import relationships from '@/infrastructure/models/addons/relationships';
 import { CacheProvider } from '@/infrastructure/providers';
 import { FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
+
 @injectable()
 class ProjectRepository implements IBaseRepository<Project>, IProjectRepository {
   private readonly cacheProvider: ICacheProvider<Project>;
@@ -21,10 +22,7 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
       return cache as Project[];
     }
 
-    const result = await ProjectModel.findAll({
-      ...options,
-      include: relationships.project,
-    });
+    const result = await ProjectModel.findAll({ ...options, include: relationships.project });
 
     if (result.length < 1) {
       return [] as Project[];
