@@ -1,15 +1,11 @@
+import Entity from './Entity';
 import Project from './Project';
 import Skill from './Skill';
 
-class ProjectSkill {
+class ProjectSkill extends Entity {
   public id: number;
   public idSkill: number;
   public idProject: number;
-
-  public isActive: boolean;
-  public createdAt: Date;
-  public updatedAt: Date | null;
-  public deletedAt: Date | null;
 
   public skill: Skill;
   public project: Project;
@@ -25,13 +21,11 @@ class ProjectSkill {
     skill: Skill,
     project: Project,
   ) {
+    super(id, isActive, createdAt, updatedAt, deletedAt);
+
     this.id = id;
     this.idSkill = idSkill;
     this.idProject = idProject;
-    this.isActive = isActive;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt ?? null;
-    this.deletedAt = deletedAt ?? null;
     this.skill = skill;
     this.project = project;
   }

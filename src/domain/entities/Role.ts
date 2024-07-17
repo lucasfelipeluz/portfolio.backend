@@ -1,13 +1,9 @@
+import Entity from './Entity';
 import User from './User';
 
-class Role {
+class Role extends Entity {
   public id: number;
   public name: string;
-
-  public isActive: boolean;
-  public createdAt: Date;
-  public updatedAt: Date | null;
-  public deletedAt: Date | null;
 
   public readonly users: User[];
 
@@ -20,12 +16,10 @@ class Role {
     deletedAt: Date | null,
     users?: User[] | null,
   ) {
+    super(id, isActive, createdAt, updatedAt, deletedAt);
+
     this.id = id;
     this.name = name;
-    this.isActive = isActive;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt ?? null;
-    this.deletedAt = deletedAt ?? null;
     this.users = users ?? [];
   }
 }

@@ -1,7 +1,8 @@
+import Entity from './Entity';
 import ProjectImage from './ProjectImage';
 import Skill from './Skill';
 
-class Project {
+class Project extends Entity {
   public id: number;
   public title: string;
   public description: string;
@@ -10,11 +11,6 @@ class Project {
   public viewPriority: number;
   public startedAt: Date;
   public finishedAt: Date | null;
-
-  public isActive: boolean;
-  public createdAt: Date;
-  public updatedAt: Date | null;
-  public deletedAt: Date | null;
 
   public readonly skills: Skill[] = [];
   public readonly images: ProjectImage[] = [];
@@ -35,6 +31,8 @@ class Project {
     skills?: Skill[] | null,
     images?: ProjectImage[] | null,
   ) {
+    super(id, isActive, createdAt, updatedAt, deletedAt);
+
     this.id = id;
     this.title = title;
     this.description = description;
@@ -42,11 +40,7 @@ class Project {
     this.urlGithub = urlGithub;
     this.viewPriority = viewPriority;
     this.startedAt = startedAt;
-    this.isActive = isActive;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt ?? null;
-    this.finishedAt = finishedAt ?? null;
-    this.deletedAt = deletedAt ?? null;
+    this.finishedAt = finishedAt;
     this.skills = skills ?? [];
     this.images = images ?? [];
   }
