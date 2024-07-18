@@ -1,10 +1,12 @@
+import { StatusCodes } from '@/core/enums';
+import { strings } from '@/core/utils';
 import ApplicationError from './ApplicationError';
 
 class UnauthorizedError extends ApplicationError {
   constructor(message: string) {
     super(message);
-    this.name = 'UnauthorizedError';
-    this.code = 401;
+    this.name = strings.unauthorizedError;
+    this.code = StatusCodes.Unauthorized;
   }
 }
 

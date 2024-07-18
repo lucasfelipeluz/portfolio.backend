@@ -1,4 +1,5 @@
 import { StatusCodes } from '@/core/enums';
+import { strings } from '@/core/utils';
 import ApplicationError from './ApplicationError';
 
 class ValidationError extends ApplicationError {
@@ -6,7 +7,7 @@ class ValidationError extends ApplicationError {
 
   constructor(message: string) {
     super(message);
-    this.name = `${this.constructor.name}: ${message}`;
+    this.name = strings.validationError;
     this.code = StatusCodes.BadRequest;
   }
 }

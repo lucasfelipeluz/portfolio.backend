@@ -45,5 +45,14 @@ export default {
   internalServerError: 'A server error has occurred.',
   AnErrorOccurredWhileSavingTheData: 'An error occurred while saving the data.',
   redisError: 'An error occurred while trying to connect to Redis.',
-  forbiddenError: 'You do not have permission to access this resource.',
+  notPermissionError: 'You do not have permission to access this resource.',
+
+  // Errors
+  applicationError: 'ApplicationError',
+  badRequestError: 'BadRequestError',
+  forbiddenError: 'ForbiddenError',
+  notFoundError: 'NotFoundError',
+  notFoundEntityError: 'NotFoundEntityError',
+  unauthorizedError: 'UnauthorizedError',
+  validationError: 'ValidationError',
 };
