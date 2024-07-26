@@ -1,10 +1,12 @@
 import { DataTypes, ModelAttributes } from 'sequelize';
 import {
+  AboutMeModel,
   ProjectImageModel,
   ProjectModel,
   ProjectSkillModel,
   RoleModel,
   SkillModel,
+  SystemVariableModel,
   UserModel,
 } from '../';
 
@@ -267,6 +269,101 @@ const user: ModelAttributes<UserModel> = {
   },
 };
 
+const aboutMe: ModelAttributes<AboutMeModel> = {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  name: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+  },
+  jobTitle: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+  },
+  telegramLink: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+  },
+  youtubeLink: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+  },
+  linkedinLink: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+  },
+  githubLink: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+  },
+  address: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+  },
+  isAvailable: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: new Date(),
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+    defaultValue: new Date(),
+  },
+  deletedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+};
+
+const systemVariable: ModelAttributes<SystemVariableModel> = {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  key: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+  },
+  value: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: new Date(),
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+    defaultValue: new Date(),
+  },
+  deletedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+};
+
 export default {
   project,
   skill,
@@ -274,4 +371,6 @@ export default {
   projectImage,
   role,
   user,
+  aboutMe,
+  systemVariable,
 };

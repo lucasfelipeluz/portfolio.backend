@@ -2,11 +2,13 @@ import { strings } from '@/core/utils';
 import { dbConnection } from '@/infrastructure/config/dbConnection';
 import { InitOptions } from 'sequelize';
 import {
+  AboutMeModel,
   ProjectImageModel,
   ProjectModel,
   ProjectSkillModel,
   RoleModel,
   SkillModel,
+  SystemVariableModel,
   UserModel,
 } from '../';
 
@@ -58,6 +60,22 @@ const user: InitOptions<UserModel> = {
   updatedAt: strings.updatedAt,
 };
 
+const aboutMe: InitOptions<AboutMeModel> = {
+  tableName: strings.aboutMe,
+  sequelize: dbConnection,
+  timestamps: true,
+  createdAt: strings.createdAt,
+  updatedAt: strings.updatedAt,
+};
+
+const systemVariable: InitOptions<SystemVariableModel> = {
+  tableName: strings.systemVariable,
+  sequelize: dbConnection,
+  timestamps: true,
+  createdAt: strings.createdAt,
+  updatedAt: strings.updatedAt,
+};
+
 export default {
   project,
   skill,
@@ -65,4 +83,6 @@ export default {
   projectImage,
   role,
   user,
+  aboutMe,
+  systemVariable,
 };

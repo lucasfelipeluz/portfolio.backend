@@ -13,6 +13,7 @@ export default {
   images: 'images',
   role: 'role',
   roles: 'roles',
+  systemVariable: 'system_variable',
 
   // Models Properties
   idSkill: 'idSkill',
