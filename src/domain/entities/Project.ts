@@ -3,7 +3,6 @@ import ProjectImage from './ProjectImage';
 import Skill from './Skill';
 
 class Project extends Entity {
-  public id: number;
   public title: string;
   public description: string;
   public urlWebsite: string;

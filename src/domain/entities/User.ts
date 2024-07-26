@@ -2,7 +2,6 @@ import Entity from './Entity';
 import Role from './Role';
 
 class User extends Entity {
-  public id: number;
   public name: string;
   public nickname: string;
   public email: string | null;

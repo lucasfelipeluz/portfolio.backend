@@ -2,7 +2,6 @@ import Entity from './Entity';
 import Project from './Project';
 
 class ProjectImage extends Entity {
-  public id: number;
   public path: string;
   public viewPriority: number;
 

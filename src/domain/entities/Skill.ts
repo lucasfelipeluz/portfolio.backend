@@ -2,7 +2,6 @@ import Entity from './Entity';
 import Project from './Project';
 
 class Skill extends Entity {
-  public id: number;
   public title: string;
   public description: string;
   public startedAt: Date;

@@ -3,7 +3,6 @@ import Project from './Project';
 import Skill from './Skill';
 
 class ProjectSkill extends Entity {
-  public id: number;
   public idSkill: number;
   public idProject: number;
 
