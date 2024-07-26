@@ -34,6 +34,38 @@ class HomeController implements IHomeController {
       );
     }
   }
+
+  async getProject(request: Request, response: Response): Promise<unknown> {
+    try {
+      const id = request.params.id;
+
+      const project = await this.projectService.getById(parseInt(id, 10));
+
+      return httpResponses.ok(response, project);
+    } catch (error) {
+      return httpResponses.handleServerError(
+        response,
+        strings.internalServerError,
+        error as ApplicationError,
+      );
+    }
+  }
+
+  async getSkill(request: Request, response: Response): Promise<unknown> {
+    try {
+      const id = request.params.id;
+
+      const skill = await this.skillService.getById(parseInt(id, 10));
+
+      return httpResponses.ok(response, skill);
+    } catch (error) {
+      return httpResponses.handleServerError(
+        response,
+        strings.internalServerError,
+        error as ApplicationError,
+      );
+    }
+  }
 }
 
 export default HomeController;
