@@ -19,8 +19,8 @@ class ProjectSkillRepository implements IBaseRepository<ProjectSkill>, IProjectS
     this.cacheProvider = cacheProvider;
   }
 
-  async getAll(options: FindOptions<any>): Promise<ProjectSkill[]> {
-    const cache = await this.cacheProvider.get(strings.projectSkill, options?.where ?? {});
+  async getAll(options: FindOptions): Promise<ProjectSkill[]> {
+    const cache = await this.cacheProvider.get(strings.projectSkill, options ?? {});
 
     if (cache) {
       return cache as ProjectSkill[];
@@ -35,13 +35,13 @@ class ProjectSkillRepository implements IBaseRepository<ProjectSkill>, IProjectS
       return [] as ProjectSkill[];
     }
 
-    await this.cacheProvider.create(strings.projectSkill, options?.where ?? {}, result);
+    await this.cacheProvider.create(strings.projectSkill, options ?? {}, result);
 
     return result as ProjectSkill[];
   }
 
-  async getOne(options: FindOptions<any>): Promise<ProjectSkill | null> {
-    const cache = await this.cacheProvider.get(strings.projectSkill, options?.where ?? {});
+  async getOne(options: FindOptions): Promise<ProjectSkill | null> {
+    const cache = await this.cacheProvider.get(strings.projectSkill, options ?? {});
 
     if (cache) {
       return cache as ProjectSkill;
@@ -53,14 +53,14 @@ class ProjectSkillRepository implements IBaseRepository<ProjectSkill>, IProjectS
     });
 
     if (result) {
-      await this.cacheProvider.create(strings.projectSkill, options?.where ?? {}, result);
+      await this.cacheProvider.create(strings.projectSkill, options ?? {}, result);
     }
 
     return result as ProjectSkill;
   }
 
   async getById(id: number): Promise<ProjectSkill | null> {
-    const cache = await this.cacheProvider.get(strings.projectSkill, { id });
+    const cache = await this.cacheProvider.get(strings.projectSkill, { where: { id } });
 
     if (cache) {
       return cache as ProjectSkill;
@@ -77,7 +77,7 @@ class ProjectSkillRepository implements IBaseRepository<ProjectSkill>, IProjectS
       return null;
     }
 
-    await this.cacheProvider.create(strings.projectSkill, { id }, result);
+    await this.cacheProvider.create(strings.projectSkill, { where: { id } }, result);
 
     return result as ProjectSkill;
   }
@@ -108,7 +108,7 @@ class ProjectSkillRepository implements IBaseRepository<ProjectSkill>, IProjectS
     return result as ProjectSkill[];
   }
 
-  async update(entity: ProjectSkill, options: UpdateOptions<any>): Promise<boolean> {
+  async update(entity: ProjectSkill, options: UpdateOptions): Promise<boolean> {
     const result = await ProjectSkillModel.update(entity, options);
 
     if (result[0] < 1) {
@@ -124,7 +124,7 @@ class ProjectSkillRepository implements IBaseRepository<ProjectSkill>, IProjectS
 
     return true;
   }
-  async delete(options: UpdateOptions<any>): Promise<boolean> {
+  async delete(options: UpdateOptions): Promise<boolean> {
     const result = await ProjectSkillModel.update(
       {
         isActive: false,

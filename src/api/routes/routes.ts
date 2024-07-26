@@ -11,8 +11,8 @@ const router = Express.Router();
 
 const authMiddleware = dependencyContainer.resolve(AuthMiddleware);
 
-router.use('/', homeRoutes);
 router.use('/', authRoutes);
+router.use('/public', homeRoutes);
 
 router.use('/project', authMiddleware.handle.bind(authMiddleware), projectRoutes);
 router.use('/skill', authMiddleware.handle.bind(authMiddleware), skillRoutes);

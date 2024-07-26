@@ -1,14 +1,10 @@
+import Entity from './Entity';
 import Project from './Project';
 
-class ProjectImage {
+class ProjectImage extends Entity {
   public id: number;
   public path: string;
   public viewPriority: number;
-
-  public isActive: boolean;
-  public createdAt: Date;
-  public updatedAt: Date | null;
-  public deletedAt: Date | null;
 
   public idProject: number;
 
@@ -25,13 +21,11 @@ class ProjectImage {
     idProject: number,
     project: Project,
   ) {
+    super(id, isActive, createdAt, updatedAt, deletedAt);
+
     this.id = id;
     this.path = path;
     this.viewPriority = viewPriority;
-    this.isActive = isActive;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt ?? null;
-    this.deletedAt = deletedAt ?? null;
     this.idProject = idProject;
     this.project = project;
   }

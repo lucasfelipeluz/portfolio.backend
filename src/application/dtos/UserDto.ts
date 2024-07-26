@@ -2,17 +2,17 @@ import { User } from '@/domain/entities';
 import RoleDto from './RoleDto';
 
 class UserDto {
-  private id: number | null;
-  private name: string;
-  private nickname: string;
-  private email: string | null;
-  private createdAt: Date | null;
-  private updatedAt: Date | null;
-  private deletedAt: Date | null;
+  public id: number | null;
+  public name: string;
+  public nickname: string;
+  public email: string | null;
+  public createdAt: Date | null;
+  public updatedAt: Date | null;
+  public deletedAt: Date | null;
 
-  private idRole: number;
+  public idRole: number;
 
-  private role: RoleDto | null;
+  public role: RoleDto | null;
 
   constructor(user: User, include = false) {
     this.id = user.id;

@@ -1,3 +1,4 @@
 import httpResponses from './httpResponses';
+import filter from './filters';
 
-export { httpResponses };
+export { httpResponses, filter };

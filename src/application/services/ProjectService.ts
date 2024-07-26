@@ -1,13 +1,12 @@
 import { CreateProjectDto, ProjectDto, UpdateProjectDto } from '@/application/dtos';
 import { IProjectService } from '@/application/interfaces';
-import { Project, ProjectSkill } from '@/domain/entities';
 import { ApplicationError } from '@/core/errors';
-import { strings } from '@/core/utils';
+import { ServiceFilter, UpdateServiceOptions } from '@/core/types';
+import { strings, transform } from '@/core/utils';
+import { Project, ProjectSkill } from '@/domain/entities';
 import { initTransaction } from '@/infrastructure/config/dbConnection';
 import { IProjectRepository, IProjectSkillRepository } from '@/infrastructure/interfaces';
-import { ProjectModel } from '@/infrastructure/models';
 import { ProjectRepository, ProjectSkillRepository } from '@/infrastructure/repositories';
-import { FindOptions, UpdateOptions, WhereOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -23,20 +22,20 @@ class ProjectService implements IProjectService {
     this.projectSkillRepository = projectSkillRepository;
   }
 
-  async getAll(filter?: WhereOptions): Promise<ProjectDto[]> {
-    const options: FindOptions = {
-      where: filter,
-    };
+  async getAll(filter?: ServiceFilter<ProjectDto>): Promise<ProjectDto[]> {
+    const options = transform.serviceFilterToModelFilter<ProjectDto, Project>(
+      filter ?? ({} as ServiceFilter<ProjectDto>),
+    );
 
     const entities = await this.projectRepository.getAll(options);
 
     return entities.map((entity) => new ProjectDto(entity, true));
   }
 
-  async getOne(filter?: WhereOptions<ProjectModel> | undefined): Promise<ProjectDto | null> {
-    const options: FindOptions = {
-      where: filter,
-    };
+  async getOne(filter?: ServiceFilter<ProjectDto> | undefined): Promise<ProjectDto | null> {
+    const options = transform.serviceFilterToModelFilter<ProjectDto, Project>(
+      filter ?? ({} as ServiceFilter<ProjectDto>),
+    );
 
     const entity = await this.projectRepository.getOne(options);
 
@@ -88,12 +87,13 @@ class ProjectService implements IProjectService {
     }
   }
 
-  async update(newEntity: UpdateProjectDto, filter: WhereOptions<Project>): Promise<ProjectDto> {
+  async update(
+    newEntity: UpdateProjectDto,
+    filter: UpdateServiceOptions<ProjectDto>,
+  ): Promise<ProjectDto> {
     const entity = newEntity.toDomain();
 
-    const options: UpdateOptions<Project> = {
-      where: filter,
-    };
+    const options = transform.updateServiceFilterToModelUpdateFilter<ProjectDto, Project>(filter);
 
     await this.projectRepository.update(entity, options);
 
@@ -101,11 +101,13 @@ class ProjectService implements IProjectService {
   }
 
   async delete(id: number): Promise<boolean> {
-    const options: UpdateOptions<Project> = {
+    const filter: UpdateServiceOptions<ProjectDto> = {
       where: {
         id: id,
       },
     };
+
+    const options = transform.updateServiceFilterToModelUpdateFilter<ProjectDto, Project>(filter);
 
     const result = await this.projectRepository.delete(options);
 

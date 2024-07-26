@@ -2,20 +2,20 @@ import { Project } from '@/domain/entities';
 import { ProjectImageDto, SkillDto } from './';
 
 class ProjectDto {
-  private id: number | null;
-  private title: string;
-  private description: string;
-  private urlWebsite: string;
-  private urlGithub: string;
-  private viewPriority: number;
-  private startedAt: Date;
-  private finishedAt: Date | null;
-  private createdAt: Date | null;
-  private updatedAt: Date | null;
-  private deletedAt: Date | null;
+  public id: number | null;
+  public title: string;
+  public description: string;
+  public urlWebsite: string;
+  public urlGithub: string;
+  public viewPriority: number;
+  public startedAt: Date;
+  public finishedAt: Date | null;
+  public createdAt: Date | null;
+  public updatedAt: Date | null;
+  public deletedAt: Date | null;
 
-  private skills: SkillDto[] | null;
-  private images: ProjectImageDto[] | null;
+  public skills: SkillDto[] | null;
+  public images: ProjectImageDto[] | null;
 
   constructor(project: Project, include?: boolean) {
     this.id = project.id;

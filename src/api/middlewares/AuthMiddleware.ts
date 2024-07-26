@@ -23,7 +23,7 @@ class AuthMiddlware {
       const token = authorization?.replace('Bearer ', '');
 
       if (!token) {
-        throw new ForbiddenError(strings.forbiddenError);
+        throw new ForbiddenError(strings.notPermissionError);
       }
 
       const authConfig = this.applicationConfigProvider.getAuthConfig();

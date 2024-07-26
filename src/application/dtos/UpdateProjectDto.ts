@@ -69,6 +69,12 @@ class UpdateProjectDto {
       viewPriority: this.viewPriority,
       startedAt: this.startedAt,
       finishedAt: this.finishedAt,
+      isActive: true,
+      createdAt: new Date(),
+      images: [],
+      skills: [],
+      deletedAt: null,
+      updatedAt: null,
     } as Project;
   }
 }

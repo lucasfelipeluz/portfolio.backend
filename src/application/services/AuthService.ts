@@ -1,13 +1,14 @@
 import { LoginDto, RegisterDto, UserDto, UserLoggedDto } from '@/application/dtos';
 import { IAuthService } from '@/application/interfaces';
 import { BadRequestError, NotFoundEntityError, UnauthorizedError } from '@/core/errors';
+import { ServiceFilter } from '@/core/types';
+import { transform } from '@/core/utils';
 import { User } from '@/domain/entities';
 import { IApplicationConfigProvider, IUserRepository } from '@/infrastructure/interfaces';
 import { ApplicationConfigProvider } from '@/infrastructure/providers';
 import { UserRepository } from '@/infrastructure/repositories';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import { Op, WhereOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -24,12 +25,17 @@ class AuthService implements IAuthService {
   }
 
   async getInfoUser(nickname: string, email: string): Promise<UserDto> {
-    const user = await this.userRepository.getOne({
+    const filters: ServiceFilter<UserDto> = {
       where: {
-        [Op.or]: { nickname, email },
-        isActive: true,
+        nickname: nickname,
+        email: email,
       },
-    });
+      isActive: true,
+    };
+
+    const options = transform.serviceFilterToModelFilter<UserDto, User>(filters);
+
+    const user = await this.userRepository.getOne(options);
 
     if (!user) {
       return {} as UserDto;
@@ -39,18 +45,20 @@ class AuthService implements IAuthService {
   }
 
   async login(loginDto: LoginDto): Promise<UserLoggedDto> {
-    const filter: WhereOptions<User> = {
+    const filter: ServiceFilter<UserDto> = {
+      where: {
+        nickname: loginDto.getNickname(),
+      },
       isActive: true,
-      nickname: loginDto.getNickname(),
     };
 
-    if (loginDto.getEmail()) {
-      filter.email = loginDto.getEmail();
+    if (loginDto.getEmail() && filter.where) {
+      filter.where['email'] = loginDto.getEmail();
     }
 
-    const user = await this.userRepository.getOne({
-      where: filter,
-    });
+    const options = transform.serviceFilterToModelFilter<UserDto, User>(filter);
+
+    const user = await this.userRepository.getOne(options);
 
     if (!user) {
       throw new NotFoundEntityError('User not found');
@@ -74,22 +82,30 @@ class AuthService implements IAuthService {
   }
 
   async register(newUser: RegisterDto): Promise<UserDto> {
-    const existNicknameUser = await this.userRepository.getOne({
+    const filters: ServiceFilter<UserDto> = {
       where: {
         nickname: newUser.getNickname(),
       },
-    });
+    };
+
+    const options = transform.serviceFilterToModelFilter<UserDto, User>(filters);
+
+    const existNicknameUser = await this.userRepository.getOne(options);
 
     if (existNicknameUser) {
       throw new BadRequestError('User already exists');
     }
 
     if (newUser.getEmail()) {
-      const existEmailUser = await this.userRepository.getOne({
+      const filtersEmail: ServiceFilter<UserDto> = {
         where: {
           email: newUser.getEmail(),
         },
-      });
+      };
+
+      const optionsEmail = transform.serviceFilterToModelFilter<UserDto, User>(filtersEmail);
+
+      const existEmailUser = await this.userRepository.getOne(optionsEmail);
 
       if (existEmailUser) {
         throw new BadRequestError('Email already in use');
