@@ -8,7 +8,9 @@ import relationships from '../models/addons/relationships';
 import { CacheProvider } from '../providers';
 
 @injectable()
-class AboutMeRepository implements IBaseRepository<SystemVariable>, ISystemVariableRepository {
+class SystemVariableRepository
+  implements IBaseRepository<SystemVariable>, ISystemVariableRepository
+{
   private readonly cacheProvider: ICacheProvider<SystemVariable>;
 
   constructor(cacheRepository: CacheProvider<SystemVariable>) {
@@ -112,4 +114,4 @@ class AboutMeRepository implements IBaseRepository<SystemVariable>, ISystemVaria
   }
 }
 
-export default AboutMeRepository;
+export default SystemVariableRepository;
