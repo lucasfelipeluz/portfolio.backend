@@ -69,6 +69,7 @@ class SystemVariableService implements ISystemVariableService {
         {
           key: entity.key,
           value: entity.value,
+          isActive: true,
         } as SystemVariable,
         updateOptions,
       );

@@ -69,6 +69,19 @@ class UpdateAboutMeDto {
       isAvailable: this.isAvailable,
     } as AboutMe;
   }
+
+  public toUpdateEntity(oldEntity: AboutMe): AboutMe {
+    return {
+      name: this.name ? this.name : oldEntity.name,
+      jobTitle: this.jobTitle ? this.jobTitle : oldEntity.jobTitle,
+      telegramLink: this.telegramLink ? this.telegramLink : oldEntity.telegramLink,
+      youtubeLink: this.youtubeLink ? this.youtubeLink : oldEntity.youtubeLink,
+      linkedinLink: this.linkedinLink ? this.linkedinLink : oldEntity.linkedinLink,
+      githubLink: this.githubLink ? this.githubLink : oldEntity.githubLink,
+      address: this.address ? this.address : oldEntity.address,
+      isAvailable: this.isAvailable ? this.isAvailable : oldEntity.isAvailable,
+    } as AboutMe;
+  }
 }
 
 export default UpdateAboutMeDto;

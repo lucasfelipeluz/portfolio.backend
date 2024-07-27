@@ -24,7 +24,7 @@ class SystemVariableRepository
       return cache as SystemVariable[];
     }
 
-    const result = await SystemVariableModel.findAll();
+    const result = await SystemVariableModel.findAll(options);
 
     if (result.length < 1) {
       return [] as SystemVariable[];

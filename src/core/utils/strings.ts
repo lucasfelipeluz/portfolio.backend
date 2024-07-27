@@ -41,6 +41,12 @@ export default {
   projectImageIsCreated: 'Project Image is created',
   projectImageIsUpdated: 'Project Image is updated',
   projectImageIsDeleted: 'Project Image is deleted',
+  systemVariableIsCreated: 'System Variable is created',
+  systemVariableIsUpdated: 'System Variable is updated',
+  systemVariableIsDeleted: 'System Variable is deleted',
+  systemVariableNotFound: 'System Variable not found',
+  aboutMeIsUpdated: 'About Me is updated',
+  aboutMeNotFound: 'About Me not found',
 
   // Msg Errors
   internalServerError: 'A server error has occurred.',
