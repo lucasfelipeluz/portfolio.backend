@@ -2,6 +2,7 @@ import { SystemVariableDto } from '@/application/dtos';
 import { ServiceFilter } from '@/core/types';
 import { strings, transform } from '@/core/utils';
 import { ISystemVariableRepository } from '@/infrastructure/interfaces';
+import { ApplicationConfigProvider } from '@/infrastructure/providers';
 import { SystemVariableRepository } from '@/infrastructure/repositories';
 import { ScheduleOptions } from 'node-cron';
 import { autoInjectable, inject } from 'tsyringe';
@@ -14,8 +15,9 @@ class SystemVariableRoutine extends Routine {
   constructor(
     @inject(strings.systemVariableRoutine) cron: string,
     systemVariableRepository: SystemVariableRepository,
+    @inject(strings.applicationConfigProvider) applicationConfigProvider: ApplicationConfigProvider,
   ) {
-    super(cron, strings.systemVariableRoutine);
+    super(cron, strings.systemVariableRoutine, applicationConfigProvider);
 
     this.systemVariableRepository = systemVariableRepository;
   }

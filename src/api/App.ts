@@ -17,7 +17,11 @@ class App {
   }
 
   private loadRoutines(): void {
-    runRoutines();
+    try {
+      runRoutines();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   private loadOptions(): void {

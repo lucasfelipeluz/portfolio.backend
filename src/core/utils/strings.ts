@@ -15,6 +15,7 @@ export default {
   roles: 'roles',
   systemVariable: 'system_variable',
   systemVariableRoutine: 'system_variable_routine',
+  applicationConfigProvider: 'application_config_provider',
 
   // Models Properties
   idSkill: 'idSkill',
@@ -64,6 +65,7 @@ export default {
   scheduledIsRunning: 'Scheduled task is running',
   hasBeenScheduled: 'has been scheduled',
   isRunning: 'is Running',
+  schedulesAreDisabled: 'Schedules are disabled',
 
   // Errors
   applicationError: 'ApplicationError',
