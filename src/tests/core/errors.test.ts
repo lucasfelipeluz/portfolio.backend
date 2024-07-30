@@ -4,6 +4,7 @@ import {
   BadRequestError,
   ForbiddenError,
   NotFoundEntityError,
+  NotImplementedError,
   UnauthorizedError,
   ValidationError,
 } from '@/core/errors';
@@ -68,5 +69,15 @@ describe('Unauthorized Error', () => {
     expect(unauthorizedError.message).toBe(stringErrorText);
     expect(unauthorizedError.name).toBe(strings.unauthorizedError);
     expect(unauthorizedError.code).toBe(StatusCodes.Unauthorized);
+  });
+});
+
+describe('Not Implemented Error', () => {
+  it('should return all properties of the error', () => {
+    const notImplementedError = new NotImplementedError(strings.notImplementedError);
+
+    expect(notImplementedError.message).toBe(strings.notImplementedError);
+    expect(notImplementedError.name).toBe(strings.notImplementedError);
+    expect(notImplementedError.code).toBe(StatusCodes.NotImplemented);
   });
 });
