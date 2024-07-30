@@ -60,10 +60,16 @@ const user: Includeable[] = [];
 
 const role: Includeable[] = [];
 
+const aboutMe: Includeable[] = [];
+
+const systemVariable: Includeable[] = [];
+
 export default {
   project,
   skill,
   projectSkill,
   role,
   user,
+  aboutMe,
+  systemVariable,
 };

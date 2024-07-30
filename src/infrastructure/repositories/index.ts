@@ -3,6 +3,8 @@ import ProjectImageRepository from './ProjectImageRepository';
 import ProjectRepository from './ProjectRepository';
 import ProjectSkillRepository from './ProjectSkillRepository';
 import SkillRepository from './SkillRepository';
+import SystemVariableRepository from './SystemVariableRepository';
+import AboutMeRepository from './AboutMeRepository';
 
 export {
   ProjectImageRepository,
@@ -10,4 +12,6 @@ export {
   ProjectSkillRepository,
   SkillRepository,
   UserRepository,
+  AboutMeRepository,
+  SystemVariableRepository,
 };

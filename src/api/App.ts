@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import router from '@/api/routes/routes';
+import runRoutines from '@/api/routines';
 import { httpResponses } from '@/api/utils';
 import { strings } from '@/core/utils';
 import * as cors from 'cors';
@@ -13,6 +14,14 @@ class App {
   constructor(port: number) {
     this.app = Express();
     this.port = port;
+  }
+
+  private loadRoutines(): void {
+    try {
+      runRoutines();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   private loadOptions(): void {
@@ -36,6 +45,8 @@ class App {
     this.loadOptions();
 
     this.loadRoutes();
+
+    this.loadRoutines();
 
     this.app.listen(this.port, () => {
       console.log(`${strings.applicationRunning}: ${this.port}`);

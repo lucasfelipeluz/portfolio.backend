@@ -2,7 +2,6 @@ import Entity from './Entity';
 import User from './User';
 
 class Role extends Entity {
-  public id: number;
   public name: string;
 
   public readonly users: User[];

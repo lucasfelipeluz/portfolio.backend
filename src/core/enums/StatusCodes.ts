@@ -8,6 +8,7 @@ enum StatusCodes {
   NotFound = 404,
   Conflict = 409,
   InternalServerError = 500,
+  NotImplemented = 501,
 }
 
 export default StatusCodes;

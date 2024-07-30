@@ -13,6 +13,9 @@ export default {
   images: 'images',
   role: 'role',
   roles: 'roles',
+  systemVariable: 'system_variable',
+  systemVariableRoutine: 'system_variable_routine',
+  applicationConfigProvider: 'application_config_provider',
 
   // Models Properties
   idSkill: 'idSkill',
@@ -40,12 +43,29 @@ export default {
   projectImageIsCreated: 'Project Image is created',
   projectImageIsUpdated: 'Project Image is updated',
   projectImageIsDeleted: 'Project Image is deleted',
+  systemVariableIsCreated: 'System Variable is created',
+  systemVariableIsUpdated: 'System Variable is updated',
+  systemVariableIsDeleted: 'System Variable is deleted',
+  systemVariableNotFound: 'System Variable not found',
+  aboutMeIsUpdated: 'About Me is updated',
+  aboutMeNotFound: 'About Me not found',
 
   // Msg Errors
   internalServerError: 'A server error has occurred.',
   AnErrorOccurredWhileSavingTheData: 'An error occurred while saving the data.',
   redisError: 'An error occurred while trying to connect to Redis.',
   notPermissionError: 'You do not have permission to access this resource.',
+  errorUsingAbstrackClass: 'This method must be implemented in the child class.',
+  invalidCallbackFunction: 'Invalid callback function',
+  invalidCronExpression: 'Invalid cron expression',
+  taskAlreadyStarted: 'Task already started',
+  taskNotStarted: 'Task not started',
+
+  // Msg
+  scheduledIsRunning: 'Scheduled task is running',
+  hasBeenScheduled: 'has been scheduled',
+  isRunning: 'is Running',
+  schedulesAreDisabled: 'Schedules are disabled',
 
   // Errors
   applicationError: 'ApplicationError',
@@ -55,4 +75,5 @@ export default {
   notFoundEntityError: 'NotFoundEntityError',
   unauthorizedError: 'UnauthorizedError',
   validationError: 'ValidationError',
+  notImplementedError: 'NotImplementedError',
 };

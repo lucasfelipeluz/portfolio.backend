@@ -17,11 +17,19 @@ class ProjectController implements IProjectController {
   }
 
   async getAll(request: Request, response: Response): Promise<unknown> {
-    const filters = filter.projectFilter(request.query);
+    try {
+      const filters = filter.projectFilter(request.query);
 
-    const entities = await this.projectService.getAll(filters);
+      const entities = await this.projectService.getAll(filters);
 
-    return httpResponses.ok(response, entities);
+      return httpResponses.ok(response, entities);
+    } catch (error) {
+      return httpResponses.handleServerError(
+        response,
+        strings.internalServerError,
+        error as ApplicationError,
+      );
+    }
   }
 
   async getById(request: Request, response: Response): Promise<unknown> {
