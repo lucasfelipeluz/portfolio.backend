@@ -1,6 +1,6 @@
 import { strings } from '@/core/utils';
 import { ICacheProvider } from '@/infrastructure/interfaces';
-import { RedisClientType, createClient } from 'redis';
+import { RedisClientType, SetOptions, createClient } from 'redis';
 import { FindOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 
@@ -14,7 +14,7 @@ class CacheProvider<T> implements ICacheProvider<T> {
   }
 
   private checkClient(): void {
-    if (!this.client.isReady) {
+    if (!this.client.isReady && !this.client.isOpen) {
       throw new Error(strings.redisError);
     }
   }
@@ -36,11 +36,16 @@ class CacheProvider<T> implements ICacheProvider<T> {
     }
   }
 
-  async create(key: string, filter: FindOptions, value: T[] | T): Promise<void> {
+  async create(
+    key: string,
+    filter: FindOptions,
+    value: T[] | T,
+    options?: SetOptions,
+  ): Promise<void> {
     try {
       this.checkClient();
 
-      await this.client.set(`${key}-${JSON.stringify(filter)}`, JSON.stringify(value));
+      await this.client.set(`${key}-${JSON.stringify(filter)}`, JSON.stringify(value), options);
     } catch (error) {
       console.error(error);
     }

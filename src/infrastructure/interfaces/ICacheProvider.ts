@@ -1,8 +1,9 @@
+import { SetOptions } from 'redis';
 import { FindOptions } from 'sequelize';
 
 interface ICacheProvider<T> {
   get(key: string, filter: FindOptions): Promise<T[] | T | null>;
-  create(key: string, filter: FindOptions, value: T | T[]): Promise<void>;
+  create(key: string, filter: FindOptions, value: T | T[], options?: SetOptions): Promise<void>;
   clearWhenStartingWith(key: string): Promise<void>;
   clearWhenStartingWithThese(keys: string[]): Promise<void>;
   clearAll(): Promise<void>;

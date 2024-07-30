@@ -14,6 +14,7 @@ export default {
   role: 'role',
   roles: 'roles',
   systemVariable: 'system_variable',
+  systemVariableRoutine: 'system_variable_routine',
 
   // Models Properties
   idSkill: 'idSkill',
@@ -53,6 +54,16 @@ export default {
   AnErrorOccurredWhileSavingTheData: 'An error occurred while saving the data.',
   redisError: 'An error occurred while trying to connect to Redis.',
   notPermissionError: 'You do not have permission to access this resource.',
+  errorUsingAbstrackClass: 'This method must be implemented in the child class.',
+  invalidCallbackFunction: 'Invalid callback function',
+  invalidCronExpression: 'Invalid cron expression',
+  taskAlreadyStarted: 'Task already started',
+  taskNotStarted: 'Task not started',
+
+  // Msg
+  scheduledIsRunning: 'Scheduled task is running',
+  hasBeenScheduled: 'has been scheduled',
+  isRunning: 'is Running',
 
   // Errors
   applicationError: 'ApplicationError',
@@ -62,4 +73,5 @@ export default {
   notFoundEntityError: 'NotFoundEntityError',
   unauthorizedError: 'UnauthorizedError',
   validationError: 'ValidationError',
+  notImplementedError: 'NotImplementedError',
 };

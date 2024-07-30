@@ -19,12 +19,15 @@ class SystemVariableController implements ISystemVariableController {
 
   async get(request: Request, response: Response): Promise<unknown> {
     try {
-      const { key } = request.query;
+      const { key, isActive } = request.query;
 
       const filters = {
         where: {},
-        isActive: true,
       } as ServiceFilter<SystemVariableDto>;
+
+      if (isActive) {
+        filters.isActive = isActive === 'true';
+      }
 
       if (key) {
         filters.where = { key: key as string };

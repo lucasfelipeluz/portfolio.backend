@@ -1,4 +1,4 @@
-import { strings } from '@/core/utils';
+import { rules, strings } from '@/core/utils';
 import { SystemVariable } from '@/domain/entities';
 import { FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
@@ -30,7 +30,9 @@ class SystemVariableRepository
       return [] as SystemVariable[];
     }
 
-    await this.cacheProvider.create(strings.systemVariable, options ?? {}, result);
+    await this.cacheProvider.create(strings.systemVariable, options ?? {}, result, {
+      EX: rules.twoDays,
+    });
 
     return result as SystemVariable[];
   }
@@ -48,7 +50,9 @@ class SystemVariableRepository
     });
 
     if (result) {
-      await this.cacheProvider.create(strings.systemVariable, options ?? {}, result);
+      await this.cacheProvider.create(strings.systemVariable, options ?? {}, result, {
+        EX: rules.twoDays,
+      });
     }
 
     return result as SystemVariable;
@@ -69,7 +73,9 @@ class SystemVariableRepository
     });
 
     if (result) {
-      await this.cacheProvider.create(strings.systemVariable, { where: { id } }, result);
+      await this.cacheProvider.create(strings.systemVariable, { where: { id } }, result, {
+        EX: rules.twoDays,
+      });
     }
 
     return result as SystemVariable;
