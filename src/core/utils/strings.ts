@@ -16,6 +16,7 @@ export default {
   systemVariable: 'system_variable',
   systemVariableRoutine: 'system_variable_routine',
   applicationConfigProvider: 'application_config_provider',
+  text: 'text',
 
   // Models Properties
   idSkill: 'idSkill',
@@ -49,6 +50,10 @@ export default {
   systemVariableNotFound: 'System Variable not found',
   aboutMeIsUpdated: 'About Me is updated',
   aboutMeNotFound: 'About Me not found',
+  scheduledIsRunning: 'Scheduled task is running',
+  hasBeenScheduled: 'has been scheduled',
+  isRunning: 'is Running',
+  schedulesAreDisabled: 'Schedules are disabled',
 
   // Msg Errors
   internalServerError: 'A server error has occurred.',
@@ -60,12 +65,6 @@ export default {
   invalidCronExpression: 'Invalid cron expression',
   taskAlreadyStarted: 'Task already started',
   taskNotStarted: 'Task not started',
-
-  // Msg
-  scheduledIsRunning: 'Scheduled task is running',
-  hasBeenScheduled: 'has been scheduled',
-  isRunning: 'is Running',
-  schedulesAreDisabled: 'Schedules are disabled',
 
   // Errors
   applicationError: 'ApplicationError',

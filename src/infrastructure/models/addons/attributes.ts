@@ -275,6 +275,10 @@ const aboutMe: ModelAttributes<AboutMeModel> = {
     primaryKey: true,
     autoIncrement: true,
   },
+  text: {
+    type: DataTypes.STRING(500),
+    allowNull: true,
+  },
   name: {
     type: DataTypes.STRING(100),
     allowNull: false,

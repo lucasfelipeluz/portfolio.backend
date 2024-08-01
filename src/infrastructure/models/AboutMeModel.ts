@@ -6,6 +6,7 @@ import options from './addons/options';
 class AboutMeModel extends Model<AboutMe> {
   declare id: number;
   declare name: string;
+  declare text: string;
   declare jobTitle: string;
   declare telegramLink: string;
   declare youtubeLink: string;

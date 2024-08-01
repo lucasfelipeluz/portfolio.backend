@@ -2,6 +2,7 @@ import Entity from './Entity';
 
 class AboutMe extends Entity {
   public name: string;
+  public text: string;
   public jobTitle: string;
   public telegramLink: string;
   public youtubeLink: string;
@@ -13,6 +14,7 @@ class AboutMe extends Entity {
   constructor(
     id: number,
     name: string,
+    text: string,
     jobTitle: string,
     telegramLink: string,
     youtubeLink: string,
@@ -28,6 +30,7 @@ class AboutMe extends Entity {
     super(id, isActive, createdAt, updatedAt, deletedAt);
 
     this.name = name;
+    this.text = text;
     this.jobTitle = jobTitle;
     this.telegramLink = telegramLink;
     this.youtubeLink = youtubeLink;
