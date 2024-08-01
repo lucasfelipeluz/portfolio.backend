@@ -3,6 +3,7 @@ import { AboutMe } from '@/domain/entities';
 
 class UpdateAboutMeDto {
   private name?: string;
+  private text?: string;
   private jobTitle?: string;
   private telegramLink?: string;
   private youtubeLink?: string;
@@ -13,6 +14,7 @@ class UpdateAboutMeDto {
 
   constructor(
     name?: string,
+    text?: string,
     jobTitle?: string,
     telegramLink?: string,
     youtubeLink?: string,
@@ -22,6 +24,7 @@ class UpdateAboutMeDto {
     isAvailable?: boolean,
   ) {
     this.name = name;
+    this.text = text;
     this.jobTitle = jobTitle;
     this.telegramLink = telegramLink;
     this.youtubeLink = youtubeLink;
@@ -36,6 +39,9 @@ class UpdateAboutMeDto {
   private validate(): void {
     if (this.name && (this.name.length < 3 || this.name.length > 120)) {
       throw new ValidationError('Name must be between 3 and 120 characters');
+    }
+    if (this.text && (this.text.length < 3 || this.text.length > 500)) {
+      throw new ValidationError('Text must be between 3 and 500 characters');
     }
     if (this.jobTitle && (this.jobTitle.length < 3 || this.jobTitle.length > 120)) {
       throw new ValidationError('Job title must be between 3 and 120 characters');
@@ -60,6 +66,7 @@ class UpdateAboutMeDto {
   public toDomain(): AboutMe {
     return {
       name: this.name,
+      text: this.text,
       jobTitle: this.jobTitle,
       telegramLink: this.telegramLink,
       youtubeLink: this.youtubeLink,
@@ -73,6 +80,7 @@ class UpdateAboutMeDto {
   public toUpdateEntity(oldEntity: AboutMe): AboutMe {
     return {
       name: this.name ? this.name : oldEntity.name,
+      text: this.text ? this.text : oldEntity.text,
       jobTitle: this.jobTitle ? this.jobTitle : oldEntity.jobTitle,
       telegramLink: this.telegramLink ? this.telegramLink : oldEntity.telegramLink,
       youtubeLink: this.youtubeLink ? this.youtubeLink : oldEntity.youtubeLink,

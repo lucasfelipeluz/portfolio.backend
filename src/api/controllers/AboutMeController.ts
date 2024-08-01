@@ -34,6 +34,7 @@ class AboutMeController implements IAboutMeController {
     try {
       const {
         name,
+        text,
         jobTitle,
         telegramLink,
         youtubeLink,
@@ -45,6 +46,7 @@ class AboutMeController implements IAboutMeController {
 
       const entity = new UpdateAboutMeDto(
         name,
+        text,
         jobTitle,
         telegramLink,
         youtubeLink,

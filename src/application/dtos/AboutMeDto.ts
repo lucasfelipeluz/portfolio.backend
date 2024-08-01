@@ -3,6 +3,7 @@ import { AboutMe } from '@/domain/entities';
 class AboutMeDto {
   public id?: number;
   public name?: string;
+  public text?: string;
   public jobTitle?: string;
   public telegramLink?: string;
   public youtubeLink?: string;
@@ -17,6 +18,7 @@ class AboutMeDto {
   constructor(aboutMe: AboutMe) {
     this.id = aboutMe.id;
     this.name = aboutMe.name;
+    this.text = aboutMe.text;
     this.jobTitle = aboutMe.jobTitle;
     this.telegramLink = aboutMe.telegramLink;
     this.youtubeLink = aboutMe.youtubeLink;
