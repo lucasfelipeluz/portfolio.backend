@@ -1,22 +1,34 @@
 import { CreateProjectImageDto, ProjectImageDto } from '@/application/dtos';
 import { IProjectImageService } from '@/application/interfaces';
-import { ServiceFilter } from '@/core/types';
-import { transform } from '@/core/utils';
+import { CreateStorageItem, ServiceFilter } from '@/core/types';
+import { strings, transform } from '@/core/utils';
 import { ProjectImage } from '@/domain/entities';
-import { IProjectImageRepository } from '@/infrastructure/interfaces';
+import { IProjectImageRepository, IStorageProvider } from '@/infrastructure/interfaces';
+import { StorageProvider } from '@/infrastructure/providers';
 import { ProjectImageRepository } from '@/infrastructure/repositories';
 import { injectable } from 'tsyringe';
+import { v4 as generateUuidV4 } from 'uuid';
 
 @injectable()
 class ProjectImageService implements IProjectImageService {
   private readonly projectImageRepository: IProjectImageRepository;
+  private readonly storageProvider: IStorageProvider;
 
-  constructor(projectImageRepository: ProjectImageRepository) {
+  constructor(projectImageRepository: ProjectImageRepository, storageProvider: StorageProvider) {
     this.projectImageRepository = projectImageRepository;
+    this.storageProvider = storageProvider;
   }
 
   async create(entity: CreateProjectImageDto): Promise<ProjectImageDto> {
-    const newEntity = entity.toDomain();
+    const createStorageItem: CreateStorageItem = {
+      base64: entity.getBase64(),
+      filename: generateUuidV4(),
+      folder: strings.projects,
+    };
+
+    const storageItem = await this.storageProvider.create(createStorageItem);
+
+    const newEntity = entity.toDomain(storageItem.key);
 
     const createdEntity = await this.projectImageRepository.create(newEntity);
 

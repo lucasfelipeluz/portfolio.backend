@@ -18,9 +18,9 @@ class ProjectImageController implements IProjectImageController {
 
   async create(request: Request, response: Response): Promise<unknown> {
     try {
-      const { path, viewPriority, projectId } = request.body;
+      const { base64, viewPriority, projectId } = request.body;
 
-      const newEntity = new CreateProjectImageDto(path, viewPriority, projectId);
+      const newEntity = new CreateProjectImageDto(base64, viewPriority, projectId);
 
       const createdEntity = await this.projectImageService.create(newEntity);
 
