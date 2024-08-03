@@ -65,6 +65,7 @@ export default {
   invalidCronExpression: 'Invalid cron expression',
   taskAlreadyStarted: 'Task already started',
   taskNotStarted: 'Task not started',
+  errorStorage: 'An error occurred while trying to save the file.',
 
   // Errors
   applicationError: 'ApplicationError',
@@ -75,4 +76,9 @@ export default {
   unauthorizedError: 'UnauthorizedError',
   validationError: 'ValidationError',
   notImplementedError: 'NotImplementedError',
+
+  // Others
+  awsLocationSaEast1: 'sa-east-1',
+
+  urlImagePrefix: 'https://portfoliolucasfelipeluz.s3.sa-east-1.amazonaws.com/',
 };
