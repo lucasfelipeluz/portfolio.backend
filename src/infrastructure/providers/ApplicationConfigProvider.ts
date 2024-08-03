@@ -1,8 +1,10 @@
 import { AuthConfig, ExpiresIn } from '@/core/types';
 import { RoutineConfig } from '@/core/types/routineConfig';
+import { StorageConfig } from '@/core/types/storage';
 import { IApplicationConfigProvider } from '@/infrastructure/interfaces';
 import { config, DotenvConfigOutput } from 'dotenv';
 import { injectable } from 'tsyringe';
+import * as path from 'node:path';
 
 @injectable()
 class ApplicationConfigProvider implements IApplicationConfigProvider {
@@ -26,6 +28,20 @@ class ApplicationConfigProvider implements IApplicationConfigProvider {
       expiresIn: expiresIn as ExpiresIn,
       secretKey: secretKey,
     };
+  }
+
+  getStorageConfig(): StorageConfig {
+    const acessId = process.env.AWS_ACESS_KEY || '';
+    const password = process.env.AWS_SECRET_KEY || '';
+    const container = process.env.AWS_BUCKET_NAME || '';
+    const temporaryFolder = path.resolve(__dirname, '..', 'temp');
+
+    return {
+      acessId,
+      password,
+      container,
+      temporaryFolder,
+    } as StorageConfig;
   }
 }
 
