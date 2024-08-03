@@ -27,7 +27,7 @@ class App {
   private loadOptions(): void {
     this.app.use(cors());
     this.app.use(Express.urlencoded({ extended: true }));
-    this.app.use(Express.json());
+    this.app.use(Express.json({ limit: '5mb' }));
     this.app.use(Express.text());
 
     this.app.use(morgan(':method :url :status :response-time ms'));
