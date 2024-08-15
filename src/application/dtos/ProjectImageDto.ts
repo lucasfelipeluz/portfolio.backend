@@ -1,5 +1,6 @@
 import { ProjectImage } from '@/domain/entities';
 import { ProjectDto } from './';
+import { strings } from '@/core/utils';
 
 class ProjectImageDto {
   private id: number;
@@ -16,7 +17,7 @@ class ProjectImageDto {
 
   constructor(projectImage: ProjectImage, includeProject = false) {
     this.id = projectImage.id;
-    this.path = projectImage.path;
+    this.path = `${strings.urlImagePrefix}${projectImage.path}`;
     this.viewPriority = projectImage.viewPriority;
     this.createdAt = projectImage.createdAt;
     this.updatedAt = projectImage.updatedAt;

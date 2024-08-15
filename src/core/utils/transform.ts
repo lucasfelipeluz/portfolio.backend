@@ -1,5 +1,6 @@
-import { ServiceFilter, UpdateServiceOptions } from '@/core/types';
+import { ServiceFilter, StorageItem, UpdateServiceOptions } from '@/core/types';
 import { Entity } from '@/domain/entities';
+import { ListObjectsV2CommandOutput } from '@aws-sdk/client-s3';
 import { FindOptions, Order, UpdateOptions, WhereOptions } from 'sequelize';
 
 /**
@@ -47,7 +48,22 @@ function updateServiceFilterToModelUpdateFilter<D, M>(
   return newFilters;
 }
 
+function awsListObjectsV2ToStorageItem(
+  listObjectV2CommandOutput: ListObjectsV2CommandOutput,
+): StorageItem[] {
+  const storageItens = listObjectV2CommandOutput.Contents?.map((object) => {
+    return {
+      key: object.Key,
+      lastModified: object.LastModified,
+      size: object.Size,
+    } as StorageItem;
+  });
+
+  return storageItens || [];
+}
+
 export default {
   serviceFilterToModelFilter,
   updateServiceFilterToModelUpdateFilter,
+  awsListObjectsV2ToStorageItem,
 };

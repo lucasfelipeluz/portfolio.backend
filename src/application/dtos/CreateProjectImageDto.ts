@@ -3,12 +3,12 @@ import { ProjectImage } from '@/domain/entities';
 import { ValidationError } from '@/core/errors';
 
 class CreateProjectImageDto {
-  private path: string;
+  private base64: string;
   private viewPriority: number;
   private projectId: number;
 
-  constructor(path: string, viewPriority: number, projectId: number) {
-    this.path = path;
+  constructor(base64: string, viewPriority: number, projectId: number) {
+    this.base64 = base64;
     this.viewPriority = viewPriority;
     this.projectId = projectId;
 
@@ -16,10 +16,13 @@ class CreateProjectImageDto {
   }
 
   private validate(): void {
-    validateProperties<CreateProjectImageDto>(this, ['path', 'viewPriority', 'projectId']);
+    validateProperties<CreateProjectImageDto>(this, ['base64', 'viewPriority', 'projectId']);
 
-    if (this.path.length < 3 || this.path.length > 255) {
-      throw new ValidationError('Path must be between 3 and 255 characters');
+    if (this.base64.length < 3) {
+      throw new ValidationError('Base64 must be greater than 3 characters');
+    }
+    if (this.base64.includes('data:image/') === false) {
+      throw new ValidationError('Base64 must be an image');
     }
     if (this.viewPriority < 0 || this.viewPriority > 100) {
       throw new ValidationError('View priority must be between 1 and 100');
@@ -29,10 +32,14 @@ class CreateProjectImageDto {
     }
   }
 
-  public toDomain(): ProjectImage {
+  public getBase64(): string {
+    return this.base64;
+  }
+
+  public toDomain(path: string): ProjectImage {
     return {
       id: 0,
-      path: this.path,
+      path: path,
       viewPriority: this.viewPriority,
       createdAt: new Date(),
       updatedAt: null,
