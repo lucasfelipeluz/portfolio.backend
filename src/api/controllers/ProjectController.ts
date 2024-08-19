@@ -86,8 +86,16 @@ class ProjectController implements IProjectController {
 
   async update(request: Request, response: Response): Promise<unknown> {
     try {
-      const { title, description, urlWebsite, urlGithub, viewPriority, startedAt, finishedAt } =
-        request.body;
+      const {
+        title,
+        description,
+        urlWebsite,
+        urlGithub,
+        viewPriority,
+        startedAt,
+        finishedAt,
+        idSkills,
+      } = request.body;
 
       const { id } = request.params;
 
@@ -100,6 +108,7 @@ class ProjectController implements IProjectController {
         viewPriority,
         startedAt,
         finishedAt,
+        idSkills,
       );
 
       const filter: UpdateServiceOptions<ProjectDto> = {

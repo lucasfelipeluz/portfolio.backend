@@ -10,6 +10,7 @@ class UpdateProjectDto {
   private viewPriority?: number;
   private startedAt?: Date;
   private finishedAt?: Date | null;
+  private idSkills?: number[];
 
   constructor(
     id: number,
@@ -20,6 +21,7 @@ class UpdateProjectDto {
     viewPriority?: number,
     startedAt?: Date,
     finishedAt?: Date | null,
+    idSkills?: number[],
   ) {
     this.id = id;
     this.title = title;
@@ -29,6 +31,7 @@ class UpdateProjectDto {
     this.viewPriority = viewPriority;
     this.startedAt = startedAt;
     this.finishedAt = finishedAt;
+    this.idSkills = idSkills;
 
     this.validate();
   }
@@ -76,6 +79,10 @@ class UpdateProjectDto {
       deletedAt: null,
       updatedAt: null,
     } as Project;
+  }
+
+  public getIdSkills(): number[] {
+    return this.idSkills ?? [];
   }
 }
 
