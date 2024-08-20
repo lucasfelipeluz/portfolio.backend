@@ -64,6 +64,8 @@ const aboutMe: Includeable[] = [];
 
 const systemVariable: Includeable[] = [];
 
+const experience: Includeable[] = [];
+
 export default {
   project,
   skill,
@@ -72,4 +74,5 @@ export default {
   user,
   aboutMe,
   systemVariable,
+  experience,
 };

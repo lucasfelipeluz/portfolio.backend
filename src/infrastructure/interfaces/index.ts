@@ -2,6 +2,7 @@ import IAboutMeRepository from './IAboutMeRepository';
 import IApplicationConfigProvider from './IApplicationConfigProvider';
 import IBaseRepository from './IBaseRepository';
 import ICacheProvider from './ICacheProvider';
+import IExperienceRepository from './IExperienceRepository';
 import IProjectImageRepository from './IProjectImageRepository';
 import IProjectRepository from './IProjectRepository';
 import IProjectSkillRepository from './IProjectSkillRepository';
@@ -15,6 +16,7 @@ export {
   IApplicationConfigProvider,
   IBaseRepository,
   ICacheProvider,
+  IExperienceRepository,
   IProjectImageRepository,
   IProjectRepository,
   IProjectSkillRepository,
