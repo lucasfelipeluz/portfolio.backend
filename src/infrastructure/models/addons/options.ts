@@ -12,6 +12,20 @@ import {
   UserModel,
 } from '../';
 
+function generateDefaultOptions(
+  tableName: string,
+  isCreatedAt: boolean | true = true,
+  isUpdatedAt: boolean | true = true,
+): InitOptions {
+  return {
+    tableName,
+    sequelize: dbConnection,
+    timestamps: true,
+    createdAt: isCreatedAt ? strings.createdAt : false,
+    updatedAt: isUpdatedAt ? strings.updatedAt : false,
+  };
+}
+
 const project: InitOptions<ProjectModel> = {
   tableName: strings.project,
   sequelize: dbConnection,
@@ -77,6 +91,7 @@ const systemVariable: InitOptions<SystemVariableModel> = {
 };
 
 export default {
+  generateDefaultOptions,
   project,
   skill,
   projectSkill,

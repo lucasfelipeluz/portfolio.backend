@@ -16,7 +16,7 @@ export default {
   systemVariable: 'system_variable',
   systemVariableRoutine: 'system_variable_routine',
   applicationConfigProvider: 'application_config_provider',
-  text: 'text',
+  experience: 'experience',
 
   // Models Properties
   idSkill: 'idSkill',
@@ -79,6 +79,7 @@ export default {
 
   // Others
   awsLocationSaEast1: 'sa-east-1',
+  text: 'text',
 
   urlImagePrefix: 'https://portfoliolucasfelipeluz.s3.sa-east-1.amazonaws.com/',
 };
