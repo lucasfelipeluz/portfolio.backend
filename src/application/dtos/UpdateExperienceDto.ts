@@ -6,7 +6,6 @@ class UpdateExperienceDto {
   public jobTitle: string;
   public companyName: string;
   public description: string;
-  public pathImage: string;
   public startedAt: Date;
   public finishedAt: Date | null;
 
@@ -15,7 +14,6 @@ class UpdateExperienceDto {
     jobTitle: string,
     companyName: string,
     description: string,
-    pathImage: string,
     startedAt: Date,
     finishedAt: Date | null,
   ) {
@@ -23,7 +21,6 @@ class UpdateExperienceDto {
     this.jobTitle = jobTitle;
     this.companyName = companyName;
     this.description = description;
-    this.pathImage = pathImage;
     this.startedAt = startedAt;
     this.finishedAt = finishedAt;
 
@@ -40,9 +37,6 @@ class UpdateExperienceDto {
     if (this.description && (this.description.length < 3 || this.description.length > 500)) {
       throw new ValidationError('Description must be between 3 and 500 characters');
     }
-    if (this.pathImage && (this.pathImage.length < 3 || this.pathImage.length > 255)) {
-      throw new ValidationError('Path image must be between 3 and 255 characters');
-    }
     if (this.startedAt && this.startedAt > new Date()) {
       throw new ValidationError('Started at must be less than current date');
     }
@@ -53,13 +47,13 @@ class UpdateExperienceDto {
     }
   }
 
-  public toDomain(): Experience {
+  public toDomain(pathImage: string): Experience {
     return {
       id: this.id,
       jobTitle: this.jobTitle,
       companyName: this.companyName,
       description: this.description,
-      pathImage: this.pathImage,
+      pathImage,
       startedAt: this.startedAt,
       finishedAt: this.finishedAt,
     } as Experience;

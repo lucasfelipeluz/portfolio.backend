@@ -50,7 +50,7 @@ class ExperienceService implements IExperienceService {
   }
 
   async create(entity: CreateExperienceDto): Promise<ExperienceDto> {
-    const newEntityDomain = entity.toDomain();
+    const newEntityDomain = entity.toDomain('');
 
     const createdEntity = await this.experienceRepository.create(newEntityDomain);
 
@@ -61,7 +61,7 @@ class ExperienceService implements IExperienceService {
     entity: UpdateExperienceDto,
     filter: UpdateServiceOptions<ExperienceDto>,
   ): Promise<ExperienceDto> {
-    const newEntity = entity.toDomain();
+    const newEntity = entity.toDomain('');
 
     const options = transform.updateServiceFilterToModelUpdateFilter<ExperienceDto, Experience>(
       filter,

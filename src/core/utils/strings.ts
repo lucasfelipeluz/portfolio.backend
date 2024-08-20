@@ -54,6 +54,10 @@ export default {
   hasBeenScheduled: 'has been scheduled',
   isRunning: 'is Running',
   schedulesAreDisabled: 'Schedules are disabled',
+  experienceIsCreated: 'Experience is created',
+  experienceIsUpdated: 'Experience is updated',
+  experienceIsDeleted: 'Experience is deleted',
+  experienceNotFound: 'Experience not found',
 
   // Msg Errors
   internalServerError: 'A server error has occurred.',
