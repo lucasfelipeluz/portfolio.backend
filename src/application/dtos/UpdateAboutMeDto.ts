@@ -87,7 +87,7 @@ class UpdateAboutMeDto {
       linkedinLink: this.linkedinLink ? this.linkedinLink : oldEntity.linkedinLink,
       githubLink: this.githubLink ? this.githubLink : oldEntity.githubLink,
       address: this.address ? this.address : oldEntity.address,
-      isAvailable: this.isAvailable ? this.isAvailable : oldEntity.isAvailable,
+      isAvailable: this.isAvailable === undefined ? oldEntity.isAvailable : this.isAvailable,
     } as AboutMe;
   }
 }

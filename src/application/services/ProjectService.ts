@@ -91,13 +91,41 @@ class ProjectService implements IProjectService {
     newEntity: UpdateProjectDto,
     filter: UpdateServiceOptions<ProjectDto>,
   ): Promise<ProjectDto> {
-    const entity = newEntity.toDomain();
+    const transaction = await initTransaction();
+    try {
+      const entity = newEntity.toDomain();
 
-    const options = transform.updateServiceFilterToModelUpdateFilter<ProjectDto, Project>(filter);
+      const options = transform.updateServiceFilterToModelUpdateFilter<ProjectDto, Project>(filter);
 
-    await this.projectRepository.update(entity, options);
+      const idSkills = newEntity.getIdSkills();
 
-    return new ProjectDto(entity, false);
+      if (idSkills && idSkills.length > 0) {
+        await this.projectSkillRepository.delete({
+          where: {
+            idProject: entity.id,
+          },
+          transaction,
+        });
+
+        const newProjectSkills = idSkills.map((idSkill) => {
+          return {
+            idProject: entity.id,
+            idSkill: idSkill,
+          } as ProjectSkill;
+        });
+
+        await this.projectSkillRepository.bulkCreate(newProjectSkills, { transaction });
+      }
+
+      await this.projectRepository.update(entity, { ...options, transaction });
+
+      await transaction.commit();
+
+      return new ProjectDto(entity, false);
+    } catch (error) {
+      await transaction.rollback();
+      throw new ApplicationError(strings.AnErrorOccurredWhileSavingTheData);
+    }
   }
 
   async delete(id: number): Promise<boolean> {
