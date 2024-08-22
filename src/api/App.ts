@@ -36,6 +36,10 @@ class App {
   private loadRoutes(): void {
     this.app.use('/api', router);
 
+    this.app.get('/', (req, res) => {
+      httpResponses.ok(res, { message: strings.welcome });
+    });
+
     this.app.get('*', (req, res) => {
       return httpResponses.notFound(res);
     });

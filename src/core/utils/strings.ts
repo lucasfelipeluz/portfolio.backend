@@ -83,6 +83,7 @@ export default {
   notImplementedError: 'NotImplementedError',
 
   // Others
+  welcome: 'Welcome to my portfolio API',
   awsLocationSaEast1: 'sa-east-1',
   text: 'text',
 
