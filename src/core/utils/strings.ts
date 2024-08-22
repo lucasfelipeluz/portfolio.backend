@@ -1,5 +1,6 @@
 export default {
   // Models names
+  portfolio: 'portfolio',
   project: 'project',
   skill: 'skill',
   aboutMe: 'about_me',
