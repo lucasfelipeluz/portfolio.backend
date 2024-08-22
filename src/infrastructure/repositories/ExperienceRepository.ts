@@ -5,7 +5,7 @@ import {
   IExperienceRepository,
 } from '@/infrastructure/interfaces';
 import { Experience } from '@/domain/entities';
-import { FindOptions, UpdateOptions } from 'sequelize';
+import { CreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import { CacheProvider } from '../providers';
 import { strings } from '@/core/utils';
 import { ExperienceModel } from '../models';
@@ -74,8 +74,8 @@ class ExperienceRepository implements IBaseRepository<Experience>, IExperienceRe
     return result as Experience;
   }
 
-  async create(entity: Experience): Promise<Experience> {
-    const result = await ExperienceModel.create(entity);
+  async create(entity: Experience, options?: CreateOptions): Promise<Experience> {
+    const result = await ExperienceModel.create(entity, options);
 
     await this.cacheProvider.clearWhenStartingWith(strings.experience);
 

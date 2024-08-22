@@ -1,18 +1,24 @@
 import { CreateExperienceDto, ExperienceDto, UpdateExperienceDto } from '@/application/dtos';
 import { IExperienceService } from '@/application/interfaces';
-import { ServiceFilter, UpdateServiceOptions } from '@/core/types';
-import { transform } from '@/core/utils';
+import { ApplicationError } from '@/core/errors';
+import { CreateStorageItem, ServiceFilter, UpdateServiceOptions } from '@/core/types';
+import { strings, transform } from '@/core/utils';
 import { Experience } from '@/domain/entities';
-import { IExperienceRepository } from '@/infrastructure/interfaces';
+import { initTransaction } from '@/infrastructure/config/dbConnection';
+import { IExperienceRepository, IStorageProvider } from '@/infrastructure/interfaces';
+import { StorageProvider } from '@/infrastructure/providers';
 import { ExperienceRepository } from '@/infrastructure/repositories';
 import { injectable } from 'tsyringe';
+import { v4 as generateUuidV4 } from 'uuid';
 
 @injectable()
 class ExperienceService implements IExperienceService {
   private readonly experienceRepository: IExperienceRepository;
+  private readonly storageProvider: IStorageProvider;
 
-  constructor(experienceRepository: ExperienceRepository) {
+  constructor(experienceRepository: ExperienceRepository, storageProvider: StorageProvider) {
     this.experienceRepository = experienceRepository;
+    this.storageProvider = storageProvider;
   }
 
   async getAll(filter: ServiceFilter<ExperienceDto>): Promise<ExperienceDto[]> {
@@ -50,26 +56,60 @@ class ExperienceService implements IExperienceService {
   }
 
   async create(entity: CreateExperienceDto): Promise<ExperienceDto> {
-    const newEntityDomain = entity.toDomain('');
+    const transaction = await initTransaction();
+    try {
+      const createStorageItem: CreateStorageItem = {
+        base64: entity.getBase64(),
+        filename: generateUuidV4(),
+        folder: strings.experience,
+      };
 
-    const createdEntity = await this.experienceRepository.create(newEntityDomain);
+      const storageItem = await this.storageProvider.create(createStorageItem);
 
-    return new ExperienceDto(createdEntity);
+      const newEntityDomain = entity.toDomain(storageItem.key);
+
+      const createdEntity = await this.experienceRepository.create(newEntityDomain, {
+        transaction,
+      });
+
+      await transaction.commit();
+
+      return new ExperienceDto(createdEntity);
+    } catch (e) {
+      await transaction.rollback();
+      throw new ApplicationError(strings.AnErrorOccurredWhileSavingTheData);
+    }
   }
 
   async update(
     entity: UpdateExperienceDto,
     filter: UpdateServiceOptions<ExperienceDto>,
   ): Promise<ExperienceDto> {
-    const newEntity = entity.toDomain('');
+    const transaction = await initTransaction();
+    try {
+      const createStorageItem: CreateStorageItem = {
+        base64: entity.getBase64(),
+        filename: generateUuidV4(),
+        folder: strings.experience,
+      };
 
-    const options = transform.updateServiceFilterToModelUpdateFilter<ExperienceDto, Experience>(
-      filter,
-    );
+      const storageItem = await this.storageProvider.create(createStorageItem);
 
-    await this.experienceRepository.update(newEntity, options);
+      const newEntity = entity.toDomain(storageItem.key);
 
-    return new ExperienceDto(newEntity);
+      const options = transform.updateServiceFilterToModelUpdateFilter<ExperienceDto, Experience>(
+        filter,
+      );
+
+      await this.experienceRepository.update(newEntity, { ...options, transaction });
+
+      await transaction.commit();
+
+      return new ExperienceDto(newEntity);
+    } catch (e) {
+      await transaction.rollback();
+      throw new ApplicationError(strings.AnErrorOccurredWhileSavingTheData);
+    }
   }
 
   async delete(id: number): Promise<boolean> {

@@ -51,13 +51,15 @@ class ExperienceController implements IExperienceController {
 
   async create(request: Request, response: Response): Promise<unknown> {
     try {
-      const { jobTitle, companyName, description, startedAt, finishedAt } = request.body;
+      const { jobTitle, companyName, description, startedAt, finishedAt, base64PathImage } =
+        request.body;
 
       const newEntity = new CreateExperienceDto(
         jobTitle,
         companyName,
         description,
         startedAt,
+        base64PathImage,
         finishedAt,
       );
 
@@ -75,7 +77,8 @@ class ExperienceController implements IExperienceController {
 
   async update(request: Request, response: Response): Promise<unknown> {
     try {
-      const { jobTitle, companyName, description, startedAt, finishedAt } = request.body;
+      const { jobTitle, companyName, description, startedAt, finishedAt, base64PathImage } =
+        request.body;
 
       const { id } = request.params;
 
@@ -85,6 +88,7 @@ class ExperienceController implements IExperienceController {
         companyName,
         description,
         startedAt,
+        base64PathImage,
         finishedAt,
       );
 

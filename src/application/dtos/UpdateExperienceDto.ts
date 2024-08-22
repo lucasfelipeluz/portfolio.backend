@@ -2,12 +2,13 @@ import { ValidationError } from '@/core/errors';
 import { Experience } from '@/domain/entities';
 
 class UpdateExperienceDto {
-  public id: number | null;
-  public jobTitle: string;
-  public companyName: string;
-  public description: string;
-  public startedAt: Date;
-  public finishedAt: Date | null;
+  private id: number | null;
+  private jobTitle: string;
+  private companyName: string;
+  private description: string;
+  private startedAt: Date;
+  private finishedAt: Date | null;
+  private base64PathImage: string;
 
   constructor(
     id: number | null,
@@ -15,6 +16,7 @@ class UpdateExperienceDto {
     companyName: string,
     description: string,
     startedAt: Date,
+    base64PathImage: string,
     finishedAt: Date | null,
   ) {
     this.id = id;
@@ -23,6 +25,7 @@ class UpdateExperienceDto {
     this.description = description;
     this.startedAt = startedAt;
     this.finishedAt = finishedAt;
+    this.base64PathImage = base64PathImage;
 
     this.validate();
   }
@@ -45,6 +48,9 @@ class UpdateExperienceDto {
         throw new ValidationError('Finished date must be greater than started date');
       }
     }
+    if (this.base64PathImage && this.base64PathImage.length === 0) {
+      throw new ValidationError('Base64 path image is required');
+    }
   }
 
   public toDomain(pathImage: string): Experience {
@@ -57,6 +63,10 @@ class UpdateExperienceDto {
       startedAt: this.startedAt,
       finishedAt: this.finishedAt,
     } as Experience;
+  }
+
+  public getBase64(): string {
+    return this.base64PathImage;
   }
 }
 
