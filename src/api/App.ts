@@ -50,6 +50,7 @@ class App {
 
     this.app.listen(this.port, () => {
       console.log(`${strings.applicationRunning}: ${this.port}`);
+      console.log(`SERVER MODE: ${process.env.SERVER_MODE}`);
     });
   }
 }

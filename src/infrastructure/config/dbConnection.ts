@@ -13,6 +13,7 @@ const dbConnection: Sequelize = new Sequelize(
     port: config[env].port,
     dialect: 'mysql',
     timezone: '-03:00',
+    ssl: false,
   },
 );
 
