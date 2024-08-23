@@ -1,4 +1,4 @@
-export interface HeadersMiddlwareInput {
+export interface ClientSourceCountInput {
   clientSource: string;
   timestamp: string;
 }

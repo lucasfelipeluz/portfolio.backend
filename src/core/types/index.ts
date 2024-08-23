@@ -3,7 +3,7 @@ import ConfigTypes from './configTypes';
 import { ServiceFilter, UpdateServiceOptions } from './entityFilters';
 import { QueryEntry } from './entryTypes';
 import ExecutionType from './executionType';
-import { HeadersMiddlwareInput } from './headers';
+import { ClientSourceCountInput } from './headers';
 import { CreateStorageItem, StorageItem } from './storage';
 
 export {
@@ -16,5 +16,5 @@ export {
   ServiceFilter,
   StorageItem,
   UpdateServiceOptions,
-  HeadersMiddlwareInput,
+  ClientSourceCountInput,
 };
