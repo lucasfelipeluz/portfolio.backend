@@ -16,6 +16,7 @@ import { ApplicationError } from '@/core/errors';
 import { strings } from '@/core/utils';
 import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
+import * as docs from '../docs/postman-collection.json';
 
 @autoInjectable()
 class HomeController implements IHomeController {
@@ -102,6 +103,13 @@ class HomeController implements IHomeController {
         error as ApplicationError,
       );
     }
+  }
+
+  async getDocs(request: Request, response: Response): Promise<unknown> {
+    return httpResponses.ok(response, {
+      postmanCollectionLink: strings.postmanCollectionLink,
+      postmanCollectionJson: docs,
+    });
   }
 }
 

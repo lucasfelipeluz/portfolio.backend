@@ -27,7 +27,7 @@ class HeadersMiddlware {
       const clientSource = request.headers['x-client-source'];
 
       if (!clientSource || !this.sourceOfAllowedClients.includes(clientSource.toString())) {
-        throw new ForbiddenError(strings.clientIdentifierError + strings.urlSwaggerDocs);
+        throw new ForbiddenError(strings.clientIdentifierError + strings.urlDocs);
       }
 
       const data: HeadersMiddlwareInput = {

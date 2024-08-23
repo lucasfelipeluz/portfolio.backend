@@ -5,6 +5,7 @@ interface IHomeController {
   getProject(request: Request, response: Response): Promise<unknown>;
   getSkill(request: Request, response: Response): Promise<unknown>;
   getExperience(request: Request, response: Response): Promise<unknown>;
+  getDocs(request: Request, response: Response): Promise<unknown>;
 }
 
 export default IHomeController;

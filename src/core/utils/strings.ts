@@ -74,7 +74,7 @@ export default {
   errorStorage: 'An error occurred while trying to save the file.',
   clientIdentifierError:
     'For security reasons, undefined requests are blocked. Please use any of the request ' +
-    'tools available. Swagger docs: ',
+    'tools available. ',
 
   // Errors
   applicationError: 'ApplicationError',
@@ -92,5 +92,8 @@ export default {
   tooManyRequests: 'Too many requests from this IP, please try again later.',
 
   urlImagePrefix: 'https://portfoliolucasfelipeluz.s3.sa-east-1.amazonaws.com/',
-  urlSwaggerDocs: '/api-docs',
+  urlDocs: 'Documentation on the route: : /api/docs',
+  postmanCollectionLink:
+    // eslint-disable-next-line max-len
+    'https://api.postman.com/collections/21086350-298a4a4f-1c57-484a-8b3b-ff0a57f77b36?access_key=PMAT-01J5PPF4MH3YYEY8ZS6W45E3CB',
 };
