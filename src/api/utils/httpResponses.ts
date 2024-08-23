@@ -119,6 +119,13 @@ function internalServerError(res: Response, message: string, error?: Application
 }
 
 /**
+ * `429` - The user has sent too many requests in a given amount of time.
+ */
+function tooManyRequests(res: Response, message?: string): Response {
+  return res.status(429).send({ message: message || strings.tooManyRequests });
+}
+
+/**
  * Method to handle server errors.
  */
 function handleServerError(res: Response, message: string, error: ApplicationError): Response {
@@ -142,5 +149,6 @@ export default {
   notFound,
   methodNotAllowed,
   internalServerError,
+  tooManyRequests,
   handleServerError,
 };

@@ -27,7 +27,8 @@ export default {
   idRole: 'idRole',
 
   // Messages
-  applicationRunning: 'Application running on port',
+  applicationRunning: 'Application running on port:',
+  serverMode: 'Server mode:',
   urlNotFound: 'URL not found',
   projectIsCreated: 'Project is created',
   projectIsUpdated: 'Project is updated',
@@ -58,6 +59,7 @@ export default {
   experienceIsUpdated: 'Experience is updated',
   experienceIsDeleted: 'Experience is deleted',
   experienceNotFound: 'Experience not found',
+  clientSource: 'clientSource',
 
   // Msg Errors
   internalServerError: 'A server error has occurred.',
@@ -70,6 +72,9 @@ export default {
   taskAlreadyStarted: 'Task already started',
   taskNotStarted: 'Task not started',
   errorStorage: 'An error occurred while trying to save the file.',
+  clientIdentifierError:
+    'For security reasons, undefined requests are blocked. Please use any of the request ' +
+    'tools available. Swagger docs: ',
 
   // Errors
   applicationError: 'ApplicationError',
@@ -84,6 +89,8 @@ export default {
   // Others
   awsLocationSaEast1: 'sa-east-1',
   text: 'text',
+  tooManyRequests: 'Too many requests from this IP, please try again later.',
 
   urlImagePrefix: 'https://portfoliolucasfelipeluz.s3.sa-east-1.amazonaws.com/',
+  urlSwaggerDocs: '/api-docs',
 };
