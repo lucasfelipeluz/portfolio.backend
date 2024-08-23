@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'backend-0',
       script: 'npm',
-      args: 'run start:force',
+      args: 'run start',
       autorestart: true,
       watch: false,
       instance: 1,
@@ -16,7 +16,7 @@ module.exports = {
     {
       name: 'backend-1',
       script: 'npm',
-      args: 'run start:force',
+      args: 'run start',
       autorestart: true,
       watch: false,
       instance: 1,
