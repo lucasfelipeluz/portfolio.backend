@@ -1,4 +1,5 @@
 import IAboutMeRepository from './IAboutMeRepository';
+import IAcessMetricsRepository from './IAcessMetricsRepository';
 import IApplicationConfigProvider from './IApplicationConfigProvider';
 import IBaseRepository from './IBaseRepository';
 import ICacheProvider from './ICacheProvider';
@@ -13,6 +14,7 @@ import IUserRepository from './IUserRepository';
 
 export {
   IAboutMeRepository,
+  IAcessMetricsRepository,
   IApplicationConfigProvider,
   IBaseRepository,
   ICacheProvider,

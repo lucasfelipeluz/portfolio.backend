@@ -1,4 +1,5 @@
 import AboutMeRepository from './AboutMeRepository';
+import AcessMetricsRepository from './AcessMetricsRepository';
 import ExperienceRepository from './ExperienceRepository';
 import ProjectImageRepository from './ProjectImageRepository';
 import ProjectRepository from './ProjectRepository';
@@ -9,6 +10,7 @@ import UserRepository from './UserRepository';
 
 export {
   AboutMeRepository,
+  AcessMetricsRepository,
   ExperienceRepository,
   ProjectImageRepository,
   ProjectRepository,

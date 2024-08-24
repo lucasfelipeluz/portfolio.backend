@@ -1,9 +1,9 @@
 class AcessMetrics {
-  public id: string;
+  public id: number;
   public clientSource: string;
   public date: Date;
 
-  constructor(id: string, clientSource: string, date: Date) {
+  constructor(id: number, clientSource: string, date: Date) {
     this.id = id;
     this.clientSource = clientSource;
     this.date = date;
