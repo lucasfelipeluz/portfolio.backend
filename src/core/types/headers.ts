@@ -1,4 +1,4 @@
-export interface ClientSourceCountInput {
+export interface ClientSourceCount {
   clientSource: string;
   timestamp: string;
 }

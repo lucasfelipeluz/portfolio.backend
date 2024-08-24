@@ -15,9 +15,11 @@ export default {
   roles: 'roles',
   systemVariable: 'system_variable',
   systemVariableRoutine: 'system_variable_routine',
+  acessMetricsRoutine: 'acess_metrics_routine',
   applicationConfigProvider: 'application_config_provider',
   experience: 'experience',
   acessMetrics: 'acess_metrics',
+  cacheProvider: 'cache_provider',
 
   // Models Properties
   idSkill: 'idSkill',

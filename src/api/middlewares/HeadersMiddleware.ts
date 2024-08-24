@@ -1,39 +1,34 @@
 import { httpResponses } from '@/api/utils';
 import { ApplicationError, ForbiddenError } from '@/core/errors';
-import { ClientSourceCountInput } from '@/core/types';
-
+import { ClientSourceCount } from '@/core/types';
 import { strings } from '@/core/utils';
-import { IApplicationConfigProvider, ICacheProvider } from '@/infrastructure/interfaces';
-import { ApplicationConfigProvider, CacheProvider } from '@/infrastructure/providers';
+import { ICacheProvider } from '@/infrastructure/interfaces';
+import { CacheProvider } from '@/infrastructure/providers';
 import { NextFunction, Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
 
 @autoInjectable()
 class HeadersMiddlware {
-  private readonly applicationConfigProvider: IApplicationConfigProvider;
-  private readonly cacheProvider: ICacheProvider<ClientSourceCountInput>;
+  private readonly cacheProvider: ICacheProvider<ClientSourceCount>;
   private readonly sourceOfAllowedClients: string[] =
     process.env.CLIENT_SOURCE_ALLOWED?.split(',') || [];
 
-  constructor(
-    applicationConfigProvider: ApplicationConfigProvider,
-    cacheProvider: CacheProvider<ClientSourceCountInput>,
-  ) {
-    this.applicationConfigProvider = applicationConfigProvider;
+  constructor(cacheProvider: CacheProvider<ClientSourceCount>) {
     this.cacheProvider = cacheProvider;
   }
 
-  private async updateCacheClientSource(newClientSource: ClientSourceCountInput): Promise<void> {
+  private async updateCacheClientSource(newClientSource: ClientSourceCount): Promise<void> {
     const clientSource = await this.cacheProvider.get(strings.clientSource, {});
 
-    let data: ClientSourceCountInput[] = [];
+    let data: ClientSourceCount[] = [];
 
     if (!clientSource) {
       data.push(newClientSource);
     } else {
-      data = clientSource as ClientSourceCountInput[];
+      data = clientSource as ClientSourceCount[];
       data.push(newClientSource);
     }
+
     await this.cacheProvider.create(strings.clientSource, {}, data, { EX: 60 * 60 * 24 });
   }
 
@@ -45,7 +40,7 @@ class HeadersMiddlware {
         throw new ForbiddenError(strings.clientIdentifierError + strings.urlDocs);
       }
 
-      const data: ClientSourceCountInput = {
+      const data: ClientSourceCount = {
         clientSource: clientSource?.toString(),
         timestamp: new Date().toISOString(),
       };

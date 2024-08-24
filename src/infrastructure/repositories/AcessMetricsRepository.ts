@@ -79,6 +79,14 @@ class AcessMetricsRepository implements IBaseRepository<AcessMetrics>, IAcessMet
     return result as AcessMetrics;
   }
 
+  async bulkCreate(entity: AcessMetrics[]): Promise<AcessMetrics[]> {
+    const result = await AcessMetricsModel.bulkCreate(entity);
+
+    await this.cacheProvider.clearWhenStartingWith(strings.acessMetrics);
+
+    return result as AcessMetrics[];
+  }
+
   async update(): Promise<boolean> {
     throw new NotImplementedError(strings.notImplementedError);
   }

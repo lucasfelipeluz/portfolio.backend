@@ -7,4 +7,5 @@ export default {
   oneMinute: 60,
 
   cronMinuteZeroEvery5thHour: '0 */5 * * *',
+  cronMidnightAndFiveMinutesEveryDay: '5 0 * * *',
 };
