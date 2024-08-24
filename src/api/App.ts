@@ -27,7 +27,7 @@ class App {
   }
 
   private loadOptions(): void {
-    this.app.set('trust proxy', true);
+    this.app.enable('trust proxy');
 
     this.app.use(cors());
     this.app.use(Express.urlencoded({ extended: true }));
