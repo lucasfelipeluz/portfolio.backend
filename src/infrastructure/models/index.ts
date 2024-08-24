@@ -1,4 +1,5 @@
 import AboutMeModel from './AboutMeModel';
+import AcessMetricsModel from './AcessesMetricsModel';
 import ExperienceModel from './ExperienceModel';
 import ProjectImageModel from './ProjectImageModel';
 import ProjectModel from './ProjectModel';
@@ -10,6 +11,7 @@ import UserModel from './UserModel';
 
 export {
   AboutMeModel,
+  AcessMetricsModel,
   ExperienceModel,
   ProjectImageModel,
   ProjectModel,

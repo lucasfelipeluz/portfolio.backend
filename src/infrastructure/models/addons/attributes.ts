@@ -1,6 +1,7 @@
 import { DataTypes, ModelAttributes } from 'sequelize';
 import {
   AboutMeModel,
+  AcessMetricsModel,
   ExperienceModel,
   ProjectImageModel,
   ProjectModel,
@@ -420,7 +421,24 @@ const experience: ModelAttributes<ExperienceModel> = {
   },
 };
 
+const acessMetrics: ModelAttributes<AcessMetricsModel> = {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  clientSource: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+  },
+  date: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+};
+
 export default {
+  acessMetrics,
   project,
   skill,
   projectSkill,

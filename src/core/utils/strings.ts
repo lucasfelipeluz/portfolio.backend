@@ -15,8 +15,11 @@ export default {
   roles: 'roles',
   systemVariable: 'system_variable',
   systemVariableRoutine: 'system_variable_routine',
+  acessMetricsRoutine: 'acess_metrics_routine',
   applicationConfigProvider: 'application_config_provider',
   experience: 'experience',
+  acessMetrics: 'acess_metrics',
+  cacheProvider: 'cache_provider',
 
   // Models Properties
   idSkill: 'idSkill',
@@ -27,7 +30,8 @@ export default {
   idRole: 'idRole',
 
   // Messages
-  applicationRunning: 'Application running on port',
+  applicationRunning: 'Application running on port:',
+  serverMode: 'Server mode:',
   urlNotFound: 'URL not found',
   projectIsCreated: 'Project is created',
   projectIsUpdated: 'Project is updated',
@@ -58,6 +62,7 @@ export default {
   experienceIsUpdated: 'Experience is updated',
   experienceIsDeleted: 'Experience is deleted',
   experienceNotFound: 'Experience not found',
+  clientSource: 'clientSource',
 
   // Msg Errors
   internalServerError: 'A server error has occurred.',
@@ -70,6 +75,9 @@ export default {
   taskAlreadyStarted: 'Task already started',
   taskNotStarted: 'Task not started',
   errorStorage: 'An error occurred while trying to save the file.',
+  clientIdentifierError:
+    'For security reasons, undefined requests are blocked. Please use any of the request ' +
+    'tools available. ',
 
   // Errors
   applicationError: 'ApplicationError',
@@ -84,6 +92,11 @@ export default {
   // Others
   awsLocationSaEast1: 'sa-east-1',
   text: 'text',
+  tooManyRequests: 'Too many requests from this IP, please try again later.',
 
   urlImagePrefix: 'https://portfoliolucasfelipeluz.s3.sa-east-1.amazonaws.com/',
+  urlDocs: 'Documentation on the route: : /api/docs',
+  postmanCollectionLink:
+    // eslint-disable-next-line max-len
+    'https://elements.getpostman.com/redirect?entityId=21086350-298a4a4f-1c57-484a-8b3b-ff0a57f77b36&entityType=collection',
 };
