@@ -1,4 +1,5 @@
 import AboutMe from './AboutMe';
+import AcessMetrics from './AcessMetrics';
 import Entity from './Entity';
 import Experience from './Experience';
 import Project from './Project';
@@ -11,6 +12,7 @@ import User from './User';
 
 export {
   AboutMe,
+  AcessMetrics,
   Entity,
   Experience,
   Project,

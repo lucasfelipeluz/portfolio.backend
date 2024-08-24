@@ -17,6 +17,7 @@ export default {
   systemVariableRoutine: 'system_variable_routine',
   applicationConfigProvider: 'application_config_provider',
   experience: 'experience',
+  acessMetrics: 'acess_metrics',
 
   // Models Properties
   idSkill: 'idSkill',
