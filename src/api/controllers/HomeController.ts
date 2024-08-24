@@ -107,7 +107,6 @@ class HomeController implements IHomeController {
 
   async getDocs(request: Request, response: Response): Promise<unknown> {
     return httpResponses.ok(response, {
-      postmanCollectionLink: strings.postmanCollectionLink,
       postmanCollectionJson: docs,
     });
   }

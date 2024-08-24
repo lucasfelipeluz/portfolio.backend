@@ -96,7 +96,4 @@ export default {
 
   urlImagePrefix: 'https://portfoliolucasfelipeluz.s3.sa-east-1.amazonaws.com/',
   urlDocs: 'Documentation on the route: : /api/docs',
-  postmanCollectionLink:
-    // eslint-disable-next-line max-len
-    'https://api.postman.com/collections/21086350-298a4a4f-1c57-484a-8b3b-ff0a57f77b36?access_key=PMAT-01J5PPF4MH3YYEY8ZS6W45E3CB',
 };
