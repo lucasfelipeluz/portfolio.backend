@@ -27,6 +27,8 @@ class App {
   }
 
   private loadOptions(): void {
+    this.app.set('trust proxy', 1);
+
     this.app.use(cors());
     this.app.use(Express.urlencoded({ extended: true }));
     this.app.use(Express.json({ limit: '5mb' }));
