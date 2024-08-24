@@ -17,7 +17,7 @@ const getConfigLimiter = (): RateLimitRequestHandler => {
     max: 100,
     handler: (req, res) => httpResponses.tooManyRequests(res),
     validate: {
-      trustProxy: true,
+      trustProxy: false,
     },
   });
 
