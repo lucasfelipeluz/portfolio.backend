@@ -95,8 +95,9 @@ export default {
   tooManyRequests: 'Too many requests from this IP, please try again later.',
 
   urlImagePrefix: 'https://portfoliolucasfelipeluz.s3.sa-east-1.amazonaws.com/',
-  urlDocs: 'Documentation on the route: /api/docs',
+  urlDocs: 'Documentation on the route: /docs',
   postmanCollectionLink:
     // eslint-disable-next-line max-len
     'https://elements.getpostman.com/redirect?entityId=21086350-298a4a4f-1c57-484a-8b3b-ff0a57f77b36&entityType=collection',
+  welcome: 'Welcome to the Portfolio API - Lucas Felipe Luz',
 };
