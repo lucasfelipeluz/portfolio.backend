@@ -1,6 +1,6 @@
 {
   "name": "portfolio.backend",
-  "version": "0.0.1",
+  "version": "0.8.4",
   "main": "src/app.js",
   "scripts": {
     "start": "node build/index.js",

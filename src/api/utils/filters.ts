@@ -19,6 +19,8 @@ function projectFilter(query: ParsedQs): ServiceFilter<ProjectDto> {
     const [by, through] = stringOrder.replace(' ', '').split(',');
 
     filter.order = [{ by: by as 'ASC' | 'DESC', through: through as keyof ProjectDto }];
+  } else {
+    filter.order = [{ by: 'DESC', through: 'viewPriority' as keyof ProjectDto }];
   }
 
   return filter;
@@ -41,6 +43,8 @@ function skillFilter(query: ParsedQs): ServiceFilter<SkillDto> {
     const [by, through] = stringOrder.replace(' ', '').split(',');
 
     filter.order = [{ by: by as 'ASC' | 'DESC', through: through as keyof SkillDto }];
+  } else {
+    filter.order = [{ by: 'DESC', through: 'viewPriority' as keyof SkillDto }];
   }
 
   return filter;

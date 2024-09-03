@@ -8,6 +8,8 @@ import * as Express from 'express';
 import * as morgan from 'morgan';
 import 'reflect-metadata';
 import { container as dependencyContainer } from 'tsyringe';
+import { strings } from '@/core/utils';
+import { HomeController } from './controllers';
 
 class App {
   private readonly app: Express.Application;
@@ -45,8 +47,15 @@ class App {
 
   private loadRoutes(): void {
     const headersMiddlware = dependencyContainer.resolve(HeadersMiddlware);
+    const homeController = dependencyContainer.resolve(HomeController);
 
     this.app.use('/api', headersMiddlware.handle.bind(headersMiddlware), router);
+
+    this.app.use('/docs', homeController.getDocs.bind(homeController));
+
+    this.app.get('/', (req, res) => {
+      return httpResponses.ok(res, { message: strings.welcome, docs: strings.urlDocs });
+    });
 
     this.app.get('*', (req, res) => {
       return httpResponses.notFound(res);
