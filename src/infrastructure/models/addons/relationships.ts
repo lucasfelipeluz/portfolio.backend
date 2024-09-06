@@ -40,10 +40,18 @@ const project: Includeable[] = [
   {
     model: SkillModel,
     as: strings.skills,
+    where: {
+      isActive: true,
+    },
+    required: false,
   },
   {
     model: ProjectImageModel,
     as: strings.images,
+    where: {
+      isActive: true,
+    },
+    required: false,
   },
 ];
 
@@ -51,6 +59,10 @@ const skill: Includeable[] = [
   {
     model: ProjectModel,
     as: strings.projects,
+    where: {
+      isActive: true,
+    },
+    required: false,
   },
 ];
 

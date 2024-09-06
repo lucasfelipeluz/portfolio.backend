@@ -42,6 +42,9 @@ class HomeController implements IHomeController {
       const projectFilter = filter.projectFilter(request.query);
       const skillFilter = filter.skillFilter(request.query);
 
+      projectFilter.isActive = true;
+      skillFilter.isActive = true;
+
       const projects = await this.projectService.getAll(projectFilter);
       const skills = await this.skillService.getAll(skillFilter);
       const aboutMe = await this.aboutMeService.get();
