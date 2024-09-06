@@ -4,6 +4,7 @@ import ExperienceService from './ExperienceService';
 import ProjectImageService from './ProjectImageService';
 import ProjectService from './ProjectService';
 import SkillService from './SkillService';
+import SuggestionService from './SuggestionService';
 import SystemVariableService from './SystemVariableService';
 
 export {
@@ -13,5 +14,6 @@ export {
   ProjectImageService,
   ProjectService,
   SkillService,
+  SuggestionService,
   SystemVariableService,
 };
