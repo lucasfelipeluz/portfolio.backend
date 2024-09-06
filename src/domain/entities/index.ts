@@ -7,6 +7,7 @@ import ProjectImage from './ProjectImage';
 import ProjectSkill from './ProjectSkill';
 import Role from './Role';
 import Skill from './Skill';
+import Suggestion from './Suggestion';
 import SystemVariable from './SystemVariable';
 import User from './User';
 
@@ -20,6 +21,7 @@ export {
   ProjectSkill,
   Role,
   Skill,
+  Suggestion,
   SystemVariable,
   User,
 };

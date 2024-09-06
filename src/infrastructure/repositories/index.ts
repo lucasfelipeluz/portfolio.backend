@@ -5,6 +5,7 @@ import ProjectImageRepository from './ProjectImageRepository';
 import ProjectRepository from './ProjectRepository';
 import ProjectSkillRepository from './ProjectSkillRepository';
 import SkillRepository from './SkillRepository';
+import SuggestionRepository from './SuggestionRepository';
 import SystemVariableRepository from './SystemVariableRepository';
 import UserRepository from './UserRepository';
 
@@ -16,6 +17,7 @@ export {
   ProjectRepository,
   ProjectSkillRepository,
   SkillRepository,
+  SuggestionRepository,
   SystemVariableRepository,
   UserRepository,
 };

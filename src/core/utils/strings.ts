@@ -20,6 +20,7 @@ export default {
   experience: 'experience',
   acessMetrics: 'acess_metrics',
   cacheProvider: 'cache_provider',
+  suggestion: 'suggestion',
 
   // Models Properties
   idSkill: 'idSkill',
