@@ -39,6 +39,8 @@ class AboutMeController {
         youtubeLink,
         linkedinLink,
         githubLink,
+        base64Cv,
+        base64ProfilePic,
         address,
         isAvailable,
       } = request.body;
@@ -51,6 +53,8 @@ class AboutMeController {
         youtubeLink,
         linkedinLink,
         githubLink,
+        base64Cv,
+        base64ProfilePic,
         address,
         isAvailable,
       );

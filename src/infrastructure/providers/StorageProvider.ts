@@ -64,7 +64,9 @@ class StorageProvider implements IStorageProvider {
     try {
       this.createTemporaryFolderIfNotExists();
 
-      const extensionFile = data.base64.split(';')[0].split('/')[1];
+      const extensionFile = data.extension
+        ? data.extension
+        : data.base64.split(';')[0].split('/')[1];
 
       data.filename = `${data.filename}.${extensionFile}`;
       data.base64 = data.base64.split(',')[1];

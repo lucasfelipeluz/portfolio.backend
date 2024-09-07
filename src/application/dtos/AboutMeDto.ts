@@ -10,6 +10,8 @@ class AboutMeDto {
   public linkedinLink?: string;
   public githubLink?: string;
   public address?: string;
+  public pathCv?: string;
+  public pathProfilePic?: string;
   public isAvailable?: boolean;
   public createdAt: Date | null;
   public updatedAt: Date | null;
@@ -25,6 +27,8 @@ class AboutMeDto {
     this.linkedinLink = aboutMe.linkedinLink;
     this.githubLink = aboutMe.githubLink;
     this.address = aboutMe.address;
+    this.pathCv = aboutMe.pathCv;
+    this.pathProfilePic = aboutMe.pathProfilePic;
     this.isAvailable = aboutMe.isAvailable;
     this.createdAt = aboutMe.createdAt;
     this.updatedAt = aboutMe.updatedAt;

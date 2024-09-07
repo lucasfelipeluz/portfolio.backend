@@ -8,6 +8,7 @@ export interface CreateStorageItem {
   folder: string;
   filename: string;
   base64: string;
+  extension?: string;
 }
 
 export interface DeleteStorageItem {

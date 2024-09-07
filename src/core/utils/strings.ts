@@ -29,6 +29,8 @@ export default {
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   idRole: 'idRole',
+  pathCv: 'pathCv',
+  pathProfilePic: 'pathProfilePic',
 
   // Messages
   applicationRunning: 'Application running on port:',
@@ -101,4 +103,8 @@ export default {
     // eslint-disable-next-line max-len
     'https://elements.getpostman.com/redirect?entityId=21086350-298a4a4f-1c57-484a-8b3b-ff0a57f77b36&entityType=collection',
   welcome: 'Welcome to the Portfolio API - Lucas Felipe Luz',
+  profile: 'profile',
+  cv: 'cv',
+  pdf: 'pdf',
+  png: 'png',
 };

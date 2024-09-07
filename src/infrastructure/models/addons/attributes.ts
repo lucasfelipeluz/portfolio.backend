@@ -310,6 +310,14 @@ const aboutMe: ModelAttributes<AboutMeModel> = {
     type: DataTypes.STRING(255),
     allowNull: false,
   },
+  pathCv: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
+  },
+  pathProfilePic: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
+  },
   isAvailable: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
