@@ -1,22 +1,21 @@
-import { IAuthController } from '@/api/interfaces';
+import { httpResponses } from '@/api/utils';
+import { LoginDto, RegisterDto } from '@/application/dtos';
 import { IAuthService } from '@/application/interfaces';
+import { AuthService } from '@/application/services';
+import { ApplicationError } from '@/core/errors';
 import { strings } from '@/core/utils';
 import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
-import { httpResponses } from '@/api/utils';
-import { ApplicationError } from '@/core/errors';
-import { AuthService } from '@/application/services';
-import { LoginDto, RegisterDto } from '@/application/dtos';
 
 @autoInjectable()
-class AuthController implements IAuthController {
+class AuthController {
   private readonly authService: IAuthService;
 
   constructor(authService: AuthService) {
     this.authService = authService;
   }
 
-  async login(request: Request, response: Response): Promise<unknown> {
+  async login(request: Request, response: Response): Promise<Response> {
     try {
       const { nickname, email, password } = request.body;
 
@@ -34,7 +33,7 @@ class AuthController implements IAuthController {
     }
   }
 
-  async register(request: Request, response: Response): Promise<unknown> {
+  async register(request: Request, response: Response): Promise<Response> {
     try {
       const { name, nickname, email, password } = request.body;
 

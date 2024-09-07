@@ -1,4 +1,3 @@
-import { ISkillController } from '@/api/interfaces';
 import { filter, httpResponses } from '@/api/utils';
 import { CreateSkillDto, SkillDto, UpdateSkillDto } from '@/application/dtos';
 import { SkillService } from '@/application/services';
@@ -9,14 +8,14 @@ import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
 
 @autoInjectable()
-class SkillController implements ISkillController {
+class SkillController {
   private readonly skillService: SkillService;
 
   constructor(skillService: SkillService) {
     this.skillService = skillService;
   }
 
-  async getAll(request: Request, response: Response): Promise<unknown> {
+  async getAll(request: Request, response: Response): Promise<Response> {
     try {
       const filters = filter.skillFilter(request.query);
 
@@ -32,7 +31,7 @@ class SkillController implements ISkillController {
     }
   }
 
-  async getById(request: Request, response: Response): Promise<unknown> {
+  async getById(request: Request, response: Response): Promise<Response> {
     try {
       const { id } = request.params;
 
@@ -48,7 +47,7 @@ class SkillController implements ISkillController {
     }
   }
 
-  async create(request: Request, response: Response): Promise<unknown> {
+  async create(request: Request, response: Response): Promise<Response> {
     try {
       const { title, description, startedAt, icon, color, viewPriority } = request.body;
 
@@ -73,7 +72,7 @@ class SkillController implements ISkillController {
     }
   }
 
-  async update(request: Request, response: Response): Promise<unknown> {
+  async update(request: Request, response: Response): Promise<Response> {
     try {
       const { title, description, startedAt, icon, color, viewPriority } = request.body;
 
@@ -107,7 +106,7 @@ class SkillController implements ISkillController {
     }
   }
 
-  async delete(request: Request, response: Response): Promise<unknown> {
+  async delete(request: Request, response: Response): Promise<Response> {
     try {
       const { id } = request.params;
 

@@ -7,17 +7,16 @@ import { ServiceFilter } from '@/core/types';
 import { strings } from '@/core/utils';
 import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
-import { ISystemVariableController } from '../interfaces';
 
 @autoInjectable()
-class SystemVariableController implements ISystemVariableController {
+class SystemVariableController {
   private readonly systemVariableService: ISystemVariableService;
 
   constructor(systemVariableService: SystemVariableService) {
     this.systemVariableService = systemVariableService;
   }
 
-  async get(request: Request, response: Response): Promise<unknown> {
+  async get(request: Request, response: Response): Promise<Response> {
     try {
       const { key, isActive } = request.query;
 
@@ -45,7 +44,7 @@ class SystemVariableController implements ISystemVariableController {
     }
   }
 
-  async create(request: Request, response: Response): Promise<unknown> {
+  async create(request: Request, response: Response): Promise<Response> {
     try {
       const { key, value } = request.body;
 
@@ -63,7 +62,7 @@ class SystemVariableController implements ISystemVariableController {
     }
   }
 
-  async delete(request: Request, response: Response): Promise<unknown> {
+  async delete(request: Request, response: Response): Promise<Response> {
     try {
       const { id } = request.params;
 

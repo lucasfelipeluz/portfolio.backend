@@ -1,4 +1,3 @@
-import { IProjectController } from '@/api/interfaces';
 import { filter, httpResponses } from '@/api/utils';
 import { CreateProjectDto, ProjectDto, UpdateProjectDto } from '@/application/dtos';
 import { ProjectService } from '@/application/services';
@@ -9,14 +8,14 @@ import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
 
 @autoInjectable()
-class ProjectController implements IProjectController {
+class ProjectController {
   private readonly projectService: ProjectService;
 
   constructor(projectService: ProjectService) {
     this.projectService = projectService;
   }
 
-  async getAll(request: Request, response: Response): Promise<unknown> {
+  async getAll(request: Request, response: Response): Promise<Response> {
     try {
       const filters = filter.projectFilter(request.query);
 
@@ -32,7 +31,7 @@ class ProjectController implements IProjectController {
     }
   }
 
-  async getById(request: Request, response: Response): Promise<unknown> {
+  async getById(request: Request, response: Response): Promise<Response> {
     try {
       const { id } = request.params;
 
@@ -48,7 +47,7 @@ class ProjectController implements IProjectController {
     }
   }
 
-  async create(request: Request, response: Response): Promise<unknown> {
+  async create(request: Request, response: Response): Promise<Response> {
     try {
       const {
         title,
@@ -84,7 +83,7 @@ class ProjectController implements IProjectController {
     }
   }
 
-  async update(request: Request, response: Response): Promise<unknown> {
+  async update(request: Request, response: Response): Promise<Response> {
     try {
       const {
         title,
@@ -129,7 +128,7 @@ class ProjectController implements IProjectController {
     }
   }
 
-  async delete(request: Request, response: Response): Promise<unknown> {
+  async delete(request: Request, response: Response): Promise<Response> {
     try {
       const { id } = request.params;
 
