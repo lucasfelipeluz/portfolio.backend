@@ -1,3 +1,4 @@
+import { strings } from '@/core/utils';
 import { AboutMe } from '@/domain/entities';
 
 class AboutMeDto {
@@ -10,6 +11,8 @@ class AboutMeDto {
   public linkedinLink?: string;
   public githubLink?: string;
   public address?: string;
+  public pathCv?: string;
+  public pathProfilePic?: string;
   public isAvailable?: boolean;
   public createdAt: Date | null;
   public updatedAt: Date | null;
@@ -25,6 +28,10 @@ class AboutMeDto {
     this.linkedinLink = aboutMe.linkedinLink;
     this.githubLink = aboutMe.githubLink;
     this.address = aboutMe.address;
+    this.pathCv = aboutMe.pathCv ? `${strings.urlImagePrefix}${aboutMe.pathCv}` : undefined;
+    this.pathProfilePic = aboutMe.pathProfilePic
+      ? `${strings.urlImagePrefix}${aboutMe.pathProfilePic}`
+      : undefined;
     this.isAvailable = aboutMe.isAvailable;
     this.createdAt = aboutMe.createdAt;
     this.updatedAt = aboutMe.updatedAt;

@@ -1,4 +1,3 @@
-import { IHomeController } from '@/api/interfaces';
 import { filter, httpResponses } from '@/api/utils';
 import {
   IAboutMeService,
@@ -19,7 +18,7 @@ import { autoInjectable } from 'tsyringe';
 import * as docs from '../docs/postman-collection.json';
 
 @autoInjectable()
-class HomeController implements IHomeController {
+class HomeController {
   private readonly projectService: IProjectService;
   private readonly skillService: ISkillService;
   private readonly aboutMeService: IAboutMeService;
@@ -37,10 +36,13 @@ class HomeController implements IHomeController {
     this.experienceService = experienceService;
   }
 
-  async get(request: Request, response: Response): Promise<unknown> {
+  async get(request: Request, response: Response): Promise<Response> {
     try {
       const projectFilter = filter.projectFilter(request.query);
       const skillFilter = filter.skillFilter(request.query);
+
+      projectFilter.isActive = true;
+      skillFilter.isActive = true;
 
       const projects = await this.projectService.getAll(projectFilter);
       const skills = await this.skillService.getAll(skillFilter);
@@ -57,7 +59,7 @@ class HomeController implements IHomeController {
     }
   }
 
-  async getProject(request: Request, response: Response): Promise<unknown> {
+  async getProject(request: Request, response: Response): Promise<Response> {
     try {
       const id = request.params.id;
 
@@ -73,7 +75,7 @@ class HomeController implements IHomeController {
     }
   }
 
-  async getSkill(request: Request, response: Response): Promise<unknown> {
+  async getSkill(request: Request, response: Response): Promise<Response> {
     try {
       const id = request.params.id;
 
@@ -89,7 +91,7 @@ class HomeController implements IHomeController {
     }
   }
 
-  async getExperience(request: Request, response: Response): Promise<unknown> {
+  async getExperience(request: Request, response: Response): Promise<Response> {
     try {
       const id = request.params.id;
 
@@ -105,7 +107,7 @@ class HomeController implements IHomeController {
     }
   }
 
-  async getDocs(request: Request, response: Response): Promise<unknown> {
+  async getDocs(request: Request, response: Response): Promise<Response> {
     return httpResponses.ok(response, {
       postmanCollectionLink: strings.postmanCollectionLink,
       postmanCollectionJson: docs,

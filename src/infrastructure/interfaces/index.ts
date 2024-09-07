@@ -9,6 +9,7 @@ import IProjectRepository from './IProjectRepository';
 import IProjectSkillRepository from './IProjectSkillRepository';
 import ISkillRepository from './ISkillRepository';
 import IStorageProvider from './IStorageRepository';
+import ISuggestionRepository from './ISuggestionRepository';
 import ISystemVariableRepository from './ISystemVariableRepository';
 import IUserRepository from './IUserRepository';
 
@@ -24,6 +25,7 @@ export {
   IProjectSkillRepository,
   ISkillRepository,
   IStorageProvider,
+  ISuggestionRepository,
   ISystemVariableRepository,
   IUserRepository,
 };

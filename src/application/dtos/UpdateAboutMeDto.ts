@@ -9,6 +9,10 @@ class UpdateAboutMeDto {
   private youtubeLink?: string;
   private linkedinLink?: string;
   private githubLink?: string;
+  private base64Cv?: string;
+  private base64ProfilePic?: string;
+  private pathCv?: string;
+  private pathProfilePic?: string;
   private address?: string;
   private isAvailable?: boolean;
 
@@ -20,6 +24,8 @@ class UpdateAboutMeDto {
     youtubeLink?: string,
     linkedinLink?: string,
     githubLink?: string,
+    base64Cv?: string,
+    base64ProfilePic?: string,
     address?: string,
     isAvailable?: boolean,
   ) {
@@ -30,6 +36,8 @@ class UpdateAboutMeDto {
     this.youtubeLink = youtubeLink;
     this.linkedinLink = linkedinLink;
     this.githubLink = githubLink;
+    this.base64Cv = base64Cv;
+    this.base64ProfilePic = base64ProfilePic;
     this.address = address;
     this.isAvailable = isAvailable;
 
@@ -61,10 +69,16 @@ class UpdateAboutMeDto {
     if (this.address && (this.address.length < 3 || this.address.length > 255)) {
       throw new ValidationError('Address must be between 3 and 255 characters');
     }
+    if (this.base64Cv && this.base64Cv.length < 3) {
+      throw new ValidationError('CV must be a valid base64 string');
+    }
+    if (this.base64ProfilePic && this.base64ProfilePic.length < 3) {
+      throw new ValidationError('Profile picture must be a valid base64 string');
+    }
   }
 
   public toDomain(): AboutMe {
-    return {
+    const entity = {
       name: this.name,
       text: this.text,
       jobTitle: this.jobTitle,
@@ -73,8 +87,12 @@ class UpdateAboutMeDto {
       linkedinLink: this.linkedinLink,
       githubLink: this.githubLink,
       address: this.address,
+      pathCv: this.base64Cv,
+      pathProfilePic: this.base64ProfilePic,
       isAvailable: this.isAvailable,
     } as AboutMe;
+
+    return entity;
   }
 
   public toUpdateEntity(oldEntity: AboutMe): AboutMe {
@@ -87,8 +105,22 @@ class UpdateAboutMeDto {
       linkedinLink: this.linkedinLink ? this.linkedinLink : oldEntity.linkedinLink,
       githubLink: this.githubLink ? this.githubLink : oldEntity.githubLink,
       address: this.address ? this.address : oldEntity.address,
+      pathCv: this.pathCv ? this.pathCv : oldEntity.pathCv,
+      pathProfilePic: this.pathProfilePic ? this.pathProfilePic : oldEntity.pathProfilePic,
       isAvailable: this.isAvailable === undefined ? oldEntity.isAvailable : this.isAvailable,
     } as AboutMe;
+  }
+
+  public getBase64Files(): { base64Cv?: string; base64ProfilePic?: string } {
+    return {
+      base64Cv: this.base64Cv,
+      base64ProfilePic: this.base64ProfilePic,
+    };
+  }
+
+  public setPathsImages(pathCv?: string, pathProfilePic?: string): void {
+    this.pathCv = pathCv;
+    this.pathProfilePic = pathProfilePic;
   }
 }
 

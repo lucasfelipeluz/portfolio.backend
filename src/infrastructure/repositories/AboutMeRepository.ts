@@ -4,7 +4,7 @@ import { injectable } from 'tsyringe';
 import { CacheProvider } from '../providers';
 import { AboutMeModel } from '../models';
 import { strings } from '@/core/utils';
-import { FindOptions, UpdateOptions } from 'sequelize';
+import { CreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import relationships from '../models/addons/relationships';
 
 @injectable()
@@ -70,8 +70,8 @@ class AboutMeRepository implements IBaseRepository<AboutMe>, IAboutMeRepository 
     return result as AboutMe;
   }
 
-  async create(entity: AboutMe): Promise<AboutMe> {
-    const result = await AboutMeModel.create(entity);
+  async create(entity: AboutMe, options?: CreateOptions): Promise<AboutMe> {
+    const result = await AboutMeModel.create(entity, options);
 
     await this.cacheProvider.clearWhenStartingWith(strings.aboutMe);
 

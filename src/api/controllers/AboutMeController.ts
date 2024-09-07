@@ -1,4 +1,3 @@
-import { IAboutMeController } from '@/api/interfaces';
 import { httpResponses } from '@/api/utils';
 import { UpdateAboutMeDto } from '@/application/dtos';
 import { IAboutMeService } from '@/application/interfaces';
@@ -9,14 +8,14 @@ import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
 
 @autoInjectable()
-class AboutMeController implements IAboutMeController {
+class AboutMeController {
   private readonly aboutMeService: IAboutMeService;
 
   constructor(aboutMeService: AboutMeService) {
     this.aboutMeService = aboutMeService;
   }
 
-  async get(request: Request, response: Response): Promise<unknown> {
+  async get(request: Request, response: Response): Promise<Response> {
     try {
       const entity = await this.aboutMeService.get();
 
@@ -30,7 +29,7 @@ class AboutMeController implements IAboutMeController {
     }
   }
 
-  async update(request: Request, response: Response): Promise<unknown> {
+  async update(request: Request, response: Response): Promise<Response> {
     try {
       const {
         name,
@@ -40,6 +39,8 @@ class AboutMeController implements IAboutMeController {
         youtubeLink,
         linkedinLink,
         githubLink,
+        base64Cv,
+        base64ProfilePic,
         address,
         isAvailable,
       } = request.body;
@@ -52,6 +53,8 @@ class AboutMeController implements IAboutMeController {
         youtubeLink,
         linkedinLink,
         githubLink,
+        base64Cv,
+        base64ProfilePic,
         address,
         isAvailable,
       );

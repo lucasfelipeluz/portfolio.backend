@@ -1,4 +1,3 @@
-import { IProjectImageController } from '@/api/interfaces';
 import { httpResponses } from '@/api/utils';
 import { CreateProjectImageDto } from '@/application/dtos';
 import { IProjectImageService } from '@/application/interfaces';
@@ -9,14 +8,14 @@ import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
 
 @autoInjectable()
-class ProjectImageController implements IProjectImageController {
+class ProjectImageController {
   private readonly projectImageService: IProjectImageService;
 
   constructor(projectImageService: ProjectImageService) {
     this.projectImageService = projectImageService;
   }
 
-  async create(request: Request, response: Response): Promise<unknown> {
+  async create(request: Request, response: Response): Promise<Response> {
     try {
       const { base64, viewPriority, projectId } = request.body;
 
@@ -34,7 +33,7 @@ class ProjectImageController implements IProjectImageController {
     }
   }
 
-  async updateViewPriority(request: Request, response: Response): Promise<unknown> {
+  async updateViewPriority(request: Request, response: Response): Promise<Response> {
     try {
       const { viewPriority } = request.body;
       const { id } = request.params;
@@ -51,7 +50,7 @@ class ProjectImageController implements IProjectImageController {
     }
   }
 
-  async delete(request: Request, response: Response): Promise<unknown> {
+  async delete(request: Request, response: Response): Promise<Response> {
     try {
       const { id } = request.params;
 

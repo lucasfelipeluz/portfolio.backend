@@ -9,6 +9,8 @@ class AboutMe extends Entity {
   public linkedinLink: string;
   public githubLink: string;
   public address: string;
+  public pathCv: string;
+  public pathProfilePic: string;
   public isAvailable: boolean;
 
   constructor(
@@ -21,6 +23,8 @@ class AboutMe extends Entity {
     linkedinLink: string,
     githubLink: string,
     address: string,
+    pathCv: string,
+    pathProfilePic: string,
     isAvailable: boolean,
     isActive: boolean,
     createdAt: Date,
@@ -37,6 +41,8 @@ class AboutMe extends Entity {
     this.linkedinLink = linkedinLink;
     this.githubLink = githubLink;
     this.address = address;
+    this.pathCv = pathCv;
+    this.pathProfilePic = pathProfilePic;
     this.isAvailable = isAvailable;
   }
 }

@@ -7,17 +7,16 @@ import { UpdateServiceOptions } from '@/core/types';
 import { strings } from '@/core/utils';
 import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
-import { IExperienceController } from '../interfaces';
 
 @autoInjectable()
-class ExperienceController implements IExperienceController {
+class ExperienceController {
   private readonly experienceService: IExperienceService;
 
   constructor(experienceService: ExperienceService) {
     this.experienceService = experienceService;
   }
 
-  async getAll(request: Request, response: Response): Promise<unknown> {
+  async getAll(request: Request, response: Response): Promise<Response> {
     try {
       // const filters = filter.projectFilter(request.query);
 
@@ -33,7 +32,7 @@ class ExperienceController implements IExperienceController {
     }
   }
 
-  async getById(request: Request, response: Response): Promise<unknown> {
+  async getById(request: Request, response: Response): Promise<Response> {
     try {
       const { id } = request.params;
 
@@ -49,7 +48,7 @@ class ExperienceController implements IExperienceController {
     }
   }
 
-  async create(request: Request, response: Response): Promise<unknown> {
+  async create(request: Request, response: Response): Promise<Response> {
     try {
       const { jobTitle, companyName, description, startedAt, finishedAt } = request.body;
 
@@ -73,7 +72,7 @@ class ExperienceController implements IExperienceController {
     }
   }
 
-  async update(request: Request, response: Response): Promise<unknown> {
+  async update(request: Request, response: Response): Promise<Response> {
     try {
       const { jobTitle, companyName, description, startedAt, finishedAt } = request.body;
 
@@ -106,7 +105,7 @@ class ExperienceController implements IExperienceController {
     }
   }
 
-  async delete(request: Request, response: Response): Promise<unknown> {
+  async delete(request: Request, response: Response): Promise<Response> {
     try {
       const { id } = request.params;
 

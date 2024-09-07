@@ -1,10 +1,42 @@
 import { strings } from '@/core/utils';
-import { AddForeignKeyConstraintOptions, QueryInterface, Sequelize } from 'sequelize';
-import attributes from '@/infrastructure/models/addons/attributes';
+import { AddForeignKeyConstraintOptions, DataTypes, QueryInterface, Sequelize } from 'sequelize';
 
 module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: Sequelize) {
-    await queryInterface.createTable(strings.projectSkill, attributes.projectSkill);
+    await queryInterface.createTable(strings.projectSkill, {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      idSkill: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      idProject: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: new Date(),
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: new Date(),
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+    });
 
     await queryInterface.addIndex(strings.projectSkill, ['idSkill']);
     await queryInterface.addIndex(strings.projectSkill, ['idProject']);

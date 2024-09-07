@@ -13,6 +13,8 @@ class AboutMeModel extends Model<AboutMe> {
   declare linkedinLink: string;
   declare githubLink: string;
   declare address: string;
+  declare pathCv: string;
+  declare pathProfilePic: string;
   declare isAvailable: boolean;
 
   declare isActive: boolean;

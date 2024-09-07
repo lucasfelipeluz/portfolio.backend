@@ -6,6 +6,7 @@ import ProjectModel from './ProjectModel';
 import ProjectSkillModel from './ProjectSkillModel';
 import RoleModel from './RoleModel';
 import SkillModel from './SkillModel';
+import SuggestionModel from './SuggestionModel';
 import SystemVariableModel from './SystemVariableModel';
 import UserModel from './UserModel';
 
@@ -18,6 +19,7 @@ export {
   ProjectSkillModel,
   RoleModel,
   SkillModel,
+  SuggestionModel,
   SystemVariableModel,
   UserModel,
 };

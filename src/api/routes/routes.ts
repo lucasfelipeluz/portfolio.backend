@@ -9,6 +9,7 @@ import homeRoutes from './home.routes';
 import systemVariableRoutes from './systemVariable.routes';
 import aboutMeRoutes from './aboutMe.routes';
 import experienceRoutes from './experience.routes';
+import suggestionRoutes from './suggestion.routes';
 
 const router = Express.Router();
 
@@ -23,5 +24,6 @@ router.use('/skill', authMiddleware.handle.bind(authMiddleware), skillRoutes);
 router.use('/project_image', authMiddleware.handle.bind(authMiddleware), projectImageRoutes);
 router.use('/about_me', authMiddleware.handle.bind(authMiddleware), aboutMeRoutes);
 router.use('/experience', authMiddleware.handle.bind(authMiddleware), experienceRoutes);
+router.use('/suggestion', suggestionRoutes);
 
 export default router;
