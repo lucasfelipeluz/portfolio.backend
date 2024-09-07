@@ -34,7 +34,7 @@ class AboutMeService implements IAboutMeService {
           base64: base64Cv,
           filename: generateUuidV4(),
           folder: strings.cv,
-          extension: strings.pdf,
+          extension: strings.applicationPdf,
         };
 
         cv = await this.storageProvider.create(createCvStorageItem);

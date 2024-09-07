@@ -107,4 +107,5 @@ export default {
   cv: 'cv',
   pdf: 'pdf',
   png: 'png',
+  applicationPdf: 'application/pdf',
 };

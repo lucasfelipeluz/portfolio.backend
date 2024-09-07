@@ -64,8 +64,10 @@ class StorageProvider implements IStorageProvider {
     try {
       this.createTemporaryFolderIfNotExists();
 
+      const contentType = data.extension ? data.extension : data.base64.split(';')[0].split(':')[1];
+
       const extensionFile = data.extension
-        ? data.extension
+        ? data.extension.split('/')[1]
         : data.base64.split(';')[0].split('/')[1];
 
       data.filename = `${data.filename}.${extensionFile}`;
@@ -85,7 +87,7 @@ class StorageProvider implements IStorageProvider {
         Key: key,
         Body: bufferFile,
         Bucket: this.storageConfig.container,
-        ContentType: extensionFile,
+        ContentType: contentType,
       });
 
       await this.client.send(command);
