@@ -5,6 +5,7 @@ import HomeController from './HomeController';
 import ProjectController from './ProjectController';
 import ProjectImageController from './ProjectImageController';
 import SkillController from './SkillController';
+import SuggestionController from './SuggestionController';
 import SystemVariableController from './SystemVariableController';
 
 export {
@@ -15,5 +16,6 @@ export {
   ProjectController,
   ProjectImageController,
   SkillController,
+  SuggestionController,
   SystemVariableController,
 };
