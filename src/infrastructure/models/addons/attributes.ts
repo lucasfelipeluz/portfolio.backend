@@ -239,6 +239,10 @@ const user: ModelAttributes<UserModel> = {
     allowNull: false,
     unique: true,
   },
+  number: {
+    type: DataTypes.STRING(30),
+    allowNull: true,
+  },
   email: {
     type: DataTypes.STRING(120),
     allowNull: true,
@@ -269,6 +273,11 @@ const user: ModelAttributes<UserModel> = {
   idRole: {
     type: DataTypes.INTEGER,
     allowNull: false,
+  },
+  idAboutMe: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
   },
 };
 

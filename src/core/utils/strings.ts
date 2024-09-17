@@ -23,6 +23,7 @@ export default {
   suggestion: 'suggestion',
 
   // Models Properties
+  id: 'id',
   idSkill: 'idSkill',
   idProject: 'idProject',
   createdAt: 'createdAt',
@@ -31,6 +32,9 @@ export default {
   idRole: 'idRole',
   pathCv: 'pathCv',
   pathProfilePic: 'pathProfilePic',
+  idAboutMe: 'idAboutMe',
+  number: 'number',
+  FK_user_idAboutMe: 'FK_user_idAboutMe',
 
   // Messages
   applicationRunning: 'Application running on port:',
