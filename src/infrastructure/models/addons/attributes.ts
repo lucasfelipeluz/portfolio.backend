@@ -226,9 +226,8 @@ const role: ModelAttributes<RoleModel> = {
 
 const user: ModelAttributes<UserModel> = {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     primaryKey: true,
-    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING(100),

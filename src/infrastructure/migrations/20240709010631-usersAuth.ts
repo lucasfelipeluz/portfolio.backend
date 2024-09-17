@@ -5,7 +5,7 @@ module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: Sequelize) {
     await queryInterface.createTable(strings.role, {
       id: {
-        type: DataTypes.UUIDV4,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
@@ -36,9 +36,8 @@ module.exports = {
 
     await queryInterface.createTable(strings.user, {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
       },
       name: {
         type: DataTypes.STRING(100),
