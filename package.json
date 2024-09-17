@@ -13,8 +13,6 @@
     "push-all-seeders": "npm run build && npx sequelize-cli db:seed:all",
     "undo-all-seeders": "npm run build && npx sequelize-cli db:seed:undo",
     "undo-migration": "npm run build && npx sequelize-cli db:migrate:undo",
-    "update-database": "npm run build && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
-    "undo-database": "npm run build && npx sequelize-cli db:seed:undo && npx sequelize-cli db:migrate:undo",
     "test": "jest --passWithNoTests",
     "test:watch": "npm run test --watch",
     "test:staged": "npm run test --findRelatedTests",

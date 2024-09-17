@@ -4,6 +4,10 @@ import { QueryInterface, Sequelize } from 'sequelize';
 
 module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: Sequelize) {
+    await queryInterface.bulkDelete(strings.role, {
+      id: [UserRole.Guest, UserRole.User, UserRole.Admin],
+    });
+
     await queryInterface.bulkInsert(strings.role, [
       {
         id: UserRole.Admin,
@@ -22,7 +26,7 @@ module.exports = {
 
   async down(queryInterface: QueryInterface, Sequelize: Sequelize) {
     await queryInterface.bulkDelete(strings.role, {
-      id: [1, 2, 3],
+      id: [UserRole.Guest, UserRole.User, UserRole.Admin],
     });
   },
 };
