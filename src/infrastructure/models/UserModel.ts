@@ -5,7 +5,7 @@ import attributes from './addons/attributes';
 import options from './addons/options';
 
 class UserModel extends Model<User> {
-  declare id: number;
+  declare id: string;
   declare name: string;
   declare nickname: string;
   declare number: string | null;

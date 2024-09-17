@@ -1,8 +1,8 @@
 import AboutMe from './AboutMe';
-import Entity from './Entity';
 import Role from './Role';
 
-class User extends Entity {
+class User {
+  public id: string;
   public name: string;
   public nickname: string;
   public number: string | null;
@@ -15,8 +15,13 @@ class User extends Entity {
   public readonly role: Role;
   public readonly aboutMe: AboutMe;
 
+  public isActive: boolean;
+  public createdAt: Date;
+  public updatedAt: Date | null;
+  public deletedAt: Date | null;
+
   constructor(
-    id: number,
+    id: string,
     name: string,
     nickname: string,
     number: string | null,
@@ -31,8 +36,6 @@ class User extends Entity {
     role: Role | null,
     aboutMe: AboutMe | null,
   ) {
-    super(id, isActive, createdAt, updatedAt, deletedAt);
-
     this.id = id;
     this.name = name;
     this.nickname = nickname;
@@ -43,6 +46,10 @@ class User extends Entity {
     this.idAboutMe = idAboutMe;
     this.role = role ?? ({} as Role);
     this.aboutMe = aboutMe ?? ({} as AboutMe);
+    this.isActive = isActive;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt ?? null;
+    this.deletedAt = deletedAt ?? null;
   }
 }
 
