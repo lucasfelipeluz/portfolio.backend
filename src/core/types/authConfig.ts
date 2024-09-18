@@ -6,4 +6,12 @@ type AuthConfig = {
   secretKey: string;
 };
 
-export { AuthConfig, ExpiresIn };
+type PayloadAuthUser = {
+  id: string;
+  name: string;
+  email: string;
+  number: string;
+  role: string;
+};
+
+export { AuthConfig, ExpiresIn, PayloadAuthUser };

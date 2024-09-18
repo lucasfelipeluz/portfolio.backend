@@ -68,7 +68,16 @@ const skill: Includeable[] = [
 
 const projectSkill: Includeable[] = [];
 
-const user: Includeable[] = [];
+const user: Includeable[] = [
+  {
+    model: RoleModel,
+    as: strings.role,
+    where: {
+      isActive: true,
+    },
+    required: false,
+  },
+];
 
 const role: Includeable[] = [];
 

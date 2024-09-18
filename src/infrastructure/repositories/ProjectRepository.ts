@@ -4,7 +4,7 @@ import { IBaseRepository, ICacheProvider, IProjectRepository } from '@/infrastru
 import { ProjectModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';
 import { CacheProvider } from '@/infrastructure/providers';
-import { FindOptions, UpdateOptions } from 'sequelize';
+import { CreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -70,8 +70,8 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
     return result as Project;
   }
 
-  async create(entity: Project): Promise<Project> {
-    const result = await ProjectModel.create(entity);
+  async create(entity: Project, options?: CreateOptions): Promise<Project> {
+    const result = await ProjectModel.create(entity, options);
 
     await this.cacheProvider.clearWhenStartingWithThese([
       strings.projects,

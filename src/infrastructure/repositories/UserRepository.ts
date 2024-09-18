@@ -4,7 +4,7 @@ import { IBaseRepository, ICacheProvider, IUserRepository } from '@/infrastructu
 import { UserModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';
 import { CacheProvider } from '@/infrastructure/providers';
-import { FindOptions, UpdateOptions } from 'sequelize';
+import { CreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -73,8 +73,8 @@ class UserRepository implements IBaseRepository<User>, IUserRepository {
     return result as User;
   }
 
-  async create(entity: UserModel): Promise<User> {
-    const result = await UserModel.create(entity);
+  async create(entity: UserModel, options?: CreateOptions): Promise<User> {
+    const result = await UserModel.create(entity, options);
 
     await this.cacheProvider.clearWhenStartingWith(strings.users);
 

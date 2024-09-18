@@ -2,10 +2,11 @@ import { User } from '@/domain/entities';
 import RoleDto from './RoleDto';
 
 class UserDto {
-  public id: number | null;
+  public id: string | null;
   public name: string;
   public nickname: string;
   public email: string | null;
+  public number: string | null;
   public createdAt: Date | null;
   public updatedAt: Date | null;
   public deletedAt: Date | null;
@@ -19,6 +20,7 @@ class UserDto {
     this.name = user.name;
     this.nickname = user.nickname;
     this.email = user.email;
+    this.number = user.number;
     this.createdAt = user.createdAt;
     this.updatedAt = user.updatedAt;
     this.deletedAt = user.deletedAt;

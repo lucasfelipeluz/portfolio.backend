@@ -17,9 +17,9 @@ class AuthController {
 
   async login(request: Request, response: Response): Promise<Response> {
     try {
-      const { nickname, email, password } = request.body;
+      const { nickname, email, number, password } = request.body;
 
-      const user = new LoginDto(nickname, email, password);
+      const user = new LoginDto(nickname, email, number, password);
 
       const userLogged = await this.authService.login(user);
 
@@ -35,9 +35,9 @@ class AuthController {
 
   async register(request: Request, response: Response): Promise<Response> {
     try {
-      const { name, nickname, email, password } = request.body;
+      const { name, nickname, email, password, number } = request.body;
 
-      const newUser = new RegisterDto(name, nickname, email, password);
+      const newUser = new RegisterDto(name, nickname, email, number, password);
 
       const registedUser = await this.authService.register(newUser);
 

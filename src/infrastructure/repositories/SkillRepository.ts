@@ -4,7 +4,7 @@ import { IBaseRepository, ICacheProvider, ISkillRepository } from '@/infrastruct
 import { SkillModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';
 import { CacheProvider } from '@/infrastructure/providers';
-import { FindOptions, UpdateOptions } from 'sequelize';
+import { CreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -73,8 +73,8 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
     return result as Skill;
   }
 
-  async create(entity: Skill): Promise<Skill> {
-    const result = await SkillModel.create(entity);
+  async create(entity: Skill, options?: CreateOptions): Promise<Skill> {
+    const result = await SkillModel.create(entity, options);
 
     await this.cacheProvider.clearWhenStartingWithThese([
       strings.projects,
