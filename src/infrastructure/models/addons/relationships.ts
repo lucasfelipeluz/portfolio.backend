@@ -1,6 +1,7 @@
 import { strings } from '@/core/utils';
 import { Includeable } from 'sequelize';
 import {
+  AboutMeModel,
   ProjectImageModel,
   ProjectModel,
   ProjectSkillModel,
@@ -34,6 +35,11 @@ UserModel.belongsTo(RoleModel, {
 RoleModel.hasMany(UserModel, {
   foreignKey: strings.idRole,
   as: strings.users,
+});
+
+AboutMeModel.hasOne(UserModel, {
+  foreignKey: strings.idAboutMe,
+  as: strings.user,
 });
 
 const project: Includeable[] = [
@@ -81,7 +87,16 @@ const user: Includeable[] = [
 
 const role: Includeable[] = [];
 
-const aboutMe: Includeable[] = [];
+const aboutMe: Includeable[] = [
+  {
+    model: UserModel,
+    as: strings.user,
+    where: {
+      isActive: true,
+    },
+    required: false,
+  },
+];
 
 const systemVariable: Includeable[] = [];
 

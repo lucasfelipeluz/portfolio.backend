@@ -46,10 +46,10 @@ class HomeController {
 
       const projects = await this.projectService.getAll(projectFilter);
       const skills = await this.skillService.getAll(skillFilter);
-      const aboutMe = await this.aboutMeService.get();
+      // const aboutMe = await this.aboutMeService.get();
       const experiences = await this.experienceService.getAll({});
 
-      return httpResponses.ok(response, { projects, skills, aboutMe, experiences });
+      return httpResponses.ok(response, { projects, skills, experiences });
     } catch (error) {
       return httpResponses.handleServerError(
         response,

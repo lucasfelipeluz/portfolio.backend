@@ -10,7 +10,7 @@ const router = Express.Router();
 
 router.get(
   '/',
-  authMiddleware.handle.bind(authMiddleware),
+  authMiddleware.handleUserRoles.bind(authMiddleware),
   suggestionController.get.bind(suggestionController),
 );
 router.post('/', suggestionController.create.bind(suggestionController));

@@ -22,7 +22,7 @@ class AboutMeRepository implements IBaseRepository<AboutMe>, IAboutMeRepository 
       return cache as AboutMe[];
     }
 
-    const result = await AboutMeModel.findAll();
+    const result = await AboutMeModel.findAll({ ...options, include: relationships.aboutMe });
 
     if (result.length < 1) {
       return [] as AboutMe[];

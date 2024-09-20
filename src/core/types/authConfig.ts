@@ -11,7 +11,7 @@ type PayloadAuthUser = {
   name: string;
   email: string;
   number: string;
-  role: string;
+  role: number;
 };
 
 export { AuthConfig, ExpiresIn, PayloadAuthUser };

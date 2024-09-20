@@ -1,7 +1,9 @@
 import { ValidationError } from '@/core/errors';
 import { AboutMe } from '@/domain/entities';
+import { validateProperties } from '../validations';
 
 class UpdateAboutMeDto {
+  private idUser: string;
   private name?: string;
   private text?: string;
   private jobTitle?: string;
@@ -17,6 +19,7 @@ class UpdateAboutMeDto {
   private isAvailable?: boolean;
 
   constructor(
+    idUser: string,
     name?: string,
     text?: string,
     jobTitle?: string,
@@ -29,6 +32,7 @@ class UpdateAboutMeDto {
     address?: string,
     isAvailable?: boolean,
   ) {
+    this.idUser = idUser;
     this.name = name;
     this.text = text;
     this.jobTitle = jobTitle;
@@ -45,6 +49,11 @@ class UpdateAboutMeDto {
   }
 
   private validate(): void {
+    validateProperties(this, ['idUser']);
+
+    if (this.idUser.length < 36) {
+      throw new ValidationError('User ID is required');
+    }
     if (this.name && (this.name.length < 3 || this.name.length > 120)) {
       throw new ValidationError('Name must be between 3 and 120 characters');
     }
@@ -121,6 +130,10 @@ class UpdateAboutMeDto {
   public setPathsImages(pathCv?: string, pathProfilePic?: string): void {
     this.pathCv = pathCv;
     this.pathProfilePic = pathProfilePic;
+  }
+
+  public getIdUser(): string {
+    return this.idUser;
   }
 }
 

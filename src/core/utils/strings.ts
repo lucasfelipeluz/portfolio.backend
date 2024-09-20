@@ -35,6 +35,7 @@ export default {
   idAboutMe: 'idAboutMe',
   number: 'number',
   FK_user_idAboutMe: 'FK_user_idAboutMe',
+  isActive: 'isActive',
 
   // Messages
   applicationRunning: 'Application running on port:',
@@ -76,6 +77,7 @@ export default {
   AnErrorOccurredWhileSavingTheData: 'An error occurred while saving the data.',
   redisError: 'An error occurred while trying to connect to Redis.',
   notPermissionError: 'You do not have permission to access this resource.',
+  credentialsCouldNotBeIdentified: 'Your credentials could not be identified.',
   errorUsingAbstrackClass: 'This method must be implemented in the child class.',
   invalidCallbackFunction: 'Invalid callback function',
   invalidCronExpression: 'Invalid cron expression',
@@ -112,4 +114,13 @@ export default {
   pdf: 'pdf',
   png: 'png',
   applicationPdf: 'application/pdf',
+  defaultText: 'default',
+  defaultJobTitle: 'default job title',
+  defaultTelegram: 'https://telegram.org/',
+  defaultYoutube: 'https://youtube.com/',
+  defaultLinkedin: 'https://linkedin.com/',
+  defaultGithub: 'https://github.com',
+  defaultAddress: 'anywhere',
+  defaultProfilePic: '',
+  defaultCv: '',
 };

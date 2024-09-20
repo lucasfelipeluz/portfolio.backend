@@ -1,4 +1,4 @@
-import { httpResponses } from '@/api/utils';
+import { filter, httpResponses } from '@/api/utils';
 import { UpdateAboutMeDto } from '@/application/dtos';
 import { IAboutMeService } from '@/application/interfaces';
 import { AboutMeService } from '@/application/services';
@@ -17,7 +17,9 @@ class AboutMeController {
 
   async get(request: Request, response: Response): Promise<Response> {
     try {
-      const entity = await this.aboutMeService.get();
+      const filters = filter.aboutMeFilter(request.query);
+
+      const entity = await this.aboutMeService.get(filters);
 
       return httpResponses.ok(response, entity);
     } catch (error) {
@@ -29,8 +31,26 @@ class AboutMeController {
     }
   }
 
-  async update(request: Request, response: Response): Promise<Response> {
+  async getInfoUser(request: Request, response: Response): Promise<Response> {
     try {
+      const userLogged = request.cookies.userLogged;
+
+      const entity = await this.aboutMeService.getUsersAboutMe(userLogged.id);
+
+      return httpResponses.ok(response, entity);
+    } catch (error) {
+      return httpResponses.handleServerError(
+        response,
+        strings.internalServerError,
+        error as ApplicationError,
+      );
+    }
+  }
+
+  async updateUser(request: Request, response: Response): Promise<Response> {
+    try {
+      const { idUser } = request.params;
+
       const {
         name,
         text,
@@ -46,6 +66,52 @@ class AboutMeController {
       } = request.body;
 
       const entity = new UpdateAboutMeDto(
+        idUser,
+        name,
+        text,
+        jobTitle,
+        telegramLink,
+        youtubeLink,
+        linkedinLink,
+        githubLink,
+        base64Cv,
+        base64ProfilePic,
+        address,
+        isAvailable,
+      );
+
+      const newEntity = await this.aboutMeService.update(entity);
+
+      return httpResponses.ok(response, newEntity);
+    } catch (error) {
+      return httpResponses.handleServerError(
+        response,
+        strings.internalServerError,
+        error as ApplicationError,
+      );
+    }
+  }
+
+  async updateInfoUser(request: Request, response: Response): Promise<Response> {
+    try {
+      const userLogged = request.cookies.userLogged;
+
+      const {
+        name,
+        text,
+        jobTitle,
+        telegramLink,
+        youtubeLink,
+        linkedinLink,
+        githubLink,
+        base64Cv,
+        base64ProfilePic,
+        address,
+        isAvailable,
+      } = request.body;
+
+      const entity = new UpdateAboutMeDto(
+        userLogged.id,
         name,
         text,
         jobTitle,

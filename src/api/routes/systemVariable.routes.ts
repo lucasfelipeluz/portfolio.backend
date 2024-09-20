@@ -12,12 +12,12 @@ const authMiddleware = dependencyContainer.resolve(AuthMiddleware);
 router.get('/', systemVariableController.get.bind(systemVariableController));
 router.post(
   '/',
-  authMiddleware.handle.bind(authMiddleware),
+  authMiddleware.handleUserRoles.bind(authMiddleware),
   systemVariableController.create.bind(systemVariableController),
 );
 router.delete(
   '/:id',
-  authMiddleware.handle.bind(authMiddleware),
+  authMiddleware.handleUserRoles.bind(authMiddleware),
   systemVariableController.delete.bind(systemVariableController),
 );
 

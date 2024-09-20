@@ -1,11 +1,11 @@
 import { ApplicationError, NotFoundEntityError } from '@/core/errors';
 import { CreateStorageItem, ServiceFilter, StorageItem } from '@/core/types';
 import { strings, transform } from '@/core/utils';
-import { AboutMe } from '@/domain/entities';
+import { AboutMe, User } from '@/domain/entities';
 import { initTransaction } from '@/infrastructure/config/dbConnection';
-import { IAboutMeRepository, IStorageProvider } from '@/infrastructure/interfaces';
+import { IAboutMeRepository, IStorageProvider, IUserRepository } from '@/infrastructure/interfaces';
 import { StorageProvider } from '@/infrastructure/providers';
-import { AboutMeRepository } from '@/infrastructure/repositories';
+import { AboutMeRepository, UserRepository } from '@/infrastructure/repositories';
 import { injectable } from 'tsyringe';
 import { v4 as generateUuidV4 } from 'uuid';
 import { AboutMeDto, UpdateAboutMeDto } from '../dtos';
@@ -14,10 +14,16 @@ import { IAboutMeService } from '../interfaces';
 @injectable()
 class AboutMeService implements IAboutMeService {
   private readonly aboutMeRepository: IAboutMeRepository;
+  private readonly userRepository: IUserRepository;
   private readonly storageProvider: IStorageProvider;
 
-  constructor(aboutMeRepository: AboutMeRepository, storageProvider: StorageProvider) {
+  constructor(
+    aboutMeRepository: AboutMeRepository,
+    userRepository: UserRepository,
+    storageProvider: StorageProvider,
+  ) {
     this.aboutMeRepository = aboutMeRepository;
+    this.userRepository = userRepository;
     this.storageProvider = storageProvider;
   }
 
@@ -56,8 +62,21 @@ class AboutMeService implements IAboutMeService {
     }
   }
 
-  async get(): Promise<AboutMeDto> {
+  async get(filter: ServiceFilter<AboutMeDto>): Promise<AboutMeDto[]> {
+    const options = transform.serviceFilterToModelFilter<AboutMeDto, AboutMe>(
+      filter ?? ({} as ServiceFilter<AboutMeDto>),
+    );
+
+    const entities = await this.aboutMeRepository.getAll(options);
+
+    return entities.map((entity) => new AboutMeDto(entity));
+  }
+
+  async getUsersAboutMe(idUser: string): Promise<AboutMeDto> {
     const filter = {
+      where: {
+        '$user.id$': idUser,
+      },
       order: [{ through: 'createdAt', by: 'DESC' }],
       isActive: true,
       limit: 1,
@@ -70,7 +89,7 @@ class AboutMeService implements IAboutMeService {
     const entity = await this.aboutMeRepository.getOne(options);
 
     if (!entity) {
-      return {} as AboutMeDto;
+      throw new NotFoundEntityError(strings.aboutMeNotFound);
     }
 
     return new AboutMeDto(entity);
@@ -81,6 +100,9 @@ class AboutMeService implements IAboutMeService {
 
     try {
       const filter = {
+        where: {
+          '$user.id$': aboutMe.getIdUser(),
+        },
         order: [{ through: 'createdAt', by: 'DESC' }],
         isActive: true,
         limit: 1,
@@ -109,13 +131,38 @@ class AboutMeService implements IAboutMeService {
       aboutMe.setPathsImages(cv?.key, profile?.key);
 
       // Handle the entity
-      await this.aboutMeRepository.delete({ ...options, transaction });
+      const deleteFilter = {
+        where: {
+          id: oldEntity.id,
+        },
+        order: [{ through: 'createdAt', by: 'DESC' }],
+        isActive: true,
+        limit: 1,
+      } as ServiceFilter<AboutMeDto>;
+
+      const deleteOptions = transform.updateServiceFilterToModelUpdateFilter<AboutMeDto, AboutMe>(
+        deleteFilter ?? ({} as ServiceFilter<AboutMeDto>),
+      );
+
+      await this.aboutMeRepository.delete({ ...deleteOptions, transaction });
 
       const newEntity = aboutMe.toUpdateEntity(oldEntity);
 
       const entity = await this.aboutMeRepository.create(newEntity, {
         transaction,
       });
+
+      await this.userRepository.update(
+        {
+          idAboutMe: entity.id,
+        } as User,
+        {
+          where: {
+            id: aboutMe.getIdUser(),
+          },
+          transaction,
+        },
+      );
 
       await transaction.commit();
 

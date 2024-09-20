@@ -148,7 +148,7 @@ class AuthService implements IAuthService {
         name: user.name,
         email: user.email,
         number: user.number,
-        role: user.role.name,
+        role: user.role.id,
       } as PayloadAuthUser,
       authConfig.secretKey,
       {

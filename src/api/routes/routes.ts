@@ -19,11 +19,15 @@ router.use('/', authRoutes);
 router.use('/public', homeRoutes);
 router.use('/var', systemVariableRoutes);
 
-router.use('/project', authMiddleware.handle.bind(authMiddleware), projectRoutes);
-router.use('/skill', authMiddleware.handle.bind(authMiddleware), skillRoutes);
-router.use('/project_image', authMiddleware.handle.bind(authMiddleware), projectImageRoutes);
-router.use('/about_me', authMiddleware.handle.bind(authMiddleware), aboutMeRoutes);
-router.use('/experience', authMiddleware.handle.bind(authMiddleware), experienceRoutes);
+router.use('/project', authMiddleware.handleUserRoles.bind(authMiddleware), projectRoutes);
+router.use('/skill', authMiddleware.handleUserRoles.bind(authMiddleware), skillRoutes);
+router.use(
+  '/project_image',
+  authMiddleware.handleUserRoles.bind(authMiddleware),
+  projectImageRoutes,
+);
+router.use('/about_me', aboutMeRoutes);
+router.use('/experience', authMiddleware.handleUserRoles.bind(authMiddleware), experienceRoutes);
 router.use('/suggestion', suggestionRoutes);
 
 export default router;
