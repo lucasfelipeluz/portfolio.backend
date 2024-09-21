@@ -1,6 +1,6 @@
 import { rules, strings } from '@/core/utils';
 import { SystemVariable } from '@/domain/entities';
-import { FindOptions, UpdateOptions } from 'sequelize';
+import { CreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 import { IBaseRepository, ICacheProvider, ISystemVariableRepository } from '../interfaces';
 import { SystemVariableModel } from '../models';
@@ -81,8 +81,8 @@ class SystemVariableRepository
     return result as SystemVariable;
   }
 
-  async create(entity: SystemVariable): Promise<SystemVariable> {
-    const result = await SystemVariableModel.create(entity);
+  async create(entity: SystemVariable, options?: CreateOptions): Promise<SystemVariable> {
+    const result = await SystemVariableModel.create(entity, options);
 
     await this.cacheProvider.clearWhenStartingWith(strings.systemVariable);
 

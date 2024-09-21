@@ -35,7 +35,9 @@ export default {
   idAboutMe: 'idAboutMe',
   number: 'number',
   FK_user_idAboutMe: 'FK_user_idAboutMe',
+  FK_systemVariable_idUser: 'FK_systemVariable_idUser',
   isActive: 'isActive',
+  idUser: 'idUser',
 
   // Messages
   applicationRunning: 'Application running on port:',

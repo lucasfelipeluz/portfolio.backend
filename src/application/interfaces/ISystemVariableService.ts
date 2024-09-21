@@ -3,9 +3,9 @@ import { CreateSystemVariableDto, SystemVariableDto } from '../dtos';
 
 interface ISystemVariableService {
   getAll(filter?: ServiceFilter<SystemVariableDto>): Promise<SystemVariableDto[]>;
-  get(key?: string): Promise<SystemVariableDto | null>;
+  get(key: string, idUser: string): Promise<SystemVariableDto | null>;
   createOrUpdate(entity: CreateSystemVariableDto): Promise<SystemVariableDto>;
-  delete(id: number): Promise<boolean>;
+  delete(id: number, idUser: string): Promise<boolean>;
 }
 
 export default ISystemVariableService;

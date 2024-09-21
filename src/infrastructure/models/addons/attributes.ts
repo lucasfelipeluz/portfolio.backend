@@ -385,6 +385,10 @@ const systemVariable: ModelAttributes<SystemVariableModel> = {
     type: DataTypes.DATE,
     allowNull: true,
   },
+  idUser: {
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
 };
 
 const experience: ModelAttributes<ExperienceModel> = {

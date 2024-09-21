@@ -25,10 +25,11 @@ class SystemVariableService implements ISystemVariableService {
     return entities.map((entity) => new SystemVariableDto(entity));
   }
 
-  async get(key: string): Promise<SystemVariableDto | null> {
+  async get(key: string, idUser: string): Promise<SystemVariableDto | null> {
     const filter = {
       where: {
         key,
+        idUser,
       },
       isActive: true,
     } as ServiceFilter<SystemVariableDto>;
@@ -50,6 +51,7 @@ class SystemVariableService implements ISystemVariableService {
     const filter = {
       where: {
         key: entity.key,
+        idUser: entity.idUser,
       },
     } as ServiceFilter<SystemVariableDto>;
 
@@ -70,6 +72,7 @@ class SystemVariableService implements ISystemVariableService {
           key: entity.key,
           value: entity.value,
           isActive: true,
+          idUser: entity.idUser,
         } as SystemVariable,
         updateOptions,
       );
@@ -82,10 +85,11 @@ class SystemVariableService implements ISystemVariableService {
     return new SystemVariableDto(newEntity);
   }
 
-  delete(id: number): Promise<boolean> {
+  delete(id: number, idUser: string): Promise<boolean> {
     const filter = {
       where: {
         id,
+        idUser,
       },
     } as ServiceFilter<SystemVariableDto>;
 

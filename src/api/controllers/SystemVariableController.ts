@@ -18,10 +18,14 @@ class SystemVariableController {
 
   async get(request: Request, response: Response): Promise<Response> {
     try {
+      const userLogged = request.cookies.userLogged;
       const { key, isActive } = request.query;
 
       const filters = {
-        where: {},
+        where: {
+          idUser: userLogged.id,
+        },
+        isActive: true,
       } as ServiceFilter<SystemVariableDto>;
 
       if (isActive) {
@@ -29,7 +33,7 @@ class SystemVariableController {
       }
 
       if (key) {
-        filters.where = { key: key as string };
+        filters.where = { ...filters.where, key: key as string };
       }
 
       const entities = await this.systemVariableService.getAll(filters);
@@ -46,9 +50,10 @@ class SystemVariableController {
 
   async create(request: Request, response: Response): Promise<Response> {
     try {
+      const userLogged = request.cookies.userLogged;
       const { key, value } = request.body;
 
-      const newEntity = new CreateSystemVariableDto(key, value);
+      const newEntity = new CreateSystemVariableDto(key, value, userLogged.id);
 
       const createdEntity = await this.systemVariableService.createOrUpdate(newEntity);
 
@@ -64,9 +69,10 @@ class SystemVariableController {
 
   async delete(request: Request, response: Response): Promise<Response> {
     try {
+      const userLogged = request.cookies.userLogged;
       const { id } = request.params;
 
-      const isDeleted = await this.systemVariableService.delete(Number(id));
+      const isDeleted = await this.systemVariableService.delete(Number(id), userLogged.id);
 
       if (!isDeleted) {
         return httpResponses.badRequest(response, strings.systemVariableNotFound);

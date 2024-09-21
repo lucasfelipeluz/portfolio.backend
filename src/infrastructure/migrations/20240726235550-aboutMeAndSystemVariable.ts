@@ -1,5 +1,5 @@
 import { strings } from '@/core/utils';
-import { DataTypes, QueryInterface, Sequelize } from 'sequelize';
+import { AddForeignKeyConstraintOptions, DataTypes, QueryInterface, Sequelize } from 'sequelize';
 
 module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: Sequelize) {
@@ -36,7 +36,23 @@ module.exports = {
         type: DataTypes.DATE,
         allowNull: true,
       },
+      idUser: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
     });
+
+    await queryInterface.addIndex(strings.systemVariable, [strings.idUser]);
+
+    await queryInterface.addConstraint(strings.systemVariable, {
+      fields: [strings.idUser],
+      type: 'foreign key',
+      name: strings.FK_systemVariable_idUser,
+      references: {
+        table: strings.user,
+        field: strings.id,
+      },
+    } as AddForeignKeyConstraintOptions);
 
     await queryInterface.createTable(strings.aboutMe, {
       id: {
@@ -104,6 +120,10 @@ module.exports = {
   },
 
   async down(queryInterface: QueryInterface, Sequelize: Sequelize) {
+    await queryInterface.removeConstraint(strings.systemVariable, strings.FK_systemVariable_idUser);
+
+    await queryInterface.removeIndex(strings.systemVariable, [strings.idUser]);
+
     await queryInterface.dropTable(strings.systemVariable);
 
     await queryInterface.dropTable(strings.aboutMe);

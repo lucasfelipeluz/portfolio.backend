@@ -9,7 +9,11 @@ const systemVariableController = dependencyContainer.resolve(SystemVariableContr
 
 const authMiddleware = dependencyContainer.resolve(AuthMiddleware);
 
-router.get('/', systemVariableController.get.bind(systemVariableController));
+router.get(
+  '/',
+  authMiddleware.handleUserRoles.bind(authMiddleware),
+  systemVariableController.get.bind(systemVariableController),
+);
 router.post(
   '/',
   authMiddleware.handleUserRoles.bind(authMiddleware),
