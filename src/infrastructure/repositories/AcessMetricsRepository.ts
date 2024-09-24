@@ -1,11 +1,16 @@
 import { NotImplementedError } from '@/core/errors';
 import { strings } from '@/core/utils';
 import { AcessMetrics } from '@/domain/entities';
+import {
+  IAcessMetricsRepository,
+  IBaseRepository,
+  ICacheProvider,
+} from '@/infrastructure/interfaces';
+import { AcessMetricsModel } from '@/infrastructure/models';
+import relationships from '@/infrastructure/models/addons/relationships';
+import { CacheProvider } from '@/infrastructure/providers';
 import { FindOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
-import { IAcessMetricsRepository, IBaseRepository, ICacheProvider } from '../interfaces';
-import { AcessMetricsModel } from '../models';
-import { CacheProvider } from '../providers';
 
 @injectable()
 class AcessMetricsRepository implements IBaseRepository<AcessMetrics>, IAcessMetricsRepository {
@@ -22,7 +27,10 @@ class AcessMetricsRepository implements IBaseRepository<AcessMetrics>, IAcessMet
       return cache as AcessMetrics[];
     }
 
-    const result = await AcessMetricsModel.findAll();
+    const result = await AcessMetricsModel.findAll({
+      ...options,
+      include: relationships.acessMetrics,
+    });
 
     if (result.length < 1) {
       return [] as AcessMetrics[];

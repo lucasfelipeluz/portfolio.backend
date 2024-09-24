@@ -10,7 +10,7 @@ module.exports = {
         autoIncrement: true,
       },
       route: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(255),
         allowNull: false,
       },
       date: {

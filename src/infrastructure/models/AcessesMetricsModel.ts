@@ -3,12 +3,15 @@ import { Model } from 'sequelize';
 import attributes from './addons/attributes';
 import options from './addons/options';
 import { strings } from '@/core/utils';
+import UserModel from './UserModel';
 
 class AcessMetricsModel extends Model<AcessMetrics> {
   declare id: number;
   declare route: string;
   declare date: Date;
   declare idUser: string;
+
+  declare readonly user: UserModel | null;
 }
 
 AcessMetricsModel.init(

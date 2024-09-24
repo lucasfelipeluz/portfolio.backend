@@ -2,6 +2,7 @@ import { strings } from '@/core/utils';
 import { Includeable } from 'sequelize';
 import {
   AboutMeModel,
+  AcessMetricsModel,
   ProjectImageModel,
   ProjectModel,
   ProjectSkillModel,
@@ -39,6 +40,11 @@ RoleModel.hasMany(UserModel, {
 
 AboutMeModel.hasOne(UserModel, {
   foreignKey: strings.idAboutMe,
+  as: strings.user,
+});
+
+AcessMetricsModel.belongsTo(UserModel, {
+  foreignKey: strings.idUser,
   as: strings.user,
 });
 
@@ -102,6 +108,14 @@ const systemVariable: Includeable[] = [];
 
 const experience: Includeable[] = [];
 
+const acessMetrics: Includeable[] = [
+  {
+    model: UserModel,
+    as: strings.user,
+    attributes: ['name', 'nickname', 'idRole'],
+  },
+];
+
 export default {
   project,
   skill,
@@ -111,4 +125,5 @@ export default {
   aboutMe,
   systemVariable,
   experience,
+  acessMetrics,
 };

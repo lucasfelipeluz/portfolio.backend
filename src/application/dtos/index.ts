@@ -1,4 +1,5 @@
 import AboutMeDto from './AboutMeDto';
+import AcessMetricsDto from './AcessMetricsDto';
 import CreateExperienceDto from './CreateExperienceDto';
 import CreateProjectDto from './CreateProjectDto';
 import CreateProjectImageDto from './CreateProjectImageDto';
@@ -23,6 +24,7 @@ import UserLoggedDto from './UserLoggedDto';
 
 export {
   AboutMeDto,
+  AcessMetricsDto,
   CreateExperienceDto,
   CreateProjectDto,
   CreateProjectImageDto,

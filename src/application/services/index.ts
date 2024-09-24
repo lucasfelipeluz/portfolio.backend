@@ -1,4 +1,5 @@
 import AboutMeService from './AboutMeService';
+import AcessMetricsService from './AcessMetricsService';
 import AuthService from './AuthService';
 import ExperienceService from './ExperienceService';
 import ProjectImageService from './ProjectImageService';
@@ -9,6 +10,7 @@ import SystemVariableService from './SystemVariableService';
 
 export {
   AboutMeService,
+  AcessMetricsService,
   AuthService,
   ExperienceService,
   ProjectImageService,

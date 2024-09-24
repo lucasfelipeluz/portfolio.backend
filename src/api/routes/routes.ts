@@ -10,6 +10,7 @@ import systemVariableRoutes from './systemVariable.routes';
 import aboutMeRoutes from './aboutMe.routes';
 import experienceRoutes from './experience.routes';
 import suggestionRoutes from './suggestion.routes';
+import acessMetrics from './acessMetrics.route';
 
 const router = Express.Router();
 
@@ -29,5 +30,6 @@ router.use(
 router.use('/about_me', aboutMeRoutes);
 router.use('/experience', authMiddleware.handleUserRoles.bind(authMiddleware), experienceRoutes);
 router.use('/suggestion', suggestionRoutes);
+router.use('/acess_metrics', acessMetrics);
 
 export default router;

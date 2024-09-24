@@ -1,7 +1,7 @@
 import { strings } from '@/core/utils';
 import { ICacheProvider } from '@/infrastructure/interfaces';
 import { RedisClientType, SetOptions, createClient } from 'redis';
-import { FindOptions } from 'sequelize';
+import { FindOptions } from 'sequelize/types';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -15,6 +15,7 @@ class CacheProvider<T> implements ICacheProvider<T> {
 
   private checkClient(): void {
     if (!this.client.isReady && !this.client.isOpen) {
+      throw new Error(strings.redisError);
       throw new Error(strings.redisError);
     }
   }
