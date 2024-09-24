@@ -13,10 +13,7 @@ const runRoutines = (): void => {
     rules.cronMinuteZeroEvery5thHour,
   );
 
-  dependencyContainer.registerInstance(
-    strings.acessMetricsRoutine,
-    rules.cronMidnightAndFiveMinutesEveryDay,
-  );
+  dependencyContainer.registerInstance(strings.acessMetricsRoutine, '* * * * *');
 
   dependencyContainer.register(strings.applicationConfigProvider, ApplicationConfigProvider);
 

@@ -1,19 +1,24 @@
 import { httpResponses } from '@/api/utils';
-import { ApplicationError, ForbiddenError } from '@/core/errors';
+import { ApplicationError } from '@/core/errors';
 import { ClientSourceCount } from '@/core/types';
 import { strings } from '@/core/utils';
 import { ICacheProvider } from '@/infrastructure/interfaces';
-import { CacheProvider } from '@/infrastructure/providers';
+import { ApplicationConfigProvider, CacheProvider } from '@/infrastructure/providers';
 import { NextFunction, Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
+import Middleware from './Middleware';
 
 @autoInjectable()
-class HeadersMiddlware {
+class HeadersMiddlware extends Middleware {
   private readonly cacheProvider: ICacheProvider<ClientSourceCount>;
   private readonly sourceOfAllowedClients: string[] =
     process.env.CLIENT_SOURCE_ALLOWED?.split(',') || [];
 
-  constructor(cacheProvider: CacheProvider<ClientSourceCount>) {
+  constructor(
+    cacheProvider: CacheProvider<ClientSourceCount>,
+    applicationConfigProvider: ApplicationConfigProvider,
+  ) {
+    super(applicationConfigProvider);
     this.cacheProvider = cacheProvider;
   }
 
@@ -34,15 +39,14 @@ class HeadersMiddlware {
 
   public handle(request: Request, response: Response, next: NextFunction): void | Response {
     try {
-      const clientSource = request.headers['x-client-source'];
+      const { payload } = this.getAuthUser(request);
 
-      if (!clientSource || !this.sourceOfAllowedClients.includes(clientSource.toString())) {
-        throw new ForbiddenError(strings.clientIdentifierError + strings.urlDocs);
-      }
+      const baseUrl = request.originalUrl;
 
       const data: ClientSourceCount = {
-        clientSource: clientSource?.toString(),
+        route: baseUrl,
         timestamp: new Date().toISOString(),
+        idUser: payload?.id || '',
       };
 
       this.updateCacheClientSource(data);

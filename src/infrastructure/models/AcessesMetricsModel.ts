@@ -6,8 +6,9 @@ import { strings } from '@/core/utils';
 
 class AcessMetricsModel extends Model<AcessMetrics> {
   declare id: number;
-  declare clientSource: string;
+  declare route: string;
   declare date: Date;
+  declare idUser: string;
 }
 
 AcessMetricsModel.init(

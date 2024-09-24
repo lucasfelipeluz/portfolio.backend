@@ -9,13 +9,17 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
-      clientSource: {
+      route: {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
       date: {
         type: DataTypes.DATE,
         allowNull: false,
+      },
+      idUser: {
+        type: DataTypes.UUID,
+        allowNull: true,
       },
     });
   },

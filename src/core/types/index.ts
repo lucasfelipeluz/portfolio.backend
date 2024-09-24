@@ -1,4 +1,4 @@
-import { AuthConfig, ExpiresIn, PayloadAuthUser } from './authConfig';
+import { AuthConfig, ExpiresIn, PayloadAuthUser, MiddlewareAuthUserResponse } from './authConfig';
 import ConfigTypes from './configTypes';
 import { ServiceFilter, UpdateServiceOptions } from './entityFilters';
 import { QueryEntry } from './entryTypes';
@@ -18,4 +18,5 @@ export {
   ServiceFilter,
   StorageItem,
   UpdateServiceOptions,
+  MiddlewareAuthUserResponse,
 };

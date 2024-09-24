@@ -14,4 +14,10 @@ type PayloadAuthUser = {
   role: number;
 };
 
-export { AuthConfig, ExpiresIn, PayloadAuthUser };
+type MiddlewareAuthUserResponse = {
+  isSuccess: boolean;
+  payload?: PayloadAuthUser;
+  error?: string;
+};
+
+export { AuthConfig, ExpiresIn, PayloadAuthUser, MiddlewareAuthUserResponse };

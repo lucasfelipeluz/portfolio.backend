@@ -1,4 +1,5 @@
 export interface ClientSourceCount {
-  clientSource: string;
+  route: string;
   timestamp: string;
+  idUser: string;
 }

@@ -1,12 +1,12 @@
 import { ClientSourceCount } from '@/core/types';
 import { strings } from '@/core/utils';
+import { AcessMetrics } from '@/domain/entities';
 import { IAcessMetricsRepository, ICacheProvider } from '@/infrastructure/interfaces';
 import { ApplicationConfigProvider, CacheProvider } from '@/infrastructure/providers';
 import { AcessMetricsRepository } from '@/infrastructure/repositories';
 import { ScheduleOptions } from 'node-cron';
 import { autoInjectable, inject } from 'tsyringe';
 import Routine from './Routine';
-import { AcessMetrics } from '@/domain/entities';
 
 @autoInjectable()
 class AcessMetricsRoutine extends Routine {
@@ -36,13 +36,14 @@ class AcessMetricsRoutine extends Routine {
       const data = Array.isArray(clientSources)
         ? clientSources.map((cs) => {
             return {
-              clientSource: cs.clientSource,
+              route: cs.route,
               date: new Date(cs.timestamp),
-            };
+              idUser: cs.idUser,
+            } as AcessMetrics;
           })
         : [];
 
-      await this.acessMetricsRepository.bulkCreate(data as AcessMetrics[]);
+      await this.acessMetricsRepository.bulkCreate(data);
 
       await this.cacheRepository.clearWhenStartingWithThese([
         strings.acessMetrics,

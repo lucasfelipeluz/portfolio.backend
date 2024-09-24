@@ -448,13 +448,17 @@ const acessMetrics: ModelAttributes<AcessMetricsModel> = {
     primaryKey: true,
     autoIncrement: true,
   },
-  clientSource: {
-    type: DataTypes.STRING(50),
+  route: {
+    type: DataTypes.STRING(255),
     allowNull: false,
   },
   date: {
     type: DataTypes.DATE,
     allowNull: false,
+  },
+  idUser: {
+    type: DataTypes.UUID,
+    allowNull: true,
   },
 };
 

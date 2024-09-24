@@ -1,62 +1,16 @@
 import { httpResponses } from '@/api/utils';
 import { ApplicationError, ForbiddenError } from '@/core/errors';
-import { PayloadAuthUser } from '@/core/types';
 import { strings } from '@/core/utils';
 import { UserRole } from '@/domain/addons';
-import { IApplicationConfigProvider } from '@/infrastructure/interfaces';
 import { ApplicationConfigProvider } from '@/infrastructure/providers';
 import { NextFunction, Request, Response } from 'express';
-import { IncomingHttpHeaders } from 'http';
-import * as jwt from 'jsonwebtoken';
 import { autoInjectable } from 'tsyringe';
+import Middleware from './Middleware';
 
 @autoInjectable()
-class AuthMiddlware {
-  private readonly applicationConfigProvider: IApplicationConfigProvider;
-
-  private readonly userUrl: string[] = ['/api/about_me'];
-  private readonly adminUrl: string[] = [];
-
+class AuthMiddlware extends Middleware {
   constructor(applicationConfigProvider: ApplicationConfigProvider) {
-    this.applicationConfigProvider = applicationConfigProvider;
-  }
-
-  private checkRole(user: PayloadAuthUser, baseUrl: string): boolean {
-    if (user.role === UserRole.Admin) {
-      if (this.userUrl.includes(baseUrl)) {
-        return true;
-      }
-      if (this.adminUrl.includes(baseUrl)) {
-        return true;
-      }
-    }
-
-    if (user.role === UserRole.User) {
-      if (this.userUrl.includes(baseUrl)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  /**
-   * The global way of dealing with the bearer token
-   */
-  private handle(headers: IncomingHttpHeaders): PayloadAuthUser {
-    const { authorization } = headers;
-
-    const token = authorization?.replace('Bearer ', '');
-
-    if (!token) {
-      throw new ForbiddenError(strings.credentialsCouldNotBeIdentified);
-    }
-
-    const authConfig = this.applicationConfigProvider.getAuthConfig();
-
-    const decoded = jwt.verify(token, authConfig.secretKey);
-
-    return decoded as PayloadAuthUser;
+    super(applicationConfigProvider);
   }
 
   /**
@@ -68,17 +22,16 @@ class AuthMiddlware {
     next: NextFunction,
   ): Response | void {
     try {
-      const payloadAuthUser = this.handle(request.headers);
+      const { isSuccess, error, payload } = this.getAuthUser(request);
+      if (!isSuccess && error) {
+        throw new ForbiddenError(error);
+      }
 
-      if (!payloadAuthUser) {
+      if (!payload) {
         throw new ForbiddenError(strings.notPermissionError);
       }
 
-      request.cookies = {
-        userLogged: payloadAuthUser,
-      };
-
-      if (payloadAuthUser.role === UserRole.Admin) {
+      if (payload.role === UserRole.Admin) {
         return next();
       }
 
@@ -101,17 +54,16 @@ class AuthMiddlware {
     next: NextFunction,
   ): Response | void {
     try {
-      const payloadAuthUser = this.handle(request.headers);
+      const { isSuccess, error, payload } = this.getAuthUser(request);
+      if (!isSuccess && error) {
+        throw new ForbiddenError(error);
+      }
 
-      if (!payloadAuthUser) {
+      if (!payload) {
         throw new ForbiddenError(strings.credentialsCouldNotBeIdentified);
       }
 
-      request.cookies = {
-        userLogged: payloadAuthUser,
-      };
-
-      if (payloadAuthUser.role === UserRole.User || payloadAuthUser.role === UserRole.Admin) {
+      if (payload.role === UserRole.User || payload.role === UserRole.Admin) {
         return next();
       }
 

@@ -51,7 +51,11 @@ class App {
 
     this.app.use('/api', headersMiddlware.handle.bind(headersMiddlware), router);
 
-    this.app.use('/docs', homeController.getDocs.bind(homeController));
+    this.app.use(
+      '/docs',
+      headersMiddlware.handle.bind(headersMiddlware),
+      homeController.getDocs.bind(homeController),
+    );
 
     this.app.get('/', (req, res) => {
       return httpResponses.ok(res, { message: strings.welcome, docs: strings.urlDocs });
