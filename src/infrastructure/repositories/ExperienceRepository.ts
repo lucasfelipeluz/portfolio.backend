@@ -1,15 +1,20 @@
-import { injectable } from 'tsyringe';
+import { strings, transform } from '@/core/utils';
+import { Experience } from '@/domain/entities';
 import {
   IBaseRepository,
   ICacheProvider,
   IExperienceRepository,
 } from '@/infrastructure/interfaces';
-import { Experience } from '@/domain/entities';
-import { FindOptions, UpdateOptions } from 'sequelize';
-import { CacheProvider } from '../providers';
-import { strings } from '@/core/utils';
+import { injectable } from 'tsyringe';
 import { ExperienceModel } from '../models';
 import relationships from '../models/addons/relationships';
+import { CacheProvider } from '../providers';
+
+import {
+  ApplicationEntityCreatingOptions,
+  ApplicationEntityDeletingOptions,
+  ApplicationFilter,
+} from '@/core/types';
 
 @injectable()
 class ExperienceRepository implements IBaseRepository<Experience>, IExperienceRepository {
@@ -19,71 +24,64 @@ class ExperienceRepository implements IBaseRepository<Experience>, IExperienceRe
     this.cacheProvider = cacheProvider;
   }
 
-  async getAll(options: FindOptions<Experience>): Promise<Experience[]> {
-    const cache = await this.cacheProvider.get(strings.experience, options ?? {});
+  async getAll(options: ApplicationFilter<Experience>): Promise<Experience[]> {
+    const cache = await this.cacheProvider.get(strings.experience, options);
 
     if (cache) {
       return cache as Experience[];
     }
 
-    const result = await ExperienceModel.findAll({ ...options, include: relationships.experience });
+    const findOptions = transform.applicationFilterToFindOptions<Experience>(options);
+
+    const result = await ExperienceModel.findAll({
+      ...findOptions,
+      include: relationships.experience,
+    });
 
     if (result.length < 1) {
       return [] as Experience[];
     }
 
-    await this.cacheProvider.create(strings.experience, options ?? {}, result);
+    await this.cacheProvider.create(strings.experience, options, result);
 
     return result as Experience[];
   }
 
-  async getOne(options: FindOptions<Experience>): Promise<Experience | null> {
-    const cache = await this.cacheProvider.get(strings.experience, options ?? {});
+  async getOne(options: ApplicationFilter<Experience>): Promise<Experience | null> {
+    const cache = await this.cacheProvider.get(strings.experience, options);
 
     if (cache) {
       return cache as Experience;
     }
 
-    const result = await ExperienceModel.findOne({ ...options, include: relationships.experience });
-
-    if (result) {
-      await this.cacheProvider.create(strings.experience, options ?? {}, result);
-    }
-
-    return result as Experience;
-  }
-
-  async getById(id: number): Promise<Experience | null> {
-    const cache = await this.cacheProvider.get(strings.experience, { where: { id } });
-
-    if (cache) {
-      return cache as Experience;
-    }
+    const findOptions = transform.applicationFilterToFindOptions<Experience>(options);
 
     const result = await ExperienceModel.findOne({
-      where: {
-        id: id,
-      },
+      ...findOptions,
       include: relationships.experience,
     });
 
     if (result) {
-      await this.cacheProvider.create(strings.experience, { where: { id } }, result);
+      await this.cacheProvider.create(strings.experience, options, result);
     }
 
     return result as Experience;
   }
 
-  async create(entity: Experience): Promise<Experience> {
-    const result = await ExperienceModel.create(entity);
+  async create(entity: Experience, options: ApplicationEntityCreatingOptions): Promise<Experience> {
+    const createOptions = transform.applicationCreatingOptionsToCreateOptions(options);
+
+    const result = await ExperienceModel.create(entity, createOptions);
 
     await this.cacheProvider.clearWhenStartingWith(strings.experience);
 
     return result as Experience;
   }
 
-  async update(entity: Experience, options: UpdateOptions<Experience>): Promise<boolean> {
-    const result = await ExperienceModel.update(entity, options);
+  async update(entity: Experience, options: ApplicationEntityCreatingOptions): Promise<boolean> {
+    const updateOptions = transform.applicationDeletingOptionsToUpdateOptions(options);
+
+    const result = await ExperienceModel.update(entity, updateOptions);
 
     if (result[0] < 1) {
       return false;
@@ -94,13 +92,15 @@ class ExperienceRepository implements IBaseRepository<Experience>, IExperienceRe
     return true;
   }
 
-  async delete(options: UpdateOptions<Experience>): Promise<boolean> {
+  async delete(options: ApplicationEntityDeletingOptions<Experience>): Promise<boolean> {
+    const updateOptions = transform.applicationDeletingOptionsToUpdateOptions(options);
+
     const result = await ExperienceModel.update(
       {
         isActive: false,
         deletedAt: new Date(),
       },
-      options,
+      updateOptions,
     );
 
     if (result[0] > 0) {

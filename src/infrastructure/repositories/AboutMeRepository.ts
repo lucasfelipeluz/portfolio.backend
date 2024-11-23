@@ -1,11 +1,16 @@
+import {
+  ApplicationEntityCreatingOptions,
+  ApplicationEntityDeletingOptions,
+  ApplicationEntityUpdatingOptions,
+  ApplicationFilter,
+} from '@/core/types';
+import { strings, transform } from '@/core/utils';
 import { AboutMe } from '@/domain/entities';
-import { IAboutMeRepository, IBaseRepository, ICacheProvider } from '../interfaces';
 import { injectable } from 'tsyringe';
-import { CacheProvider } from '../providers';
+import { IAboutMeRepository, IBaseRepository, ICacheProvider } from '../interfaces';
 import { AboutMeModel } from '../models';
-import { strings } from '@/core/utils';
-import { CreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import relationships from '../models/addons/relationships';
+import { CacheProvider } from '../providers';
 
 @injectable()
 class AboutMeRepository implements IBaseRepository<AboutMe>, IAboutMeRepository {
@@ -15,71 +20,61 @@ class AboutMeRepository implements IBaseRepository<AboutMe>, IAboutMeRepository 
     this.cacheProvider = cacheRepository;
   }
 
-  async getAll(options: FindOptions): Promise<AboutMe[]> {
-    const cache = await this.cacheProvider.get(strings.aboutMe, options ?? {});
+  async getAll(options: ApplicationFilter<AboutMe>): Promise<AboutMe[]> {
+    const cache = await this.cacheProvider.get(strings.aboutMe, options);
 
     if (cache) {
       return cache as AboutMe[];
     }
 
-    const result = await AboutMeModel.findAll({ ...options, include: relationships.aboutMe });
+    const findOptions = transform.applicationFilterToFindOptions<AboutMe>(options);
+
+    const result = await AboutMeModel.findAll({ ...findOptions, include: relationships.aboutMe });
 
     if (result.length < 1) {
       return [] as AboutMe[];
     }
 
-    await this.cacheProvider.create(strings.aboutMe, options ?? {}, result);
+    await this.cacheProvider.create(strings.aboutMe, options, result);
 
     return result as AboutMe[];
   }
 
-  async getOne(options: FindOptions): Promise<AboutMe | null> {
-    const cache = await this.cacheProvider.get(strings.aboutMe, options ?? {});
+  async getOne(options: ApplicationFilter<AboutMe>): Promise<AboutMe | null> {
+    const cache = await this.cacheProvider.get(strings.aboutMe, options);
 
     if (cache) {
       return cache as AboutMe;
     }
 
-    const result = await AboutMeModel.findOne({ ...options, include: relationships.aboutMe });
+    const findOptions = transform.applicationFilterToFindOptions<AboutMe>(options);
+
+    const result = await AboutMeModel.findOne({ ...findOptions, include: relationships.aboutMe });
 
     if (result) {
-      await this.cacheProvider.create(strings.aboutMe, options ?? {}, result);
+      await this.cacheProvider.create(strings.aboutMe, options, result);
     }
 
     return result as AboutMe;
   }
 
-  async getById(id: number): Promise<AboutMe | null> {
-    const cache = await this.cacheProvider.get(strings.aboutMe, { where: { id } });
+  async create(entity: AboutMe, options: ApplicationEntityCreatingOptions): Promise<AboutMe> {
+    const createOptions = transform.applicationCreatingOptionsToCreateOptions<AboutMe>(options);
 
-    if (cache) {
-      return cache as AboutMe;
-    }
-
-    const result = await AboutMeModel.findOne({
-      where: {
-        id: id,
-      },
-      include: relationships.aboutMe,
-    });
-
-    if (result) {
-      await this.cacheProvider.create(strings.aboutMe, { where: { id } }, result);
-    }
-
-    return result as AboutMe;
-  }
-
-  async create(entity: AboutMe, options?: CreateOptions): Promise<AboutMe> {
-    const result = await AboutMeModel.create(entity, options);
+    const result = await AboutMeModel.create(entity, createOptions);
 
     await this.cacheProvider.clearWhenStartingWith(strings.aboutMe);
 
     return result as AboutMe;
   }
 
-  async update(entity: AboutMe, options: UpdateOptions): Promise<boolean> {
-    const result = await AboutMeModel.update(entity, options);
+  async update(
+    entity: AboutMe,
+    options: ApplicationEntityUpdatingOptions<AboutMe>,
+  ): Promise<boolean> {
+    const updateOptions = transform.applicationUpdatingOptionsToUpdateOptions<AboutMe>(options);
+
+    const result = await AboutMeModel.update(entity, updateOptions);
 
     if (result[0] < 1) {
       return false;
@@ -90,13 +85,15 @@ class AboutMeRepository implements IBaseRepository<AboutMe>, IAboutMeRepository 
     return true;
   }
 
-  async delete(options: UpdateOptions): Promise<boolean> {
+  async delete(options: ApplicationEntityDeletingOptions<AboutMe>): Promise<boolean> {
+    const updateOptions = transform.applicationDeletingOptionsToUpdateOptions<AboutMe>(options);
+
     const result = await AboutMeModel.update(
       {
         isActive: false,
         deletedAt: new Date(),
       },
-      options,
+      updateOptions,
     );
 
     if (result[0] > 0) {

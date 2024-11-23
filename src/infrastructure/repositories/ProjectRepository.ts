@@ -1,10 +1,15 @@
+import {
+  ApplicationEntityCreatingOptions,
+  ApplicationEntityDeletingOptions,
+  ApplicationEntityUpdatingOptions,
+  ApplicationFilter,
+} from '@/core/types';
+import { strings, transform } from '@/core/utils';
 import { Project } from '@/domain/entities';
-import { strings } from '@/core/utils';
 import { IBaseRepository, ICacheProvider, IProjectRepository } from '@/infrastructure/interfaces';
 import { ProjectModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';
 import { CacheProvider } from '@/infrastructure/providers';
-import { CreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -15,63 +20,48 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
     this.cacheProvider = cacheProvider;
   }
 
-  async getAll(options?: FindOptions): Promise<Project[]> {
-    const cache = await this.cacheProvider.get(strings.projects, options ?? {});
+  async getAll(options: ApplicationFilter<Project>): Promise<Project[]> {
+    const cache = await this.cacheProvider.get(strings.projects, options);
 
     if (cache) {
       return cache as Project[];
     }
 
-    const result = await ProjectModel.findAll({ ...options, include: relationships.project });
+    const findOptions = transform.applicationFilterToFindOptions(options);
+
+    const result = await ProjectModel.findAll({ ...findOptions, include: relationships.project });
 
     if (result.length < 1) {
       return [] as Project[];
     }
 
-    await this.cacheProvider.create(strings.projects, options ?? {}, result);
+    await this.cacheProvider.create(strings.projects, options, result);
 
     return result as Project[];
   }
 
-  async getOne(options: FindOptions): Promise<Project | null> {
-    const cache = await this.cacheProvider.get(strings.projects, options ?? {});
+  async getOne(options: ApplicationFilter<Project>): Promise<Project | null> {
+    const cache = await this.cacheProvider.get(strings.projects, options);
 
     if (cache) {
       return cache as Project;
     }
 
-    const result = await ProjectModel.findOne({ ...options, include: relationships.project });
+    const findOptions = transform.applicationFilterToFindOptions(options);
+
+    const result = await ProjectModel.findOne({ ...findOptions, include: relationships.project });
 
     if (result) {
-      await this.cacheProvider.create(strings.projects, options ?? {}, result);
+      await this.cacheProvider.create(strings.projects, options, result);
     }
 
     return result as Project;
   }
 
-  async getById(id: number): Promise<Project | null> {
-    const cache = await this.cacheProvider.get(strings.projects, { where: { id } });
+  async create(entity: Project, options: ApplicationEntityCreatingOptions): Promise<Project> {
+    const createOptions = transform.applicationCreatingOptionsToCreateOptions(options);
 
-    if (cache) {
-      return cache as Project;
-    }
-
-    const result = await ProjectModel.findOne({
-      where: {
-        id: id,
-      },
-      include: relationships.project,
-    });
-
-    if (result) {
-      await this.cacheProvider.create(strings.projects, { where: { id } }, result);
-    }
-
-    return result as Project;
-  }
-
-  async create(entity: Project, options?: CreateOptions): Promise<Project> {
-    const result = await ProjectModel.create(entity, options);
+    const result = await ProjectModel.create(entity, createOptions);
 
     await this.cacheProvider.clearWhenStartingWithThese([
       strings.projects,
@@ -83,8 +73,13 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
     return result as Project;
   }
 
-  async update(entity: Project, options: UpdateOptions): Promise<boolean> {
-    const result = await ProjectModel.update(entity, options);
+  async update(
+    entity: Project,
+    options: ApplicationEntityUpdatingOptions<Project>,
+  ): Promise<boolean> {
+    const updateOptions = transform.applicationUpdatingOptionsToUpdateOptions(options);
+
+    const result = await ProjectModel.update(entity, updateOptions);
 
     if (result[0] < 1) {
       return false;
@@ -100,13 +95,15 @@ class ProjectRepository implements IBaseRepository<Project>, IProjectRepository 
     return true;
   }
 
-  async delete(options: UpdateOptions): Promise<boolean> {
+  async delete(options: ApplicationEntityDeletingOptions<Project>): Promise<boolean> {
+    const updateOptions = transform.applicationDeletingOptionsToUpdateOptions<Project>(options);
+
     const result = await ProjectModel.update(
       {
         isActive: false,
         deletedAt: new Date(),
       },
-      options,
+      updateOptions,
     );
 
     if (result[0] > 0) {

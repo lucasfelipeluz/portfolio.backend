@@ -1,5 +1,5 @@
 import { ApplicationError, NotFoundEntityError } from '@/core/errors';
-import { CreateStorageItem, ServiceFilter, StorageItem } from '@/core/types';
+import { ApplicationFilter, CreateStorageItem, ServiceFilter, StorageItem } from '@/core/types';
 import { strings, transform } from '@/core/utils';
 import { AboutMe, User } from '@/domain/entities';
 import { initTransaction } from '@/infrastructure/config/dbConnection';
@@ -62,12 +62,12 @@ class AboutMeService implements IAboutMeService {
     }
   }
 
-  async get(filter: ServiceFilter<AboutMeDto>): Promise<AboutMeDto[]> {
+  async get(filter: ApplicationFilter<AboutMeDto>): Promise<AboutMeDto[]> {
     const options = transform.serviceFilterToModelFilter<AboutMeDto, AboutMe>(
       filter ?? ({} as ServiceFilter<AboutMeDto>),
     );
 
-    const entities = await this.aboutMeRepository.getAll(options);
+    const entities = await this.aboutMeRepository.getAll(filter);
 
     return entities.map((entity) => new AboutMeDto(entity));
   }

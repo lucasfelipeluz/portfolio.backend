@@ -1,5 +1,11 @@
+import {
+  ApplicationEntityCreatingOptions,
+  ApplicationEntityDeletingOptions,
+  ApplicationEntityUpdatingOptions,
+  ApplicationFilter,
+} from '@/core/types';
+import { strings, transform } from '@/core/utils';
 import { ProjectImage } from '@/domain/entities';
-import { strings } from '@/core/utils';
 import {
   IBaseRepository,
   ICacheProvider,
@@ -8,7 +14,6 @@ import {
 import { ProjectImageModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';
 import { CacheProvider } from '@/infrastructure/providers';
-import { FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -19,15 +24,17 @@ class ProjectImageRepository implements IBaseRepository<ProjectImage>, IProjectI
     this.cacheProvider = cacheProvider;
   }
 
-  async getAll(options?: FindOptions): Promise<ProjectImage[]> {
-    const cache = await this.cacheProvider.get(strings.projectImages, options ?? {});
+  async getAll(options: ApplicationFilter<ProjectImage>): Promise<ProjectImage[]> {
+    const cache = await this.cacheProvider.get(strings.projectImages, options);
 
     if (cache) {
       return cache as ProjectImage[];
     }
 
+    const findOptions = transform.applicationFilterToFindOptions(options);
+
     const result = await ProjectImageModel.findAll({
-      ...options,
+      ...findOptions,
       include: relationships.project,
     });
 
@@ -35,58 +42,52 @@ class ProjectImageRepository implements IBaseRepository<ProjectImage>, IProjectI
       return [] as ProjectImage[];
     }
 
-    await this.cacheProvider.create(strings.projects, options ?? {}, result);
+    await this.cacheProvider.create(strings.projects, options, result);
 
     return result as ProjectImage[];
   }
 
-  async getOne(options: FindOptions): Promise<ProjectImage | null> {
-    const cache = await this.cacheProvider.get(strings.projectImages, options ?? {});
+  async getOne(options: ApplicationFilter<ProjectImage>): Promise<ProjectImage | null> {
+    const cache = await this.cacheProvider.get(strings.projectImages, options);
 
     if (cache) {
       return cache as ProjectImage;
     }
 
-    const result = await ProjectImageModel.findOne({ ...options, include: relationships.project });
-
-    if (result) {
-      await this.cacheProvider.create(strings.projectImages, options ?? {}, result);
-    }
-
-    return result as ProjectImage;
-  }
-
-  async getById(id: number): Promise<ProjectImage | null> {
-    const cache = await this.cacheProvider.get(strings.projectImages, { where: { id } });
-
-    if (cache) {
-      return cache as ProjectImage;
-    }
+    const findOptions = transform.applicationFilterToFindOptions(options);
 
     const result = await ProjectImageModel.findOne({
-      where: {
-        id: id,
-      },
+      ...findOptions,
       include: relationships.project,
     });
 
     if (result) {
-      await this.cacheProvider.create(strings.projects, { where: { id } }, result);
+      await this.cacheProvider.create(strings.projectImages, options, result);
     }
 
     return result as ProjectImage;
   }
 
-  async create(entity: ProjectImage): Promise<ProjectImage> {
-    const result = await ProjectImageModel.create(entity);
+  async create(
+    entity: ProjectImage,
+    options: ApplicationEntityCreatingOptions,
+  ): Promise<ProjectImage> {
+    const createOptions = transform.applicationCreatingOptionsToCreateOptions(options);
+
+    const result = await ProjectImageModel.create(entity, createOptions);
 
     await this.cacheProvider.clearWhenStartingWithThese([strings.projects, strings.projectImages]);
 
     return result as ProjectImage;
   }
 
-  async update(entity: ProjectImage, options: UpdateOptions): Promise<boolean> {
-    const result = await ProjectImageModel.update(entity, options);
+  async update(
+    entity: ProjectImage,
+    options: ApplicationEntityUpdatingOptions<ProjectImage>,
+  ): Promise<boolean> {
+    const updateOptions = transform.applicationDeletingOptionsToUpdateOptions(options);
+
+    const result = await ProjectImageModel.update(entity, updateOptions);
 
     if (result[0] < 1) {
       return false;
@@ -97,13 +98,15 @@ class ProjectImageRepository implements IBaseRepository<ProjectImage>, IProjectI
     return true;
   }
 
-  async delete(options: UpdateOptions): Promise<boolean> {
+  async delete(options: ApplicationEntityDeletingOptions<ProjectImage>): Promise<boolean> {
+    const updateOptions = transform.applicationDeletingOptionsToUpdateOptions(options);
+
     const result = await ProjectImageModel.update(
       {
         isActive: false,
         deletedAt: new Date(),
       },
-      options,
+      updateOptions,
     );
 
     if (result[0] > 0) {

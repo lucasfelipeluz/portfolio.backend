@@ -1,5 +1,6 @@
 import { NotImplementedError } from '@/core/errors';
-import { strings } from '@/core/utils';
+import { ApplicationEntityCreatingOptions, ApplicationFilter } from '@/core/types';
+import { strings, transform } from '@/core/utils';
 import { AcessMetrics } from '@/domain/entities';
 import {
   IAcessMetricsRepository,
@@ -9,7 +10,6 @@ import {
 import { AcessMetricsModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';
 import { CacheProvider } from '@/infrastructure/providers';
-import { FindOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -20,15 +20,17 @@ class AcessMetricsRepository implements IBaseRepository<AcessMetrics>, IAcessMet
     this.cacheProvider = cacheRepository;
   }
 
-  async getAll(options: FindOptions): Promise<AcessMetrics[]> {
-    const cache = await this.cacheProvider.get(strings.acessMetrics, options ?? {});
+  async getAll(options: ApplicationFilter<AcessMetrics>): Promise<AcessMetrics[]> {
+    const cache = await this.cacheProvider.get(strings.acessMetrics, options);
 
     if (cache) {
       return cache as AcessMetrics[];
     }
 
+    const findOptions = transform.applicationFilterToFindOptions<AcessMetrics>(options);
+
     const result = await AcessMetricsModel.findAll({
-      ...options,
+      ...findOptions,
       include: relationships.acessMetrics,
     });
 
@@ -36,59 +38,53 @@ class AcessMetricsRepository implements IBaseRepository<AcessMetrics>, IAcessMet
       return [] as AcessMetrics[];
     }
 
-    await this.cacheProvider.create(strings.acessMetrics, options ?? {}, result);
+    await this.cacheProvider.create(strings.acessMetrics, options, result);
 
     return result as AcessMetrics[];
   }
 
-  async getOne(options: FindOptions): Promise<AcessMetrics | null> {
-    const cache = await this.cacheProvider.get(strings.acessMetrics, options ?? {});
+  async getOne(options: ApplicationFilter<AcessMetrics>): Promise<AcessMetrics | null> {
+    const cache = await this.cacheProvider.get(strings.acessMetrics, options);
 
     if (cache) {
       return cache as AcessMetrics;
     }
 
+    const findOptions = transform.applicationFilterToFindOptions<AcessMetrics>(options);
+
     const result = await AcessMetricsModel.findOne({
-      ...options,
+      ...findOptions,
     });
 
     if (result) {
-      await this.cacheProvider.create(strings.acessMetrics, options ?? {}, result);
+      await this.cacheProvider.create(strings.acessMetrics, options, result);
     }
 
     return result as AcessMetrics;
   }
 
-  async getById(id: number): Promise<AcessMetrics | null> {
-    const cache = await this.cacheProvider.get(strings.acessMetrics, { where: { id } });
+  async create(
+    entity: AcessMetrics,
+    options: ApplicationEntityCreatingOptions,
+  ): Promise<AcessMetrics> {
+    const createOptions =
+      transform.applicationCreatingOptionsToCreateOptions<AcessMetrics>(options);
 
-    if (cache) {
-      return cache as AcessMetrics;
-    }
-
-    const result = await AcessMetricsModel.findOne({
-      where: {
-        id: id,
-      },
-    });
-
-    if (result) {
-      await this.cacheProvider.create(strings.acessMetrics, { where: { id } }, result);
-    }
-
-    return result as AcessMetrics;
-  }
-
-  async create(entity: AcessMetrics): Promise<AcessMetrics> {
-    const result = await AcessMetricsModel.create(entity);
+    const result = await AcessMetricsModel.create(entity, createOptions);
 
     await this.cacheProvider.clearWhenStartingWith(strings.acessMetrics);
 
     return result as AcessMetrics;
   }
 
-  async bulkCreate(entity: AcessMetrics[]): Promise<AcessMetrics[]> {
-    const result = await AcessMetricsModel.bulkCreate(entity);
+  async bulkCreate(
+    entity: AcessMetrics[],
+    options: ApplicationEntityCreatingOptions,
+  ): Promise<AcessMetrics[]> {
+    const createOptions =
+      transform.applicationCreatingOptionsToCreateOptions<AcessMetrics>(options);
+
+    const result = await AcessMetricsModel.bulkCreate(entity, createOptions);
 
     await this.cacheProvider.clearWhenStartingWith(strings.acessMetrics);
 

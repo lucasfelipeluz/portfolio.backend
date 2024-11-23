@@ -1,10 +1,15 @@
+import {
+  ApplicationEntityCreatingOptions,
+  ApplicationEntityDeletingOptions,
+  ApplicationEntityUpdatingOptions,
+  ApplicationFilter,
+} from '@/core/types';
+import { strings, transform } from '@/core/utils';
 import { Skill } from '@/domain/entities';
-import { strings } from '@/core/utils';
 import { IBaseRepository, ICacheProvider, ISkillRepository } from '@/infrastructure/interfaces';
 import { SkillModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';
 import { CacheProvider } from '@/infrastructure/providers';
-import { CreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -15,15 +20,17 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
     this.cacheProvider = cacheProvider;
   }
 
-  async getAll(options: FindOptions): Promise<Skill[]> {
-    const cache = await this.cacheProvider.get(strings.skills, options ?? {});
+  async getAll(options: ApplicationFilter<Skill>): Promise<Skill[]> {
+    const cache = await this.cacheProvider.get(strings.skills, options);
 
     if (cache) {
       return cache as Skill[];
     }
 
+    const findOptions = transform.applicationFilterToFindOptions(options);
+
     const result = await SkillModel.findAll({
-      ...options,
+      ...findOptions,
       include: relationships.skill,
     });
 
@@ -31,50 +38,33 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
       return [] as Skill[];
     }
 
-    await this.cacheProvider.create(strings.skills, options ?? {}, result);
+    await this.cacheProvider.create(strings.skills, options, result);
 
     return result as Skill[];
   }
 
-  async getOne(options: FindOptions): Promise<Skill | null> {
-    const cache = await this.cacheProvider.get(strings.skills, options ?? {});
+  async getOne(options: ApplicationFilter<Skill>): Promise<Skill | null> {
+    const cache = await this.cacheProvider.get(strings.skills, options);
 
     if (cache) {
       return cache as Skill;
     }
 
-    const result = await SkillModel.findOne({ ...options, include: relationships.skill });
+    const findOptions = transform.applicationFilterToFindOptions(options);
+
+    const result = await SkillModel.findOne({ ...findOptions, include: relationships.skill });
 
     if (result) {
-      await this.cacheProvider.create(strings.skills, options ?? {}, result);
+      await this.cacheProvider.create(strings.skills, options, result);
     }
 
     return result as Skill;
   }
 
-  async getById(id: number): Promise<Skill | null> {
-    const cache = await this.cacheProvider.get(strings.skills, { where: { id } });
+  async create(entity: Skill, options: ApplicationEntityCreatingOptions): Promise<Skill> {
+    const createOptions = transform.applicationCreatingOptionsToCreateOptions(options);
 
-    if (cache) {
-      return cache as Skill;
-    }
-
-    const result = await SkillModel.findOne({
-      where: {
-        id: id,
-      },
-      include: relationships.skill,
-    });
-
-    if (result) {
-      await this.cacheProvider.create(strings.skills, { where: { id } }, result);
-    }
-
-    return result as Skill;
-  }
-
-  async create(entity: Skill, options?: CreateOptions): Promise<Skill> {
-    const result = await SkillModel.create(entity, options);
+    const result = await SkillModel.create(entity, createOptions);
 
     await this.cacheProvider.clearWhenStartingWithThese([
       strings.projects,
@@ -86,8 +76,10 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
     return result as Skill;
   }
 
-  async update(entity: Skill, options: UpdateOptions): Promise<boolean> {
-    const result = await SkillModel.update(entity, options);
+  async update(entity: Skill, options: ApplicationEntityUpdatingOptions<Skill>): Promise<boolean> {
+    const updateOptions = transform.applicationUpdatingOptionsToUpdateOptions(options);
+
+    const result = await SkillModel.update(entity, updateOptions);
 
     if (result[0] < 1) {
       return false;
@@ -102,13 +94,15 @@ class SkillRepository implements IBaseRepository<Skill>, ISkillRepository {
 
     return true;
   }
-  async delete(options: UpdateOptions): Promise<boolean> {
+  async delete(options: ApplicationEntityDeletingOptions<Skill>): Promise<boolean> {
+    const updateOptions = transform.applicationDeletingOptionsToUpdateOptions<Skill>(options);
+
     const result = await SkillModel.update(
       {
         isActive: false,
         deletedAt: new Date(),
       },
-      options,
+      updateOptions,
     );
 
     if (result[0] < 1) {

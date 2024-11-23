@@ -1,4 +1,10 @@
-import { strings } from '@/core/utils';
+import {
+  ApplicationEntityCreatingOptions,
+  ApplicationEntityDeletingOptions,
+  ApplicationEntityUpdatingOptions,
+  ApplicationFilter,
+} from '@/core/types';
+import { strings, transform } from '@/core/utils';
 import { Suggestion } from '@/domain/entities';
 import {
   IBaseRepository,
@@ -7,7 +13,6 @@ import {
 } from '@/infrastructure/interfaces';
 import { SuggestionModel } from '@/infrastructure/models';
 import { CacheProvider } from '@/infrastructure/providers';
-import { FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -18,70 +23,61 @@ class SuggestionRepository implements IBaseRepository<Suggestion>, ISuggestionRe
     this.cacheProvider = cacheProvider;
   }
 
-  async getAll(options?: FindOptions): Promise<Suggestion[]> {
-    const cache = await this.cacheProvider.get(strings.suggestion, options ?? {});
+  async getAll(options: ApplicationFilter<Suggestion>): Promise<Suggestion[]> {
+    const cache = await this.cacheProvider.get(strings.suggestion, options);
 
     if (cache) {
       return cache as Suggestion[];
     }
 
-    const result = await SuggestionModel.findAll({ ...options });
+    const findOptions = transform.applicationFilterToFindOptions(options);
+
+    const result = await SuggestionModel.findAll(findOptions);
 
     if (result.length < 1) {
       return [] as Suggestion[];
     }
 
-    await this.cacheProvider.create(strings.suggestion, options ?? {}, result);
+    await this.cacheProvider.create(strings.suggestion, options, result);
 
     return result as Suggestion[];
   }
 
-  async getOne(options: FindOptions): Promise<Suggestion | null> {
-    const cache = await this.cacheProvider.get(strings.suggestion, options ?? {});
+  async getOne(options: ApplicationFilter<Suggestion>): Promise<Suggestion | null> {
+    const cache = await this.cacheProvider.get(strings.suggestion, options);
 
     if (cache) {
       return cache as Suggestion;
     }
 
-    const result = await SuggestionModel.findOne({ ...options });
+    const findOptions = transform.applicationFilterToFindOptions(options);
+
+    const result = await SuggestionModel.findOne(findOptions);
 
     if (result) {
-      await this.cacheProvider.create(strings.suggestion, options ?? {}, result);
+      await this.cacheProvider.create(strings.suggestion, options, result);
     }
 
     return result as Suggestion;
   }
 
-  async getById(id: number): Promise<Suggestion | null> {
-    const cache = await this.cacheProvider.get(strings.suggestion, { where: { id } });
+  async create(entity: Suggestion, options: ApplicationEntityCreatingOptions): Promise<Suggestion> {
+    const createOptions = transform.applicationCreatingOptionsToCreateOptions(options);
 
-    if (cache) {
-      return cache as Suggestion;
-    }
-
-    const result = await SuggestionModel.findOne({
-      where: {
-        id: id,
-      },
-    });
-
-    if (result) {
-      await this.cacheProvider.create(strings.suggestion, { where: { id } }, result);
-    }
-
-    return result as Suggestion;
-  }
-
-  async create(entity: Suggestion): Promise<Suggestion> {
-    const result = await SuggestionModel.create(entity);
+    const result = await SuggestionModel.create(entity, createOptions);
 
     await this.cacheProvider.clearWhenStartingWith(strings.suggestion);
 
     return result as Suggestion;
   }
 
-  async update(entity: Suggestion, options: UpdateOptions): Promise<boolean> {
-    const result = await SuggestionModel.update(entity, options);
+  async update(
+    entity: Suggestion,
+    options: ApplicationEntityUpdatingOptions<Suggestion>,
+  ): Promise<boolean> {
+    const updateOptions = transform.applicationUpdatingOptionsToUpdateOptions(options);
+
+    const result = await SuggestionModel.update(entity, updateOptions);
 
     if (result[0] < 1) {
       return false;
@@ -92,13 +88,15 @@ class SuggestionRepository implements IBaseRepository<Suggestion>, ISuggestionRe
     return true;
   }
 
-  async delete(options: UpdateOptions): Promise<boolean> {
+  async delete(options: ApplicationEntityDeletingOptions<Suggestion>): Promise<boolean> {
+    const deleteOptions = transform.applicationDeletingOptionsToUpdateOptions(options);
+
     const result = await SuggestionModel.update(
       {
         isActive: false,
         deletedAt: new Date(),
       },
-      options,
+      deleteOptions,
     );
 
     if (result[0] > 0) {

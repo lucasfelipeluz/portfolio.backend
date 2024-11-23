@@ -1,6 +1,11 @@
-import { rules, strings } from '@/core/utils';
+import {
+  ApplicationEntityCreatingOptions,
+  ApplicationEntityDeletingOptions,
+  ApplicationEntityUpdatingOptions,
+  ApplicationFilter,
+} from '@/core/types';
+import { rules, strings, transform } from '@/core/utils';
 import { SystemVariable } from '@/domain/entities';
-import { CreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 import { IBaseRepository, ICacheProvider, ISystemVariableRepository } from '../interfaces';
 import { SystemVariableModel } from '../models';
@@ -17,40 +22,44 @@ class SystemVariableRepository
     this.cacheProvider = cacheRepository;
   }
 
-  async getAll(options: FindOptions): Promise<SystemVariable[]> {
-    const cache = await this.cacheProvider.get(strings.systemVariable, options ?? {});
+  async getAll(options: ApplicationFilter<SystemVariable>): Promise<SystemVariable[]> {
+    const cache = await this.cacheProvider.get(strings.systemVariable, options);
 
     if (cache) {
       return cache as SystemVariable[];
     }
 
-    const result = await SystemVariableModel.findAll(options);
+    const findOptions = transform.applicationFilterToFindOptions(options);
+
+    const result = await SystemVariableModel.findAll(findOptions);
 
     if (result.length < 1) {
       return [] as SystemVariable[];
     }
 
-    await this.cacheProvider.create(strings.systemVariable, options ?? {}, result, {
+    await this.cacheProvider.create(strings.systemVariable, options, result, {
       EX: rules.twoDays,
     });
 
     return result as SystemVariable[];
   }
 
-  async getOne(options: FindOptions): Promise<SystemVariable | null> {
-    const cache = await this.cacheProvider.get(strings.systemVariable, options ?? {});
+  async getOne(options: ApplicationFilter<SystemVariable>): Promise<SystemVariable | null> {
+    const cache = await this.cacheProvider.get(strings.systemVariable, options);
 
     if (cache) {
       return cache as SystemVariable;
     }
 
+    const findOptions = transform.applicationFilterToFindOptions(options);
+
     const result = await SystemVariableModel.findOne({
-      ...options,
+      ...findOptions,
       include: relationships.systemVariable,
     });
 
     if (result) {
-      await this.cacheProvider.create(strings.systemVariable, options ?? {}, result, {
+      await this.cacheProvider.create(strings.systemVariable, options, result, {
         EX: rules.twoDays,
       });
     }
@@ -58,39 +67,26 @@ class SystemVariableRepository
     return result as SystemVariable;
   }
 
-  async getById(id: number): Promise<SystemVariable | null> {
-    const cache = await this.cacheProvider.get(strings.systemVariable, { where: { id } });
+  async create(
+    entity: SystemVariable,
+    options: ApplicationEntityCreatingOptions,
+  ): Promise<SystemVariable> {
+    const createOptions = transform.applicationCreatingOptionsToCreateOptions(options);
 
-    if (cache) {
-      return cache as SystemVariable;
-    }
-
-    const result = await SystemVariableModel.findOne({
-      where: {
-        id: id,
-      },
-      include: relationships.systemVariable,
-    });
-
-    if (result) {
-      await this.cacheProvider.create(strings.systemVariable, { where: { id } }, result, {
-        EX: rules.twoDays,
-      });
-    }
-
-    return result as SystemVariable;
-  }
-
-  async create(entity: SystemVariable, options?: CreateOptions): Promise<SystemVariable> {
-    const result = await SystemVariableModel.create(entity, options);
+    const result = await SystemVariableModel.create(entity, createOptions);
 
     await this.cacheProvider.clearWhenStartingWith(strings.systemVariable);
 
     return result as SystemVariable;
   }
 
-  async update(entity: SystemVariable, options: UpdateOptions): Promise<boolean> {
-    const result = await SystemVariableModel.update(entity, options);
+  async update(
+    entity: SystemVariable,
+    options: ApplicationEntityUpdatingOptions<SystemVariable>,
+  ): Promise<boolean> {
+    const updateOptions = transform.applicationUpdatingOptionsToUpdateOptions(options);
+
+    const result = await SystemVariableModel.update(entity, updateOptions);
 
     if (result[0] < 1) {
       return false;
@@ -101,13 +97,15 @@ class SystemVariableRepository
     return true;
   }
 
-  async delete(options: UpdateOptions): Promise<boolean> {
+  async delete(options: ApplicationEntityDeletingOptions<SystemVariable>): Promise<boolean> {
+    const updateOptions = transform.applicationDeletingOptionsToUpdateOptions(options);
+
     const result = await SystemVariableModel.update(
       {
         isActive: false,
         deletedAt: new Date(),
       },
-      options,
+      updateOptions,
     );
 
     if (result[0] > 0) {

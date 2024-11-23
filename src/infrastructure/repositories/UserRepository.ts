@@ -1,10 +1,15 @@
-import { strings } from '@/core/utils';
+import {
+  ApplicationEntityCreatingOptions,
+  ApplicationEntityDeletingOptions,
+  ApplicationEntityUpdatingOptions,
+  ApplicationFilter,
+} from '@/core/types';
+import { strings, transform } from '@/core/utils';
 import { User } from '@/domain/entities';
 import { IBaseRepository, ICacheProvider, IUserRepository } from '@/infrastructure/interfaces';
 import { UserModel } from '@/infrastructure/models';
 import relationships from '@/infrastructure/models/addons/relationships';
 import { CacheProvider } from '@/infrastructure/providers';
-import { CreateOptions, FindOptions, UpdateOptions } from 'sequelize';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -15,15 +20,17 @@ class UserRepository implements IBaseRepository<User>, IUserRepository {
     this.cacheProvider = cacheProvider;
   }
 
-  async getAll(options: FindOptions<User>): Promise<User[]> {
-    const cache = await this.cacheProvider.get(strings.users, options ?? {});
+  async getAll(options: ApplicationFilter<User>): Promise<User[]> {
+    const cache = await this.cacheProvider.get(strings.users, options);
 
     if (cache) {
       return cache as User[];
     }
 
+    const findOptions = transform.applicationFilterToFindOptions(options);
+
     const result = await UserModel.findAll({
-      ...options,
+      ...findOptions,
       include: relationships.user,
     });
 
@@ -31,58 +38,43 @@ class UserRepository implements IBaseRepository<User>, IUserRepository {
       return [] as User[];
     }
 
-    await this.cacheProvider.create(strings.users, options ?? {}, result);
+    await this.cacheProvider.create(strings.users, options, result);
 
     return result as User[];
   }
 
-  async getOne(options: FindOptions<User>): Promise<User | null> {
-    const cache = await this.cacheProvider.get(strings.users, options ?? {});
+  async getOne(options: ApplicationFilter<User>): Promise<User | null> {
+    const cache = await this.cacheProvider.get(strings.users, options);
 
     if (cache) {
       return cache as User;
     }
 
-    const result = await UserModel.findOne({ ...options, include: relationships.user });
+    const findOptions = transform.applicationFilterToFindOptions(options);
+
+    const result = await UserModel.findOne({ ...findOptions, include: relationships.user });
 
     if (result) {
-      await this.cacheProvider.create(strings.users, options ?? {}, result);
+      await this.cacheProvider.create(strings.users, options, result);
     }
 
     return result as User;
   }
 
-  async getById(id: number): Promise<User | null> {
-    const cache = await this.cacheProvider.get(strings.users, { where: { id } });
+  async create(entity: UserModel, options: ApplicationEntityCreatingOptions): Promise<User> {
+    const createOptions = transform.applicationCreatingOptionsToCreateOptions(options);
 
-    if (cache) {
-      return cache as User;
-    }
-
-    const result = await UserModel.findOne({
-      where: {
-        id: id,
-      },
-      include: relationships.user,
-    });
-
-    if (result) {
-      await this.cacheProvider.create(strings.users, { where: { id } }, result);
-    }
-
-    return result as User;
-  }
-
-  async create(entity: UserModel, options?: CreateOptions): Promise<User> {
-    const result = await UserModel.create(entity, options);
+    const result = await UserModel.create(entity, createOptions);
 
     await this.cacheProvider.clearWhenStartingWith(strings.users);
 
     return result as User;
   }
 
-  async update(entity: User, options: UpdateOptions<User>): Promise<boolean> {
-    const result = await UserModel.update(entity, options);
+  async update(entity: User, options: ApplicationEntityUpdatingOptions<User>): Promise<boolean> {
+    const updateOptions = transform.applicationUpdatingOptionsToUpdateOptions(options);
+
+    const result = await UserModel.update(entity, updateOptions);
 
     if (result[0] < 1) {
       return false;
@@ -93,13 +85,15 @@ class UserRepository implements IBaseRepository<User>, IUserRepository {
     return true;
   }
 
-  async delete(options: UpdateOptions<User>): Promise<boolean> {
+  async delete(options: ApplicationEntityDeletingOptions<User>): Promise<boolean> {
+    const updateOptions = transform.applicationDeletingOptionsToUpdateOptions(options);
+
     const result = await UserModel.update(
       {
         isActive: false,
         deletedAt: new Date(),
       },
-      options,
+      updateOptions,
     );
 
     if (result[0] > 0) {

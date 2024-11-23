@@ -1,48 +1,78 @@
-import { ServiceFilter, StorageItem, UpdateServiceOptions } from '@/core/types';
+import { ApplicationEntityUpdatingOptions, ApplicationFilter, StorageItem } from '@/core/types';
 import { Entity } from '@/domain/entities';
 import { ListObjectsV2CommandOutput } from '@aws-sdk/client-s3';
-import { FindOptions, Order, UpdateOptions, WhereOptions } from 'sequelize';
+import { CreateOptions, FindOptions, Order, UpdateOptions, WhereOptions } from 'sequelize';
 
 /**
- * Transforma um objeto de filtros da aplicação em objeto de busca para o sequelize.
- *
- * @param filters - Objeto contendo os filtros de serviço.
- * @returns Objeto com as opções de busca transformadas.
+ * Transforms an application filter object into a search object for sequelize.
  */
-function serviceFilterToModelFilter<D, M>(filters: ServiceFilter<D>): FindOptions<M> {
+function applicationFilterToFindOptions<Model>(
+  applicationFilter: ApplicationFilter<Model>,
+): FindOptions<Model> {
   const newFilters: FindOptions<Entity> = {
-    where: filters.where
-      ? { ...filters.where, ...(filters.isActive && { isActive: filters.isActive }) }
-      : filters.isActive !== undefined
-        ? { isActive: filters.isActive !== undefined }
-        : undefined,
-    limit: filters.limit,
-    offset: filters.offset,
-    order:
-      filters.order && filters.order.length > 0
-        ? (filters.order.map(({ through, by }) => [through, by]) as Order)
-        : undefined,
-    attributes: filters.attributes
+    where: applicationFilter.where
       ? {
-          exclude: (filters.attributes.exclude as string[]) || [],
-          include: (filters.attributes.include as string[]) || [],
+          ...applicationFilter.where,
+          ...(applicationFilter.isActive && { isActive: applicationFilter.isActive }),
+        }
+      : applicationFilter.isActive !== undefined
+        ? { isActive: applicationFilter.isActive !== undefined }
+        : undefined,
+    limit: applicationFilter.limit,
+    offset: applicationFilter.offset,
+    order:
+      applicationFilter.order && applicationFilter.order.length > 0
+        ? (applicationFilter.order.map(({ through, by }) => [through, by]) as Order)
+        : undefined,
+    attributes: applicationFilter.attributes
+      ? {
+          exclude: (applicationFilter.attributes.exclude as string[]) || [],
+          include: (applicationFilter.attributes.include as string[]) || [],
         }
       : undefined,
   };
   return newFilters;
 }
 
-function updateServiceFilterToModelUpdateFilter<D, M>(
-  filters: UpdateServiceOptions<D>,
-): UpdateOptions<M> {
-  const newFilters: UpdateOptions<M> = {
+function applicationCreatingOptionsToCreateOptions<Model>(
+  applicationCreatingOptions: ApplicationEntityUpdatingOptions<Model>,
+): CreateOptions<Model> {
+  return {
+    logging: applicationCreatingOptions.logging,
+  } as CreateOptions<Model>;
+}
+
+function applicationUpdatingOptionsToUpdateOptions<Model>(
+  applicationUpdatingOptions: ApplicationEntityUpdatingOptions<Model>,
+): UpdateOptions<Model> {
+  const newFilters: UpdateOptions<Model> = {
     where: {
-      ...filters.where,
-      ...(filters.isActive !== undefined && { isActive: filters.isActive }),
-    } as WhereOptions<M> & { isActive?: boolean },
-    logging: filters.logging,
-    silent: filters.silent,
-    limit: filters.limit,
+      ...applicationUpdatingOptions.where,
+      ...(applicationUpdatingOptions.isActive !== undefined && {
+        isActive: applicationUpdatingOptions.isActive,
+      }),
+    } as WhereOptions<Model> & { isActive?: boolean },
+    logging: applicationUpdatingOptions.logging,
+    silent: applicationUpdatingOptions.silent,
+    limit: applicationUpdatingOptions.limit,
+  };
+
+  return newFilters;
+}
+
+function applicationDeletingOptionsToUpdateOptions<Model>(
+  applicationDeletingOptions: ApplicationEntityUpdatingOptions<Model>,
+): UpdateOptions<Model> {
+  const newFilters: UpdateOptions<Model> = {
+    where: {
+      ...applicationDeletingOptions.where,
+      ...(applicationDeletingOptions.isActive !== undefined && {
+        isActive: applicationDeletingOptions.isActive,
+      }),
+    } as WhereOptions<Model> & { isActive?: boolean },
+    logging: applicationDeletingOptions.logging,
+    silent: applicationDeletingOptions.silent,
+    limit: applicationDeletingOptions.limit,
   };
 
   return newFilters;
@@ -63,7 +93,9 @@ function awsListObjectsV2ToStorageItem(
 }
 
 export default {
-  serviceFilterToModelFilter,
-  updateServiceFilterToModelUpdateFilter,
+  applicationFilterToFindOptions,
+  applicationUpdatingOptionsToUpdateOptions,
+  applicationCreatingOptionsToCreateOptions,
+  applicationDeletingOptionsToUpdateOptions,
   awsListObjectsV2ToStorageItem,
 };

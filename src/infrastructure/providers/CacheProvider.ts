@@ -1,7 +1,7 @@
+import { ApplicationFilter } from '@/core/types';
 import { strings } from '@/core/utils';
 import { ICacheProvider } from '@/infrastructure/interfaces';
 import { RedisClientType, SetOptions, createClient } from 'redis';
-import { FindOptions } from 'sequelize/types';
 import { injectable } from 'tsyringe';
 
 @injectable()
@@ -16,15 +16,14 @@ class CacheProvider<T> implements ICacheProvider<T> {
   private checkClient(): void {
     if (!this.client.isReady && !this.client.isOpen) {
       throw new Error(strings.redisError);
-      throw new Error(strings.redisError);
     }
   }
 
-  async get(key: string, filter: FindOptions): Promise<T[] | T | null> {
+  async get(scope: string, filter: ApplicationFilter<T>): Promise<T[] | T | null> {
     try {
       this.checkClient();
 
-      const result = await this.client.get(`${key}-${JSON.stringify(filter)}`);
+      const result = await this.client.get(`${scope}-${JSON.stringify(filter)}`);
 
       if (!result) {
         return null;
@@ -39,7 +38,7 @@ class CacheProvider<T> implements ICacheProvider<T> {
 
   async create(
     key: string,
-    filter: FindOptions,
+    filter: ApplicationFilter<T>,
     value: T[] | T,
     options?: SetOptions,
   ): Promise<void> {
